@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>830</width>
-    <height>601</height>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,6 +78,11 @@
             <height>140</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="title">
            <string>條件過濾</string>
           </property>
@@ -134,7 +139,13 @@
              </spacer>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox"/>
+             <widget class="QComboBox" name="comboBox">
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -262,7 +273,7 @@
      <x>0</x>
      <y>0</y>
      <width>830</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <QTimer>
 #include <QDateTime>
+#include <QTcpSocket>
 
 using namespace std ;
 
