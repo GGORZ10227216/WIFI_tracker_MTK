@@ -9,6 +9,7 @@
 #include <QTcpSocket>
 #include <QDebug>
 
+
 using namespace std ;
 
 void MainWindow::ShowCurrentTime() {
@@ -31,10 +32,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QFile file("C:/Users/cyac/Repository/WIFI_tracker_MTK/metaData/testData.txt");
     file.open(QIODevice::ReadOnly);
-    DeviceList * dList = new DeviceList( file.readAll() ) ;
+    DeviceList * dList = new DeviceList( file.readAll(), ui->treeView ) ;
     file.close();
 
-    ui->treeView->setModel( dList ) ;
 
     cout << "hello YA!" << endl ;
 }

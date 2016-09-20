@@ -62,13 +62,23 @@
 #include <QDebug>
 
 //! [0]
-DeviceList::DeviceList(const QString &data, QObject *parent)
+DeviceList::DeviceList(const QString &data, QTreeView* dt, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QList<QVariant> rootData;
     rootData << "Title" << "Summary";
     rootItem = new DeviceItem(rootData);
     setupModelData(data.split(QString("\n")), rootItem);
+    displayTarget = dt ;
+
+    QSortFilterProxyModel * qSftm = new QSortFilterProxyModel( this );
+    qSftm->setSourceModel( this );
+    qSftm->setFilterKeyColumn(0);
+
+    displayTarget->setSortingEnabled( true );
+    qSftm->sort( 0 ) ;
+    displayTarget->setModel( qSftm );
+
 }
 //! [0]
 

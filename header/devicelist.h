@@ -2,8 +2,10 @@
 #define DEVICELIST_H
 
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QTreeView>
 
 class DeviceItem;
 
@@ -13,7 +15,7 @@ class DeviceList : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    explicit DeviceList(const QString &data, QObject *parent = 0);
+    explicit DeviceList(const QString &data, QTreeView * dt, QObject *parent = 0);
     ~DeviceList();
 
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
@@ -28,7 +30,7 @@ public:
 
 private:
     void setupModelData(const QStringList &lines, DeviceItem *parent);
-
+    QTreeView * displayTarget = NULL ;
     DeviceItem *rootItem;
 };
 //! [0]
