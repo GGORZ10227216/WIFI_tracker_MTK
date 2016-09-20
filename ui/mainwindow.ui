@@ -94,7 +94,7 @@
             <rect>
              <x>10</x>
              <y>50</y>
-             <width>273</width>
+             <width>261</width>
              <height>41</height>
             </rect>
            </property>
@@ -103,7 +103,7 @@
              <widget class="QLineEdit" name="lineEdit">
               <property name="minimumSize">
                <size>
-                <width>183</width>
+                <width>175</width>
                 <height>10</height>
                </size>
               </property>
@@ -130,6 +130,12 @@
             </item>
             <item>
              <widget class="QComboBox" name="comboBox">
+              <property name="maximumSize">
+               <size>
+                <width>73</width>
+                <height>16777215</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>11</pointsize>
