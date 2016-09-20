@@ -4,8 +4,10 @@
 #include <ui_mainwindow.h>
 #include <iostream>
 #include <QTimer>
+#include <QFile>
 #include <QDateTime>
 #include <QTcpSocket>
+#include <QDebug>
 
 using namespace std ;
 
@@ -27,8 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
 
-    DeviceList dList( "Hello    world\r" ) ;
-    ui->treeView->setModel( &dList ) ;
+    QFile file("C:/Users/cyac/Repository/WIFI_tracker_MTK/metaData/testData.txt");
+    file.open(QIODevice::ReadOnly);
+    DeviceList * dList = new DeviceList( file.readAll() ) ;
+    file.close();
+
+    ui->treeView->setModel( dList ) ;
 
     cout << "hello YA!" << endl ;
 }

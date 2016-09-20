@@ -23,3 +23,6 @@ HEADERS  += header/mainwindow.h \
     header/devicelist.h
 
 FORMS    += ui/mainwindow.ui
+
+DISTFILES += \
+    metaData/testData.txt

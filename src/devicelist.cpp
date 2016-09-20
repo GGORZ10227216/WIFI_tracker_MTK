@@ -200,7 +200,7 @@ void DeviceList::setupModelData(const QStringList &lines, DeviceItem *parent)
         QString lineData = lines[number].mid(position).trimmed();
         if (!lineData.isEmpty()) {
             // Read the column data from the rest of the line.
-            QStringList columnStrings = lineData.split("\t", QString::SkipEmptyParts);
+            QStringList columnStrings = lineData.split(",", QString::SkipEmptyParts);
 
             qDebug() << lineData ;
 
