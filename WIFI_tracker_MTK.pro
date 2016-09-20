@@ -13,9 +13,9 @@ TARGET = WIFI_tracker_MTK
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += src/main.cpp \
+    src/mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += header/mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += ui/mainwindow.ui

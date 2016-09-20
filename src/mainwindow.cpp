@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include <header/mainwindow.h>
+#include <ui_mainwindow.h>
 #include <iostream>
 #include <QTimer>
 #include <QDateTime>
@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
 
-    cout << "hello world" << endl ;
+    cout << "hello YA!" << endl ;
 }
 
 MainWindow::~MainWindow()
