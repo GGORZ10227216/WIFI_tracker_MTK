@@ -14,8 +14,12 @@ TEMPLATE = app
 
 
 SOURCES += src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/devicelist.cpp \
+    src/deviceitem.cpp
 
-HEADERS  += header/mainwindow.h
+HEADERS  += header/mainwindow.h \
+    header/deviceitem.h \
+    header/devicelist.h
 
 FORMS    += ui/mainwindow.ui

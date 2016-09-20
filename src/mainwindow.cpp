@@ -1,4 +1,6 @@
 #include <header/mainwindow.h>
+#include <header/devicelist.h>
+
 #include <ui_mainwindow.h>
 #include <iostream>
 #include <QTimer>
@@ -24,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
+
+    DeviceList dList( "Hello    world\r" ) ;
+    ui->treeView->setModel( &dList ) ;
 
     cout << "hello YA!" << endl ;
 }
