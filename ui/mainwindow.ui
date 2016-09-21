@@ -94,13 +94,13 @@
             <rect>
              <x>10</x>
              <y>50</y>
-             <width>261</width>
+             <width>262</width>
              <height>41</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
-             <widget class="QLineEdit" name="lineEdit">
+             <widget class="QLineEdit" name="searchTarget">
               <property name="minimumSize">
                <size>
                 <width>175</width>
@@ -141,6 +141,16 @@
                 <pointsize>11</pointsize>
                </font>
               </property>
+              <item>
+               <property name="text">
+                <string>MAC</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>區域</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>

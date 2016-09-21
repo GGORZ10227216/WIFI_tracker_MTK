@@ -20,6 +20,7 @@ public:
     int row() const;
     DeviceItem *parentItem();
 
+
 private:
     QList<DeviceItem*> m_childItems;
     QList<QVariant> m_itemData;

@@ -27,7 +27,8 @@ public:
     QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE ;
+    QSortFilterProxyModel * qSftm = NULL ;
 private:
     void setupModelData(const QStringList &lines, DeviceItem *parent);
     QTreeView * displayTarget = NULL ;

@@ -32,9 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QFile file("C:/Users/cyac/Repository/WIFI_tracker_MTK/metaData/testData.txt");
     file.open(QIODevice::ReadOnly);
-    DeviceList * dList = new DeviceList( file.readAll(), ui->treeView ) ;
+    dList = new DeviceList( file.readAll(), ui->treeView ) ;
     file.close();
-
 
     cout << "hello YA!" << endl ;
 }
@@ -42,4 +41,16 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString sTarget = ui->searchTarget->text() ;
+    QStringList regExp ;
+
+    regExp << ".*" << sTarget << ".*" ;
+    qDebug() << regExp.join( "" ) ;
+
+    dList->qSftm->setFilterRegExp(QRegExp( regExp.join( "" ) ));
+    dList->qSftm->setFilterKeyColumn(1);
 }
