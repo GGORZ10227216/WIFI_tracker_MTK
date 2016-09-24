@@ -16,13 +16,18 @@ TEMPLATE = app
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/devicelist.cpp \
-    src/deviceitem.cpp
+    src/deviceitem.cpp \
+    src/nodemanagement.cpp \
+    src/nodethread.cpp
 
 HEADERS  += header/mainwindow.h \
     header/deviceitem.h \
-    header/devicelist.h
+    header/devicelist.h \
+    header/nodemanagement.h \
+    header/nodethread.h
 
 FORMS    += ui/mainwindow.ui
 
 DISTFILES += \
     metaData/testData.txt
+DESTDIR = $$PWD

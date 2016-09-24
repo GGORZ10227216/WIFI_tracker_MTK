@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
 
-    QFile file("C:/Users/cyac/Repository/WIFI_tracker_MTK/metaData/testData.txt");
+    QFile file("./metaData/testData.txt");
     file.open(QIODevice::ReadOnly);
     dList = new DeviceList( file.readAll(), ui->treeView ) ;
     file.close();
