@@ -1,12 +1,6 @@
 #include <header/nodemanagement.h>
 
 NodeManger::NodeManger(QObject *parent) : QTcpServer(parent) {
-    /*
-    connect( &server_socket, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(tcpError(QAbstractSocket::SocketError)) );
-    connect( &server_socket, SIGNAL(readyRead()),
-             this, SLOT(tcpReady()) );
-    */
     server_socket.setSocketOption(QAbstractSocket::KeepAliveOption, true );
 }
 
