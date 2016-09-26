@@ -33,5 +33,6 @@ HEADERS  += header/mainwindow.h \
 FORMS    += ui/mainwindow.ui
 
 DISTFILES += \
-    metaData/testData.txt
+    metaData/testData.txt \
+    metaData/AreaData_B207.JSON
 DESTDIR = $$PWD
