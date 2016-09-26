@@ -282,6 +282,13 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu4444">
+    <property name="title">
+     <string>4444</string>
+    </property>
+    <addaction name="action555"/>
+   </widget>
+   <addaction name="menu4444"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -292,6 +299,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="action555">
+   <property name="text">
+    <string>555</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -17,9 +17,12 @@ public:
     ~MainWindow();
 
 private slots :
+    void refreshDeviceList();
     void ShowCurrentTime() ;
 
     void on_pushButton_clicked();
+
+    void on_action555_triggered();
 
 private:
     Ui::MainWindow *ui;

@@ -18,13 +18,17 @@ SOURCES += src/main.cpp \
     src/devicelist.cpp \
     src/deviceitem.cpp \
     src/nodemanagement.cpp \
-    src/nodethread.cpp
+    src/nodethread.cpp \
+    src/devicemap.cpp \
+    src/devicedata.cpp
 
 HEADERS  += header/mainwindow.h \
     header/deviceitem.h \
     header/devicelist.h \
     header/nodemanagement.h \
-    header/nodethread.h
+    header/nodethread.h \
+    header/devicemap.h \
+    header/devicedata.h
 
 FORMS    += ui/mainwindow.ui
 

@@ -1,9 +1,13 @@
+﻿#include "header/devicedata.h"
+#include "header/devicemap.h"
 #include "header/nodethread.h"
+extern DeviceMap gDeviceMap;
 
 NodeThread::NodeThread(qintptr ID, QObject *parent) :
     QThread(parent)
 {
     this->socketDescriptor = ID;
+
 }
 
 void NodeThread::run()
@@ -38,15 +42,46 @@ void NodeThread::run()
     exec();
 }
 
+
+qint64 NodeThread::readLineEx( char* chBuf, int iMaxLen)
+{
+    static qint64 totalLen = 0;
+    char ch = '\0';
+    socket->getChar(&ch);
+    chBuf[totalLen++] = ch;
+    if ( ch == '\r' ) // telnet /r/n
+    {
+        socket->getChar(&ch);
+        chBuf[totalLen++] = ch;
+    } // if
+
+    if ( totalLen == iMaxLen - 2 || ch == '\n' ) // can't read anymore or \n
+    {
+        qint64 ret = totalLen;
+        chBuf[totalLen] = '\0';
+        totalLen = 0;
+        return ret; // return total length
+    } // if
+
+    return -1; // not end so return -1
+}
+
+
 void NodeThread::readyRead()
 {
     // get the information
-    QByteArray Data = socket->readAll();
+    static char buf[64];
 
+    qint64 len = readLineEx( buf, 64 );
     // will write on server side window
-    qDebug() << socketDescriptor << " Data in: " << Data;
+    socket->write("success\r\n");
+    if ( len == -1 ) return;
+    qDebug() << QThread::currentThreadId() << " " << socketDescriptor << " Data in: " << buf;
+    DeviceData dData(  buf );
+    gDeviceMap.updateData(dData);// or [dData.getMac()] = dData;
+    memset( buf, '\0', 64 );
+    //
 
-    socket->write(Data);
 }
 
 void NodeThread::disconnected()

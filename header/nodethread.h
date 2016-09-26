@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QDebug>
 
+
 class NodeThread : public QThread
 {
     Q_OBJECT
@@ -12,7 +13,7 @@ public:
     explicit NodeThread(qintptr ID, QObject *parent = 0);
 
     void run();
-
+    qint64 readLineEx( char* chBuf, int iMaxLen);
 signals:
     void error(QTcpSocket::SocketError socketerror);
 

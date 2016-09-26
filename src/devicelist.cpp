@@ -68,13 +68,11 @@ DeviceList::DeviceList(const QString &data, QTreeView* dt, QObject *parent)
     QList<QVariant> rootData;
     rootData << "Title" << "Summary";
     rootItem = new DeviceItem(rootData);
-    setupModelData(data.split(QString("\n")), rootItem);
+    //setupModelData(data.split(QString("\n")), rootItem);
     displayTarget = dt ;
-
     qSftm = new QSortFilterProxyModel( this );
     qSftm->setSourceModel( this );
     qSftm->setFilterKeyColumn(0);
-
     displayTarget->setSortingEnabled( true );
     qSftm->sort( 0 ) ;
     displayTarget->setModel( qSftm );
@@ -246,3 +244,9 @@ bool DeviceList::removeRows(int row, int count, const QModelIndex &parent ) {
     this->endRemoveRows();
     return true ;
 } // filterAcceptsRow()
+
+bool DeviceList::addData(QList<QVariant> columnData)
+{
+    rootItem->appendChild(new DeviceItem(columnData, rootItem));
+    return true;
+}
