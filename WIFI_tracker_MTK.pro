@@ -34,5 +34,6 @@ FORMS    += ui/mainwindow.ui
 
 DISTFILES += \
     metaData/testData.txt \
-    metaData/AreaData_B207.JSON
+    metaData/AreaData_B207.JSON \
+    metaData/01.png
 DESTDIR = $$PWD

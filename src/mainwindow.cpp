@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
     dList = new DeviceList( file.readAll(), ui->treeView ) ;
     file.close();
 
+    ui->tableWidget->horizontalHeader()->setDefaultSectionSize(38);
+    ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
     cout << "hello YA!" << endl ;
 }
 
