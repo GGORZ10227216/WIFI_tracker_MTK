@@ -410,9 +410,17 @@
    </property>
    <widget class="QMenu" name="menu4444">
     <property name="title">
-     <string>4444</string>
+     <string>Debug</string>
     </property>
-    <addaction name="action555"/>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>以關鍵字</string>
+     </property>
+     <addaction name="debug_remove"/>
+     <addaction name="debug_edit"/>
+     <addaction name="debug_add"/>
+    </widget>
+    <addaction name="menu"/>
    </widget>
    <addaction name="menu4444"/>
   </widget>
@@ -425,9 +433,19 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="action555">
+  <action name="debug_remove">
    <property name="text">
-    <string>555</string>
+    <string>刪除</string>
+   </property>
+  </action>
+  <action name="debug_edit">
+   <property name="text">
+    <string>修改</string>
+   </property>
+  </action>
+  <action name="debug_add">
+   <property name="text">
+    <string>新增</string>
    </property>
   </action>
  </widget>

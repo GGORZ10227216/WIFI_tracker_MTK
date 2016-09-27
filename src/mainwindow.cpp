@@ -1,7 +1,5 @@
 #include <header/mainwindow.h>
-#include <header/devicelist.h>
-#include <header/devicedata.h>
-#include <header/devicemap.h>
+#include <header/sorttreemodel.h>
 
 #include <ui_mainwindow.h>
 #include <iostream>
@@ -12,7 +10,6 @@
 #include <QTcpSocket>
 #include <QDebug>
 
-DeviceMap gDeviceMap;
 using namespace std ;
 
 void MainWindow::refreshDeviceList()
@@ -38,14 +35,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
 
-    // set timer to refresh devicelist
-    QTimer *timer_DeviceList = new QTimer(this);
-    connect(timer_DeviceList, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
-    timer_DeviceList->start(1000); //time specified in ms
-
     QFile file("./metaData/testData.txt");
     file.open(QIODevice::ReadOnly);
-    dList = new DeviceList( file.readAll(), ui->treeView ) ;
+
+    QStringList headers ;
+
+    headers << "Device\'s MAC" << "Location" ;
+    sView = new SortTreeView( ui->treeView, file.readAll(), headers ) ;
     file.close();
 
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(38);
@@ -66,15 +62,16 @@ void MainWindow::on_pushButton_clicked()
     regExp << ".*" << sTarget << ".*" ;
     qDebug() << regExp.join( "" ) ;
 
-    dList->qSftm->setFilterRegExp(QRegExp( regExp.join( "" ) ));
-    dList->qSftm->setFilterKeyColumn(1);
+    sView->model->setFilterRegExp(QRegExp( regExp.join( "" ) ));
+    sView->model->setFilterKeyColumn( ui->comboBox->currentIndex() );
 }
 
-void MainWindow::on_action555_triggered()
+void MainWindow::on_debug_remove_triggered()
 {
-    // MessageBox(NULL, L"Hello", L"box", MB_OK);
-    //cout << "messagebox" << endl;
-   // cout << dList->index(1, 1, dList->rootItem)->;
-    dList->insertRow(0);
+   sView->searchRemove( ui->searchTarget->text() );
+}
 
+void MainWindow::on_debug_edit_triggered()
+{
+   sView->searchEdit( ui->searchTarget->text() );
 }

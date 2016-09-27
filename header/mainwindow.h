@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <header/devicelist.h>
+#include <header/sorttreemodel.h>
 
 namespace Ui {
 class MainWindow;
@@ -22,11 +22,13 @@ private slots :
 
     void on_pushButton_clicked();
 
-    void on_action555_triggered();
+    void on_debug_remove_triggered();
+
+    void on_debug_edit_triggered();
 
 private:
     Ui::MainWindow *ui;
-    DeviceList * dList = NULL ;
+    SortTreeView * sView = NULL ;
 };
 
 #endif // MAINWINDOW_H

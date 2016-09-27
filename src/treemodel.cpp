@@ -48,81 +48,74 @@
 **
 ****************************************************************************/
 
-/*
-    DeviceList.cpp
+#include <QtWidgets>
 
-    Provides a simple tree model to show how to create and use hierarchical
-    models.
-*/
-
-#include "header/deviceitem.h"
-#include "header/devicelist.h"
-
-#include <QStringList>
-#include <QDebug>
+#include "header/treeitem.h"
+#include "header/treemodel.h"
 
 //! [0]
-DeviceList::DeviceList(const QString &data, QTreeView* dt, QObject *parent)
+TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *parent)
     : QAbstractItemModel(parent)
 {
-    QList<QVariant> rootData;
-    rootData << "Title" << "Summary";
-    rootItem = new DeviceItem(rootData);
-    //setupModelData(data.split(QString("\n")), rootItem);
-    displayTarget = dt ;
-    qSftm = new QSortFilterProxyModel( this );
-    qSftm->setSourceModel( this );
-    qSftm->setFilterKeyColumn(0);
-    displayTarget->setSortingEnabled( true );
-    qSftm->sort( 0 ) ;
-    displayTarget->setModel( qSftm );
+    QVector<QVariant> rootData;
+    foreach (QString header, headers)
+        rootData << header;
+
+    rootItem = new TreeItem(rootData);
+    setupModelData(data.split(QString("\n")), rootItem);
 }
 //! [0]
 
 //! [1]
-DeviceList::~DeviceList()
+TreeModel::~TreeModel()
 {
     delete rootItem;
 }
 //! [1]
 
 //! [2]
-int DeviceList::columnCount(const QModelIndex &parent) const
+int TreeModel::columnCount(const QModelIndex & /* parent */) const
 {
-    if (parent.isValid())
-        return static_cast<DeviceItem*>(parent.internalPointer())->columnCount();
-    else
-        return rootItem->columnCount();
+    return rootItem->columnCount();
 }
 //! [2]
 
-//! [3]
-QVariant DeviceList::data(const QModelIndex &index, int role) const
+QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole)
+    if (role != Qt::DisplayRole && role != Qt::EditRole)
         return QVariant();
 
-    DeviceItem *item = static_cast<DeviceItem*>(index.internalPointer());
+    TreeItem *item = getItem(index);
 
     return item->data(index.column());
 }
-//! [3]
 
-//! [4]
-Qt::ItemFlags DeviceList::flags(const QModelIndex &index) const
+//! [3]
+Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return 0;
 
-    return QAbstractItemModel::flags(index);
+    return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
+}
+//! [3]
+
+//! [4]
+TreeItem *TreeModel::getItem(const QModelIndex &index) const
+{
+    if (index.isValid()) {
+        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        if (item)
+            return item;
+    }
+    return rootItem;
 }
 //! [4]
 
-//! [5]
-QVariant DeviceList::headerData(int section, Qt::Orientation orientation,
+QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
@@ -130,23 +123,18 @@ QVariant DeviceList::headerData(int section, Qt::Orientation orientation,
 
     return QVariant();
 }
+
+//! [5]
+QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
+{
+    if (parent.isValid() && parent.column() != 0)
+        return QModelIndex();
 //! [5]
 
 //! [6]
-QModelIndex DeviceList::index(int row, int column, const QModelIndex &parent)
-            const
-{
-    if (!hasIndex(row, column, parent))
-        return QModelIndex();
+    TreeItem *parentItem = getItem(parent);
 
-    DeviceItem *parentItem;
-
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<DeviceItem*>(parent.internalPointer());
-
-    DeviceItem *childItem = parentItem->child(row);
+    TreeItem *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -154,64 +142,131 @@ QModelIndex DeviceList::index(int row, int column, const QModelIndex &parent)
 }
 //! [6]
 
+bool TreeModel::insertColumns(int position, int columns, const QModelIndex &parent)
+{
+    bool success;
+
+    beginInsertColumns(parent, position, position + columns - 1);
+    success = rootItem->insertColumns(position, columns);
+    endInsertColumns();
+
+    return success;
+}
+
+bool TreeModel::insertRows(int position, int rows, const QModelIndex &parent)
+{
+    TreeItem *parentItem = getItem(parent);
+    bool success;
+
+    beginInsertRows(parent, position, position + rows - 1);
+    success = parentItem->insertChildren(position, rows, rootItem->columnCount());
+    endInsertRows();
+
+    return success;
+}
+
 //! [7]
-QModelIndex DeviceList::parent(const QModelIndex &index) const
+QModelIndex TreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid())
         return QModelIndex();
 
-    DeviceItem *childItem = static_cast<DeviceItem*>(index.internalPointer());
-    DeviceItem *parentItem = childItem->parentItem();
+    TreeItem *childItem = getItem(index);
+    TreeItem *parentItem = childItem->parent();
 
     if (parentItem == rootItem)
         return QModelIndex();
 
-    return createIndex(parentItem->row(), 0, parentItem);
+    return createIndex(parentItem->childNumber(), 0, parentItem);
 }
 //! [7]
 
-//! [8]
-int DeviceList::rowCount(const QModelIndex &parent) const
+bool TreeModel::removeColumns(int position, int columns, const QModelIndex &parent)
 {
-    DeviceItem *parentItem;
-    if (parent.column() > 0)
-        return 0;
+    bool success;
 
-    if (!parent.isValid())
-        parentItem = rootItem;
-    else
-        parentItem = static_cast<DeviceItem*>(parent.internalPointer());
+    beginRemoveColumns(parent, position, position + columns - 1);
+    success = rootItem->removeColumns(position, columns);
+    endRemoveColumns();
+
+    if (rootItem->columnCount() == 0)
+        removeRows(0, rowCount());
+
+    return success;
+}
+
+bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
+{
+    TreeItem *parentItem = getItem(parent);
+    bool success = true;
+
+    beginRemoveRows(parent, position, position + rows - 1);
+    success = parentItem->removeChildren(position, rows);
+    endRemoveRows();
+
+    return success;
+}
+
+//! [8]
+int TreeModel::rowCount(const QModelIndex &parent) const
+{
+    TreeItem *parentItem = getItem(parent);
 
     return parentItem->childCount();
 }
 //! [8]
 
-void DeviceList::setupModelData(const QStringList &lines, DeviceItem *parent)
+bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    QList<DeviceItem*> parents;
+    if (role != Qt::EditRole)
+        return false;
+
+    TreeItem *item = getItem(index);
+    bool result = item->setData(index.column(), value);
+
+    if (result)
+        emit dataChanged(index, index);
+
+    return result;
+}
+
+bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
+                              const QVariant &value, int role)
+{
+    if (role != Qt::EditRole || orientation != Qt::Horizontal)
+        return false;
+
+    bool result = rootItem->setData(section, value);
+
+    if (result)
+        emit headerDataChanged(orientation, section, section);
+
+    return result;
+}
+
+void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
+{
+    QList<TreeItem*> parents;
     QList<int> indentations;
     parents << parent;
     indentations << 0;
 
     int number = 0;
+
     while (number < lines.count()) {
         int position = 0;
         while (position < lines[number].length()) {
             if (lines[number].at(position) != ' ')
                 break;
-            position++;
+            ++position;
         }
 
-
-
         QString lineData = lines[number].mid(position).trimmed();
+
         if (!lineData.isEmpty()) {
             // Read the column data from the rest of the line.
             QStringList columnStrings = lineData.split(",", QString::SkipEmptyParts);
-
-            qDebug() << lineData ;
-
-            QList<QVariant> columnData;
+            QVector<QVariant> columnData;
             for (int column = 0; column < columnStrings.count(); ++column)
                 columnData << columnStrings[column];
 
@@ -231,22 +286,12 @@ void DeviceList::setupModelData(const QStringList &lines, DeviceItem *parent)
             }
 
             // Append a new item to the current parent's list of children.
-            parents.last()->appendChild(new DeviceItem(columnData, parents.last()));
+            TreeItem *parent = parents.last();
+            parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
+            for (int column = 0; column < columnData.size(); ++column)
+                parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
         }
 
         ++number;
     }
-}
-
-bool DeviceList::removeRows(int row, int count, const QModelIndex &parent ) {
-    //this->qSftm->mapToSource( this->) ;
-    this->beginRemoveRows( parent, row, count );
-    this->endRemoveRows();
-    return true ;
-} // filterAcceptsRow()
-
-bool DeviceList::addData(QList<QVariant> columnData)
-{
-    rootItem->appendChild(new DeviceItem(columnData, rootItem));
-    return true;
 }
