@@ -62,7 +62,7 @@ TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *p
         rootData << header;
 
     rootItem = new TreeItem(rootData);
-    setupModelData(data.split(QString("\n")), rootItem);
+    //setupModelData(data.split(QString("\n")), rootItem);
 }
 //! [0]
 
@@ -294,4 +294,9 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 
         ++number;
     }
+}
+
+int TreeModel::size()
+{
+    return rootItem->childCount();
 }

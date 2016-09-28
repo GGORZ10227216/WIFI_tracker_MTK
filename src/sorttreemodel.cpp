@@ -1,4 +1,6 @@
 #include <header/sorttreemodel.h>
+#include <header/devicemap.h>
+extern DeviceMap gDeviceMap;
 
 SortTreeView::SortTreeView( QTreeView * tarView, QByteArray data, QStringList headers ) {
     srcModel = new TreeModel(headers, data);
@@ -32,7 +34,7 @@ void SortTreeView::updateActions()
         else
             statusBar()->showMessage(tr("Position: (%1,%2) in top level").arg(row).arg(column));
     }
-    */
+  */
 }
 
 void SortTreeView::insertChild()
@@ -75,19 +77,57 @@ bool SortTreeView::insertColumn()
     return changed;
 }
 
-void SortTreeView::insertRow()
+/*void SortTreeView::insertRow()
 {
+
     QModelIndex index = view->selectionModel()->currentIndex();
     QAbstractItemModel *model = view->model();
-
     if (!model->insertRow(index.row()+1, index.parent()))
         return;
 
     updateActions();
-
     for (int column = 0; column < model->columnCount(index.parent()); ++column) {
         QModelIndex child = model->index(index.row()+1, column, index.parent());
         model->setData(child, QVariant("[No data]"), Qt::EditRole);
+    }
+}*/
+
+void SortTreeView::insertRow()
+{
+
+    QModelIndex index = view->selectionModel()->currentIndex();
+    QAbstractItemModel *model = view->model();
+    //qDebug()<< "1. " << srcModel->size() << endl;
+    if (!model->insertRow( srcModel->size(), index.parent()))
+        return;
+
+    updateActions();
+    //qDebug()<< "2. " << srcModel->size() << endl;
+    for (int column = 0; column < model->columnCount(index.parent()); ++column) {
+        QModelIndex child = model->index(srcModel->size()-1, column, index.parent());
+        model->setData(child, QVariant("[No data]"), Qt::EditRole);
+    }
+}
+
+void SortTreeView::insertRow( QStringList dataList )
+{
+
+    // QAbstractItemModel *model = view->model();
+
+    if (!model->insertRow(  model->rowCount(), QModelIndex() ))
+        return;
+
+    updateActions();
+
+    model->setData( model->index( model->rowCount() - 1,0), QVariant(dataList[0]));
+
+    // view->model()->sort(0);
+    QModelIndex tIndex = search(dataList[0]).at( 0 ) ;
+
+    for (int column = 1; column < model->columnCount() ; ++column) {
+        //QModelIndex child = model->index( model->rowCount()-1, column, QModelIndex());
+        model->setData(model->index( tIndex.row(), tIndex.column() + column ), QVariant(dataList[column]));
+
     }
 }
 
@@ -132,13 +172,58 @@ void SortTreeView::searchRemove( QString target ) {
          updateActions();
 }
 
-void SortTreeView::searchEdit( QString target, int col ) {
+bool SortTreeView::searchEdit( QString target, int col, QVariant newValue ) {
     QModelIndexList index = search( target ) ;
     if ( !index.empty() ) {
+        QString strNewValue = newValue.toString();
         qDebug() << model->index( index.at(0).row(),
                                   index.at(0).column() + col ).data() ;
         model->setData( model->index( index.at(0).row(),
                                       index.at(0).column() + col ),
-                        "GGININDER" ) ;
+                        strNewValue ) ;
+        return true;
     } // if
+
+    return false;
 } // SortTreeView::searchEdit()
+
+bool SortTreeView::checkDataIsExist( QString target ) {
+    QModelIndexList index = search( target ) ;
+    if ( !index.empty() )
+         return true;
+    return false;
+}
+
+/*void SortTreeView::update() {
+    for ( qint64 i = 0; i < gDeviceMap.size(); i++ )
+    {
+        if ( gDeviceMap.At(i)->m_NeedUpdate )
+        {
+            gDeviceMap.At(i)->m_NeedUpdate = false; // been update
+            if ( !searchEdit( gDeviceMap.At(i)->m_Mac, 1, gDeviceMap.At(i)->m_Db ) ) // data isn't exist then insert the data
+                insertRow( gDeviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
+
+        } // if
+    } // for
+}*/
+
+
+void SortTreeView::update() {
+    for ( qint64 i = 0; i < gDeviceMap.size(); i++ )
+    {
+        if ( gDeviceMap.At(i)->m_NeedUpdate )
+        {
+            gDeviceMap.At(i)->m_NeedUpdate = false; // been update
+            if ( !checkDataIsExist(gDeviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
+                insertRow( gDeviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
+            else if(gDeviceMap.At(i)->m_Db > 0 )
+                searchEdit( gDeviceMap.At(i)->m_Mac, 1, gDeviceMap.At(i)->m_Db );
+            else // Db is zero then delete data
+            {
+                searchRemove(gDeviceMap.At(i)->m_Mac);
+                gDeviceMap.DeleteData(gDeviceMap.At(i)->m_Mac);
+            } // else
+        } // if
+    } // for
+}
+

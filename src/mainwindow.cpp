@@ -1,5 +1,6 @@
 #include <header/mainwindow.h>
 #include <header/sorttreemodel.h>
+#include <header/devicemap.h>
 
 #include <ui_mainwindow.h>
 #include <iostream>
@@ -12,8 +13,14 @@
 
 using namespace std ;
 
+DeviceMap gDeviceMap;
 void MainWindow::refreshDeviceList()
 {
+    if ( gDeviceMap.size() == 0 ) return;
+        //static qint64 numOfData = 0;
+        //qDebug() << gDeviceMap.getLast().toString() << endl;
+        //dList->addData(gDeviceMap.getLast().toString());
+    sView->update();
 
 }
 
@@ -35,12 +42,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
     timer->start(1000); //time specified in ms
 
+    QTimer *timer_DeviceRefresh = new QTimer(this);
+    connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
+    timer_DeviceRefresh->start(1000); //time specified in ms
+
     QFile file("./metaData/testData.txt");
     file.open(QIODevice::ReadOnly);
 
     QStringList headers ;
 
-    headers << "Device\'s MAC" << "Location" ;
+    headers << "Device\'s MAC" << "Db" ;
     sView = new SortTreeView( ui->treeView, file.readAll(), headers ) ;
     file.close();
 

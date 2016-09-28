@@ -1,5 +1,7 @@
 ﻿#include <header/sorttreemodel.h>
 #include "header/nodethread.h"
+#include "header/devicemap.h"
+extern DeviceMap gDeviceMap;
 
 NodeThread::NodeThread(qintptr ID, QObject *parent) :
     QThread(parent)
@@ -68,7 +70,7 @@ qint64 NodeThread::readLineEx( char* chBuf, int iMaxLen)
 void NodeThread::readyRead()
 {
     // get the information
-    /*
+
     static char buf[64];
 
     qint64 len = readLineEx( buf, 64 );
@@ -77,10 +79,10 @@ void NodeThread::readyRead()
     if ( len == -1 ) return;
     qDebug() << QThread::currentThreadId() << " " << socketDescriptor << " Data in: " << buf;
     DeviceData dData(  buf );
-    // gDeviceMap.updateData(dData);// or [dData.getMac()] = dData;
+    gDeviceMap.updateData(dData);// or [dData.getMac()] = dData;
     memset( buf, '\0', 64 );
     //
-    */
+
 }
 
 void NodeThread::disconnected()

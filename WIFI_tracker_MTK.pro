@@ -19,14 +19,18 @@ SOURCES += src/main.cpp \
     src/nodethread.cpp \
     src/sorttreemodel.cpp \
     src/treeitem.cpp \
-    src/treemodel.cpp
+    src/treemodel.cpp \
+    src/devicemap.cpp \
+    src/devicedata.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
     header/nodethread.h \
     header/sorttreemodel.h \
     header/treeitem.h \
-    header/treemodel.h
+    header/treemodel.h \
+    header/devicedata.h \
+    header/devicemap.h
 
 FORMS    += ui/mainwindow.ui
 

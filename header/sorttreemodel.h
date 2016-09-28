@@ -18,13 +18,16 @@ public:
     void insertChild();
     bool insertColumn();
     void insertRow();
+    void insertRow(QStringList dataList);
     bool removeColumn();
     void removeRow();
 
     QModelIndexList search( QString target ) ;
     void searchRemove( QString target ) ;
-    void searchEdit(QString target , int col = 1 ) ;
+    bool searchEdit(QString target , int col = 1, QVariant newValue = "no init" ) ;
+    bool checkDataIsExist( QString target );
     void updateActions() ; // Useless for now......
+    void update(); // update view per second
 };
 
 #endif // SORTTREEMODEL_H
