@@ -58,3 +58,20 @@ QString AreaData::toString()
 
     return m_Location + '\n' + strRet;
 }
+
+void AreaData::update2View( QTableWidget* tView )
+{
+    for ( int i = 0; i < m_NodeList.size(); i++ )
+    {
+        QList<NodeInfo> nList = m_NodeList[i].getInfoList();
+        for ( int j = 0; j < nList.size(); j++ )
+            tView->setItem(nList[j].Coord.y, nList[j].Coord.x, new QTableWidgetItem(m_NodeList[i].getLocation()));
+    } // for
+}
+
+void AreaData::getAllNodes()
+{
+    m_NodeList.clear();
+    for ( int i = 0; i < m_MachineList.size(); i++  )
+        m_NodeList << m_MachineList[i].getNodeList();
+}

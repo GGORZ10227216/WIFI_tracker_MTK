@@ -50,26 +50,26 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
     timer_DeviceRefresh->start(1000); //time specified in ms
 
-    QFile file("./metaData/testData.txt");
-    file.open(QIODevice::ReadOnly);
+    //QFile file("./metaData/testData.txt");
+    //file.open(QIODevice::ReadOnly);
 
     QStringList headers ;
     headers << "Device\'s MAC" << "Db" ;
     sView = new SortTreeView( ui->treeView, NULL, headers ) ; // file.readAll()
-    file.close();
+    sView->view->header()->resizeSection( 0, 150); // root column, size
+    //file.close();
 
     Global.areaData.read("./metaData/AreaData_B207.JSON");
     QStringList headers_Node;
-    headers_Node << "Ip" << "Location" ;
+    headers_Node << "Ip" << "Location" << "Coordnate" ;
+    nodeView = new SortTreeView( ui->treeView_2, Global.areaData.toString(), headers_Node ) ;
+    nodeView->view->header()->resizeSection( 0, 200); // root column, size
+    nodeView->view->header()->resizeSection( 1, 150); // root column, size
 
-    QString st = Global.areaData.toString();
-    //qDebug() << st;
-
-    nodeView = new SortTreeView( ui->treeView_2, st, headers_Node ) ;
-
-
-    ui->tableWidget->horizontalHeader()->setDefaultSectionSize(38);
+    ui->tableWidget->horizontalHeader()->setDefaultSectionSize(60);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
+    Global.areaData.getAllNodes(); // 取得此區域所有節點資訊
+    Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
     cout << "hello YA!" << endl ;
 }
 

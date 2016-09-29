@@ -49,5 +49,5 @@ QString Machine::toString(){
         strRet +=  m_NodeList[i].toString();
     } // for
 
-    return ' ' + m_Info.Ip + "," + m_Location + '\n' + strRet;
+    return ' ' + m_Info.Ip + "," + m_Location + ',' + '\n' + strRet;
 }

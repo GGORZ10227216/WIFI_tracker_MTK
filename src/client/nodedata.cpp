@@ -60,7 +60,7 @@ QString NodeData::toString(){
     for ( int i = 0; i < m_InfoList.size(); i++ )
     {
         strRet += ' ';
-        strRet += ' ' + m_InfoList[i].Ip + "," + m_Location + '\n';
+        strRet += ' ' + m_InfoList[i].Ip + "," + m_Location + ',' + ( '(' + QString::number(m_InfoList[i].Coord.x) + '-' + QString::number(m_InfoList[i].Coord.y) + ')' ) + '\n';
     } // for
 
     return strRet;

@@ -2,7 +2,7 @@
 #define AREADATA_H
 #include "header/mainwindow.h"
 #include "header/client/machine.h"
-
+#include <ui_mainwindow.h>
 struct MapSize
 {
     int bass;
@@ -16,10 +16,13 @@ public:
     ~AreaData();
     bool read(const QString fileName);
     QString toString();
+    void update2View( QTableWidget* tView );
+    void getAllNodes();
 
 private:
     QString m_Location;
     MapSize m_MapSize;
     QList<Machine> m_MachineList;
+    QList<NodeData> m_NodeList; // all nodes it has
 };
 #endif // AREADATA_H

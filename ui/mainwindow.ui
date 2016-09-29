@@ -268,92 +268,92 @@
               </column>
               <item row="0" column="0">
                <property name="text">
-                <string>日立</string>
+                <string/>
                </property>
               </item>
               <item row="0" column="1">
                <property name="text">
-                <string>松下</string>
+                <string/>
                </property>
               </item>
               <item row="0" column="2">
                <property name="text">
-                <string>奇異</string>
+                <string/>
                </property>
               </item>
               <item row="0" column="3">
                <property name="text">
-                <string>LG</string>
+                <string/>
                </property>
               </item>
               <item row="0" column="4">
                <property name="text">
-                <string>LG</string>
+                <string/>
                </property>
               </item>
               <item row="1" column="0">
                <property name="text">
-                <string>三洋</string>
+                <string/>
                </property>
               </item>
               <item row="1" column="1">
                <property name="text">
-                <string>燦坤</string>
+                <string/>
                </property>
               </item>
               <item row="1" column="2">
                <property name="text">
-                <string>三星</string>
+                <string/>
                </property>
               </item>
               <item row="1" column="3">
                <property name="text">
-                <string>大金</string>
+                <string/>
                </property>
               </item>
               <item row="2" column="0">
                <property name="text">
-                <string>禾聯</string>
+                <string/>
                </property>
               </item>
               <item row="2" column="1">
                <property name="text">
-                <string>飛利浦</string>
+                <string/>
                </property>
               </item>
               <item row="2" column="2">
                <property name="text">
-                <string>大同</string>
+                <string/>
                </property>
               </item>
               <item row="2" column="3">
                <property name="text">
-                <string>惠而浦</string>
+                <string/>
                </property>
               </item>
               <item row="2" column="4">
                <property name="text">
-                <string>奇美</string>
+                <string/>
                </property>
               </item>
               <item row="3" column="0">
                <property name="text">
-                <string>華碩</string>
+                <string/>
                </property>
               </item>
               <item row="3" column="1">
                <property name="text">
-                <string>華碩</string>
+                <string/>
                </property>
               </item>
               <item row="3" column="2">
                <property name="text">
-                <string>德國百靈</string>
+                <string/>
                </property>
               </item>
               <item row="3" column="3">
                <property name="text">
-                <string>鍋寶</string>
+                <string/>
                </property>
               </item>
              </widget>

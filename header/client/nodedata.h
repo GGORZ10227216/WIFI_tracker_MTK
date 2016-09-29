@@ -29,6 +29,7 @@ public:
     QString getLocation(){ return m_Location; }
     //QList<NodeData> getNodeList(){ return m_InfoList; }
     QString toString();
+    QList<NodeInfo> getInfoList(){ return m_InfoList; }
 private:
     QString m_Location;
     QList<NodeInfo> m_InfoList;
