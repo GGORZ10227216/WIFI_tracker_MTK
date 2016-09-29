@@ -50,8 +50,8 @@
 
 #include <QtWidgets>
 
-#include "header/treeitem.h"
-#include "header/treemodel.h"
+#include "header/tree/treeitem.h"
+#include "header/tree/treemodel.h"
 
 //! [0]
 TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *parent)
@@ -62,7 +62,8 @@ TreeModel::TreeModel(const QStringList &headers, const QString &data, QObject *p
         rootData << header;
 
     rootItem = new TreeItem(rootData);
-    //setupModelData(data.split(QString("\n")), rootItem);
+    if ( data != NULL )
+        setupModelData(data.split(QString("\n")), rootItem);
 }
 //! [0]
 

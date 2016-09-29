@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <header/sorttreemodel.h>
+#include <header/tree/sorttreemodel.h>
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +29,7 @@ private slots :
 private:
     Ui::MainWindow *ui;
     SortTreeView * sView = NULL ;
+    SortTreeView * nodeView = NULL ;
 };
 
 #endif // MAINWINDOW_H

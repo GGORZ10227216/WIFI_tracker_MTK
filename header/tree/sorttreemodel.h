@@ -1,7 +1,7 @@
 #ifndef SORTTREEMODEL_H
 #define SORTTREEMODEL_H
 
-#include <header/treemodel.h>
+#include <header/tree/treemodel.h>
 #include <QSortFilterProxyModel>
 #include <QFile>
 #include <QDebug>
@@ -14,7 +14,7 @@ public:
     QSortFilterProxyModel * model ;
     QTreeView *view ;
 
-    SortTreeView( QTreeView * tarView, QByteArray data, QStringList headers ) ;
+    SortTreeView(QTreeView * tarView, QString data, QStringList headers ) ;
     void insertChild();
     bool insertColumn();
     void insertRow();
@@ -28,6 +28,7 @@ public:
     bool checkDataIsExist( QString target );
     void updateActions() ; // Useless for now......
     void update(); // update view per second
+    void updateClient();
 };
 
 #endif // SORTTREEMODEL_H

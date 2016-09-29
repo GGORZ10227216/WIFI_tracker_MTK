@@ -1,7 +1,8 @@
-﻿#include <header/sorttreemodel.h>
+﻿#include <header/tree/sorttreemodel.h>
 #include "header/nodethread.h"
 #include "header/devicemap.h"
-extern DeviceMap gDeviceMap;
+#include <header/globalvariable.h>
+extern GlobalV Global;
 
 NodeThread::NodeThread(qintptr ID, QObject *parent) :
     QThread(parent)
@@ -79,7 +80,7 @@ void NodeThread::readyRead()
     if ( len == -1 ) return;
     qDebug() << QThread::currentThreadId() << " " << socketDescriptor << " Data in: " << buf;
     DeviceData dData(  buf );
-    gDeviceMap.updateData(dData);// or [dData.getMac()] = dData;
+    Global.deviceMap.updateData(dData);// or [dData.getMac()] = dData;
     memset( buf, '\0', 64 );
     //
 

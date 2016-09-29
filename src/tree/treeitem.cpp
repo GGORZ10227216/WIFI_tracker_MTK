@@ -54,7 +54,7 @@
     A container for items of data supplied by the simple tree model.
 */
 
-#include "header/treeitem.h"
+#include "header/tree/treeitem.h"
 
 #include <QStringList>
 

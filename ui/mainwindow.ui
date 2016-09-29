@@ -368,7 +368,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTreeWidget" name="treeWidget_2">
+         <widget class="QTreeView" name="treeView_2">
           <property name="minimumSize">
            <size>
             <width>520</width>
@@ -381,16 +381,6 @@
             <height>300</height>
            </size>
           </property>
-          <column>
-           <property name="text">
-            <string>節點IP</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>監視區域</string>
-           </property>
-          </column>
          </widget>
         </item>
        </layout>
@@ -405,7 +395,7 @@
      <x>0</x>
      <y>0</y>
      <width>830</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu4444">

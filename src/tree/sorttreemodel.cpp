@@ -1,8 +1,9 @@
-#include <header/sorttreemodel.h>
+#include <header/tree/sorttreemodel.h>
 #include <header/devicemap.h>
-extern DeviceMap gDeviceMap;
+#include <header/globalvariable.h>
+extern GlobalV Global;
 
-SortTreeView::SortTreeView( QTreeView * tarView, QByteArray data, QStringList headers ) {
+SortTreeView::SortTreeView( QTreeView * tarView, QString data, QStringList headers ) {
     srcModel = new TreeModel(headers, data);
     model = new QSortFilterProxyModel( this->srcModel ) ;
     model->setSourceModel( srcModel ) ;
@@ -209,21 +210,28 @@ bool SortTreeView::checkDataIsExist( QString target ) {
 
 
 void SortTreeView::update() {
-    for ( qint64 i = 0; i < gDeviceMap.size(); i++ )
+    for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
-        if ( gDeviceMap.At(i)->m_NeedUpdate )
+        if ( Global.deviceMap.At(i)->m_NeedUpdate )
         {
-            gDeviceMap.At(i)->m_NeedUpdate = false; // been update
-            if ( !checkDataIsExist(gDeviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
-                insertRow( gDeviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
-            else if(gDeviceMap.At(i)->m_Db > 0 )
-                searchEdit( gDeviceMap.At(i)->m_Mac, 1, gDeviceMap.At(i)->m_Db );
+            Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
+            if ( !checkDataIsExist(Global.deviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
+                insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
+            else if(Global.deviceMap.At(i)->m_Db > 0 )
+                searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
             else // Db is zero then delete data
             {
-                searchRemove(gDeviceMap.At(i)->m_Mac);
-                gDeviceMap.DeleteData(gDeviceMap.At(i)->m_Mac);
+                searchRemove(Global.deviceMap.At(i)->m_Mac);
+                Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
             } // else
         } // if
     } // for
 }
 
+void SortTreeView::updateClient()
+{
+    /*for ( int i = 0; i < Global.areaData.size(); i++ )
+    {
+
+    } // for*/
+}

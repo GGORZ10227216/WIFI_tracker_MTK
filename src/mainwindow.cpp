@@ -1,6 +1,8 @@
 #include <header/mainwindow.h>
-#include <header/sorttreemodel.h>
+#include <header/tree/sorttreemodel.h>
 #include <header/devicemap.h>
+#include <header/globalvariable.h>
+#include <header/client/machine.h>
 
 #include <ui_mainwindow.h>
 #include <iostream>
@@ -10,13 +12,15 @@
 #include <QDateTime>
 #include <QTcpSocket>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 using namespace std ;
 
-DeviceMap gDeviceMap;
+GlobalV Global;
 void MainWindow::refreshDeviceList()
 {
-    if ( gDeviceMap.size() == 0 ) return;
+    if ( Global.deviceMap.size() == 0 ) return;
         //static qint64 numOfData = 0;
         //qDebug() << gDeviceMap.getLast().toString() << endl;
         //dList->addData(gDeviceMap.getLast().toString());
@@ -50,10 +54,19 @@ MainWindow::MainWindow(QWidget *parent) :
     file.open(QIODevice::ReadOnly);
 
     QStringList headers ;
-
     headers << "Device\'s MAC" << "Db" ;
-    sView = new SortTreeView( ui->treeView, file.readAll(), headers ) ;
+    sView = new SortTreeView( ui->treeView, NULL, headers ) ; // file.readAll()
     file.close();
+
+    Global.areaData.read("./metaData/AreaData_B207.JSON");
+    QStringList headers_Node;
+    headers_Node << "Ip" << "Location" ;
+
+    QString st = Global.areaData.toString();
+    //qDebug() << st;
+
+    nodeView = new SortTreeView( ui->treeView_2, st, headers_Node ) ;
+
 
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(38);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);

@@ -17,20 +17,27 @@ SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/nodemanagement.cpp \
     src/nodethread.cpp \
-    src/sorttreemodel.cpp \
-    src/treeitem.cpp \
-    src/treemodel.cpp \
+    src/tree/sorttreemodel.cpp \
+    src/tree/treeitem.cpp \
+    src/tree/treemodel.cpp \
     src/devicemap.cpp \
-    src/devicedata.cpp
+    src/devicedata.cpp \
+    src/client/nodedata.cpp \
+    src/client/machine.cpp \
+    src/client/areadata.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
     header/nodethread.h \
-    header/sorttreemodel.h \
-    header/treeitem.h \
-    header/treemodel.h \
+    header/tree/sorttreemodel.h \
+    header/tree/treeitem.h \
+    header/tree/treemodel.h \
     header/devicedata.h \
-    header/devicemap.h
+    header/devicemap.h \
+    header/globalvariable.h \
+    header/client/nodedata.h \
+    header/client/machine.h \
+    header/client/areadata.h
 
 FORMS    += ui/mainwindow.ui
 
