@@ -17,6 +17,8 @@ public:
     ~MainWindow();
 
 private slots :
+    void selectMap(const QModelIndex index);
+
     void refreshDeviceList();
     void ShowCurrentTime() ;
 
@@ -25,6 +27,8 @@ private slots :
     void on_debug_remove_triggered();
 
     void on_debug_edit_triggered();
+
+    void on_treeView_2_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

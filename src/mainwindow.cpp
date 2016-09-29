@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
     nodeView->view->header()->resizeSection( 0, 200); // root column, size
     nodeView->view->header()->resizeSection( 1, 150); // root column, size
 
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}"); // 設定選擇時的顏色
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(60);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
     Global.areaData.getAllNodes(); // 取得此區域所有節點資訊
@@ -99,3 +100,69 @@ void MainWindow::on_debug_edit_triggered()
 {
    sView->searchEdit( ui->searchTarget->text() );
 }
+
+void MainWindow::selectMap(const QModelIndex index)
+{
+
+    int rows = index.model()->rowCount(index.parent()); // how many rows in this level
+    //qDebug() << "rows is " << index.model()->index( 0,  0, index).data().toString();
+
+    for ( int i = 0; i < rows; i++ )
+    {
+        //qDebug() << "rows is " << index.model()->index( i,  1, index.parent()).data().toString();
+        QVariant vCoord = index.model()->index( i,  2, index.parent()).data();
+        if  ( vCoord.isValid() )
+        {
+            QString strCoord = vCoord.toString().remove(0,1);
+            strCoord = strCoord.remove(strCoord.size()-1, strCoord.size());
+            QList<QString> coordnate = strCoord.split("-");
+            int x = coordnate.at(0).toInt();
+            int y = coordnate.at(1).toInt();
+            //qDebug() << x << y;
+            //ui->tableWidget->setSelectionBehavior( QAbstractItemView::SelectItems );
+
+            QModelIndex indexW = ui->tableWidget->model()->index(y, x);
+            ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
+            //ui->tableWidget->setSelectionMode( QAbstractItemView::MultiSelection );
+        } // if
+
+        QModelIndex child = index.model()->index( 0,  0, index.model()->index( i,  0, index.parent()) );//.model()->index( i,  0, index);
+        if ( child.isValid() )
+            selectMap(child);
+    } // for
+
+}
+
+void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
+{
+    //qDebug() << index.model()->index(index.row(),index.column() + 2, index).data(); // child data
+    //qDebug() << index.model()->rowCount(index.parent());
+
+    //if ( !index.child(0,0).isValid() )
+    //    qDebug() << "no child";
+    //ui->tableWidget->setSelectionMode( QAbstractItemView::SingleSelection );
+    for ( int i = 0; i < ui->tableWidget->rowCount(); i++ ) // deselect all
+        for ( int j = 0; j < ui->tableWidget->columnCount(); j++ )
+        {
+            QModelIndex indexW = ui->tableWidget->model()->index(i, j);
+            ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Deselect);
+        } // for
+
+    QVariant vCoord = index.model()->index( index.row(),  2, index.parent()).data() ;
+    if  ( vCoord.isValid() )
+    {
+        QString strCoord = vCoord.toString().remove(0,1);
+        strCoord = strCoord.remove(strCoord.size()-1, strCoord.size());
+        QList<QString> coordnate = strCoord.split("-");
+        int x = coordnate.at(0).toInt();
+        int y = coordnate.at(1).toInt();
+        //qDebug() << x << y;
+        QModelIndex indexW = ui->tableWidget->model()->index(y, x);
+        ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
+    } // if
+
+    QModelIndex child = index.child(0,0);
+    if ( child.isValid() )
+        selectMap(child);
+}
+

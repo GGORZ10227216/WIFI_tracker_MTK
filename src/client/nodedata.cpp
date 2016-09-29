@@ -19,7 +19,7 @@ NodeData::~NodeData()
 
 bool NodeData::read(const QJsonObject &json)
 {
-    qDebug() << "NodeData read";
+    //qDebug() << "NodeData read";
     QJsonArray arr = json["Cord"].toArray();
     QList<Coordinate> coordList;
     QList<QString> infoList;

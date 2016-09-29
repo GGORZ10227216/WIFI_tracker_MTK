@@ -18,6 +18,11 @@ public:
     QString toString();
     void update2View( QTableWidget* tView );
     void getAllNodes();
+    /*void getCoordnateByLocation( QString strLocation )
+    {
+        getAllNodes();
+        for (  )
+    }*/
 
 private:
     QString m_Location;

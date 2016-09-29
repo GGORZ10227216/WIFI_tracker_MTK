@@ -20,7 +20,7 @@ Machine::~Machine()
 
 bool Machine::read(const QJsonObject &json)
 {
-    qDebug() << "Machine read";
+    //qDebug() << "Machine read";
     this->m_Channel = json["WorkingChannel"].toInt();
     this->m_Info.Ip = json["IP"].toString();
     this->m_Info.Mac = json["Bssid"].toString();

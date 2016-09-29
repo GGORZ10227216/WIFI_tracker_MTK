@@ -15,7 +15,7 @@ AreaData::~AreaData()
 
 bool AreaData::read(const QString fileName)
 {
-    qDebug() << "AreaData read";
+    //qDebug() << "AreaData read";
     QFile loadFile(fileName);
     if (!loadFile.open(QIODevice::ReadOnly))
     {
@@ -61,12 +61,35 @@ QString AreaData::toString()
 
 void AreaData::update2View( QTableWidget* tView )
 {
+    static Coordinate sizeV;
+    sizeV.x = sizeV.y = 0;
+
     for ( int i = 0; i < m_NodeList.size(); i++ )
     {
+
         QList<NodeInfo> nList = m_NodeList[i].getInfoList();
         for ( int j = 0; j < nList.size(); j++ )
+        {
+            sizeV.x = nList[j].Coord.x > sizeV.x ? nList[j].Coord.x : sizeV.x;
+            sizeV.y = nList[j].Coord.y > sizeV.y ? nList[j].Coord.y : sizeV.y;
+
+            tView->setRowCount(sizeV.y+1);
+            tView->setColumnCount(sizeV.x+1);
             tView->setItem(nList[j].Coord.y, nList[j].Coord.x, new QTableWidgetItem(m_NodeList[i].getLocation()));
+        } // for
     } // for
+
+    /*qDebug() << tView->model()->rowCount() << tView->model()->columnCount();
+    for ( int i = 0; i < tView->model()->rowCount(); i++ )
+        for ( int j = 0; j < tView->model()->columnCount(); j++)
+        {
+            tView->model()->setHeaderData(i, Qt::Vertical, "444");
+            tView->model()->setHeaderData(j, Qt::Horizontal, "555");
+
+        } // for
+
+    emit tView->model()->headerDataChanged(Qt::Horizontal, 0 , tView->model()->columnCount());
+    emit tView->model()->headerDataChanged(Qt::Vertical, 0 , tView->model()->rowCount());*/
 }
 
 void AreaData::getAllNodes()
