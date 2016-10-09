@@ -177,8 +177,8 @@ bool SortTreeView::searchEdit( QString target, int col, QVariant newValue ) {
     QModelIndexList index = search( target ) ;
     if ( !index.empty() ) {
         QString strNewValue = newValue.toString();
-        qDebug() << model->index( index.at(0).row(),
-                                  index.at(0).column() + col ).data() ;
+        /*qDebug() << model->index( index.at(0).row(),
+                                  index.at(0).column() + col ).data() ;*/
         model->setData( model->index( index.at(0).row(),
                                       index.at(0).column() + col ),
                         strNewValue ) ;
@@ -210,22 +210,39 @@ bool SortTreeView::checkDataIsExist( QString target ) {
 
 
 void SortTreeView::update() {
+
+    while ( !Global.deviceMap.m_Ready.load() )
+        std::this_thread::yield(); // 讓出cpu讓其他人先跑
+
+    Global.deviceMap.m_Ready = false; // 佔住deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
-        if ( Global.deviceMap.At(i)->m_NeedUpdate )
+        if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // 當資料的displaystate與global相同時(選擇的)才顯示
+             Global.deviceMap.At(i)->m_NeedUpdate )
         {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
             if ( !checkDataIsExist(Global.deviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
                 insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
-            else if(Global.deviceMap.At(i)->m_Db > 0 )
+            else if( -50 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
+            {
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
+                searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Frame );
+            } // else if
             else // Db is zero then delete data
             {
                 searchRemove(Global.deviceMap.At(i)->m_Mac);
                 Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
             } // else
         } // if
+        else if ( Global.deviceMap.At(i)->m_DisplayState != Global.selectedNodeState )
+        {
+            Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
+            searchRemove(Global.deviceMap.At(i)->m_Mac);
+        } // else
     } // for
+
+    Global.deviceMap.m_Ready = true; // 放開deviceMap
+
 }
 
 void SortTreeView::updateClient()

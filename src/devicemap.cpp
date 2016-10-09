@@ -1,7 +1,9 @@
 #include "header/devicemap.h"
-
+#include <thread>
 DeviceMap::DeviceMap()
 {
+    this->m_Ready = true;
+    isChanged = true;
 }
 
 DeviceMap::~DeviceMap()
@@ -13,11 +15,15 @@ DeviceMap::~DeviceMap()
 
 void DeviceMap::updateData( DeviceData dData )
 {
-
+    while ( !this->m_Ready.load() )
+        std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //static int up = 0;
+    //qDebug() << up++ << "-----------update view--------------";
+    this->m_Ready = false; // 開始執行
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
     {
         m_Map.insert(dData.getMac(), dData);
-        qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
+        //qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
     } // if
     else // if m_Map is empty
     {
@@ -25,17 +31,19 @@ void DeviceMap::updateData( DeviceData dData )
         if ( !m_Map.contains( dData.getMac()) ) // if it is a new data
         {
             m_Map.insert(dData.getMac(), dData);
-            qDebug() << "insert1 " << dData.m_Mac << " db " << dData.m_Db << endl;
+            //qDebug() << "insert1 " << dData.m_Mac << " db " << dData.m_Db << endl;
         } // if
         else // if data is exsit
         {
             QMap<QString, DeviceData>::iterator it = m_Map.find(dData.getMac()); // find position by key
             it.value().m_Db = dData.m_Db;
-            it.value().m_NeedUpdate = true; // need to update
-            qDebug() << "update " << it.value().m_Mac << " db to " << it.value().m_Db << endl;
-        } // else
+            it.value().m_Frame = dData.m_Frame;
+            it.value().m_NeedUpdate = true; // need to update       
+            //qDebug() << "update " << it.value().m_Mac << " db to " << it.value().m_Db << endl;
+        } // elseA
     } // else
 
+    this->m_Ready = true; // 執行結束
 }
 
 bool DeviceMap::DeleteData( QString strKey )
@@ -59,4 +67,25 @@ DeviceData* DeviceMap::getLast()
 qint64 DeviceMap::size()
 {
     return m_Map.size();
+}
+
+bool DeviceMap::setDisplayState( QString strKey, int b)
+{
+    //while ( !this->m_Ready.load() )
+    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //this->m_Ready = false; // 開始執行
+    for ( QMap<QString, DeviceData>::iterator it = m_Map.begin(); it != m_Map.end(); it++ )
+    {
+        if ( it.value().m_nodeIP.compare(strKey) == 0 )
+        {
+            // qDebug() << strKey << ", " << it.value().m_DisplayState;
+            it.value().m_DisplayState = b;
+            it.value().m_NeedUpdate = true;
+            //this->m_Ready = true; // 執行結束
+            //return true;
+        } // if
+    } // for
+
+    //this->m_Ready = true; // 執行結束
+    return true;
 }

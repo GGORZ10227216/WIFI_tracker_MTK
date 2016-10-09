@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
+    Global.selectedNodeState = 0; // 設定display值
     ui->setupUi(this);
     ShowCurrentTime();
 
@@ -48,15 +50,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QTimer *timer_DeviceRefresh = new QTimer(this);
     connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
-    timer_DeviceRefresh->start(1000); //time specified in ms
+    timer_DeviceRefresh->start(500); //time specified in ms
 
     //QFile file("./metaData/testData.txt");
     //file.open(QIODevice::ReadOnly);
 
     QStringList headers ;
-    headers << "Device\'s MAC" << "Db" ;
+    headers << "Device\'s MAC" << "Db" << "Frame" ;
     sView = new SortTreeView( ui->treeView, NULL, headers ) ; // file.readAll()
-    sView->view->header()->resizeSection( 0, 150); // root column, size
+    sView->view->header()->resizeSection( 0, 130); // root column, size
+    sView->view->header()->resizeSection( 1, 40);
     //file.close();
 
     Global.areaData.read("./metaData/AreaData_B207.JSON");
@@ -113,6 +116,11 @@ void MainWindow::selectMap(const QModelIndex index)
         QVariant vCoord = index.model()->index( i,  2, index.parent()).data();
         if  ( vCoord.isValid() )
         {
+
+            QVariant vNodeIP = index.model()->index( i,  0, index.parent()).data() ;
+            Global.deviceMap.setDisplayState(vNodeIP.toString(), Global.selectedNodeState);
+
+
             QString strCoord = vCoord.toString().remove(0,1);
             strCoord = strCoord.remove(strCoord.size()-1, strCoord.size());
             QList<QString> coordnate = strCoord.split("-");
@@ -148,9 +156,16 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
             ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Deselect);
         } // for
 
+    Global.selectedNodeState = Global.selectedNodeState > 99999 ? 0 : Global.selectedNodeState + 1; // 設定displaystate為多少時才顯示
+    //qDebug() << "Global = " << Global.selectedNodeState;
     QVariant vCoord = index.model()->index( index.row(),  2, index.parent()).data() ;
+
     if  ( vCoord.isValid() )
     {
+
+        QVariant vNodeIP = index.model()->index( index.row(),  0, index.parent()).data() ;
+        Global.deviceMap.setDisplayState(vNodeIP.toString(), Global.selectedNodeState);
+
         QString strCoord = vCoord.toString().remove(0,1);
         strCoord = strCoord.remove(strCoord.size()-1, strCoord.size());
         QList<QString> coordnate = strCoord.split("-");

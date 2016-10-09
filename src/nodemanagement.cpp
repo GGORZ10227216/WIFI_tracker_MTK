@@ -45,3 +45,32 @@ void NodeManger::incomingConnection(qintptr descriptor) {
 
     thread->start();
 }
+
+void NodeManger::connectSever(QString strIP, int port, QString strMac, int intChannel)
+{
+    NodeThread* nt = new NodeThread(strIP, strMac, intChannel, this );
+    connect(nt, SIGNAL(finished()), nt, SLOT(deleteLater()));
+    nt->start();
+
+    m_Map[strIP] = nt;
+    //client_socket.abort();
+    //client_socket.connectToHost(strIP, port);
+    //connect( client_socket, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::DirectConnection);
+    //NodeThread *thread = new NodeThread( m_NumOfConnect++, this);
+    //connect( client_socket, SIGNAL(readyRead()), thread, SLOT(readMessage()));
+    //connect(client_socket, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    //thread->start();
+}
+
+void NodeManger::readMessage()
+{
+
+}
+
+void NodeManger::sendMessage(QString strIP, QString strInstruction)
+{
+    QMap<QString, NodeThread*>::iterator it = m_Map.find(strIP);
+    //qDebug() << it.value()->m_intChannel;
+    if ( !it.value()->sendMessage(strInstruction) )
+        qDebug() << "no connect";
+}
