@@ -34,15 +34,19 @@ bool AreaData::read(const QString fileName)
     this->m_MapSize.bass = mapArr[0].toInt();
     this->m_MapSize.machine = mapArr[1].toInt();
 
-    for ( int i = 1; i < json.size(); i++ ) // 0 is mapdata
+    qDebug() << mapArr[1].toInt() ;
+
+    for ( int i = 0; i < json.size(); i++ ) // 0 is mapdata
     {
-        Machine mM((json.begin()+i).key());
-        mM.read(json[(json.begin()+i).key()].toObject());
-        this->m_MachineList.push_back(mM);
+        if ( (json.begin()+i).key() != "MapData" ) {
+            Machine mM((json.begin()+i).key());
+            mM.read(json[(json.begin()+i).key()].toObject());
+            this->m_MachineList.push_back(mM);
+        } // if
     } // for
 
 
-    // qDebug() << "readAreaInfo= " << loadDoc.array()[0];
+
 
     loadFile.close();
     return true;
