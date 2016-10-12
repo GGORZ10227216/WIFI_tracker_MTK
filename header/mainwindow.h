@@ -17,6 +17,8 @@ public:
     ~MainWindow();
 
 private slots :
+    void refreshSelectedMap();
+    void deSelectAllMap();
     void selectMap(const QModelIndex index);
 
     void refreshDeviceList();
@@ -29,6 +31,8 @@ private slots :
     void on_debug_edit_triggered();
 
     void on_treeView_2_clicked(const QModelIndex &index);
+
+    void on_treeView_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

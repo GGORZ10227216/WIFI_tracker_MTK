@@ -8,9 +8,10 @@ DeviceData::DeviceData()
     //gDeviceMap = *new QMap<QString, DeviceData>() ;
 }
 
-DeviceData::DeviceData( QString input )
+DeviceData::DeviceData(QString in_Ip, QString input )
 {
     QStringList dataList = input.split(QString(",")); //
+    m_nodeIP = in_Ip;
     m_Mac = dataList[0];
     m_Db = dataList[1].toInt();
     m_Frame = dataList[2].toInt();

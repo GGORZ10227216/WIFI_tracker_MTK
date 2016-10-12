@@ -1,6 +1,9 @@
 #include "header/client/nodedata.h"
+#include "header/globalvariable.h"
 #include <QJsonObject>
 #include <QJsonArray>
+extern GlobalV Global;
+
 NodeData::NodeData()
 {
 
@@ -35,14 +38,22 @@ bool NodeData::read(const QJsonObject &json)
     for ( int i = 0; i < arr.size(); i ++ ) // format (ip,mac) (ip1,mac1)
     {
         QString str = arr[i].toString();
+        if ( i % 2 == 0 )
+        {
+            qDebug() << str << "----------------";
+            Global.n_mana.connectSever(str, 48763, "F0:79:59:D1:71:D4", 6 );
+        } // if
+
         infoList.push_back(str);
     } // for
 
     int nOfCoord = coordList.size();
     int nOfInfo = infoList.size() / 2;
+
     // 2 coord vs 1 ip || 2 coord vs 2 ip
     for ( int l = 0, lI = 0; l < nOfCoord; l++ )
     {
+
         NodeInfo nI;
         nI.Coord = coordList[l];
         nI.Ip = infoList[lI];
@@ -64,4 +75,11 @@ QString NodeData::toString(){
     } // for
 
     return strRet;
+}
+
+void NodeData::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
+{
+    for ( int i = 0; i < m_InfoList.size(); i++  )
+        if ( strIP.compare( m_InfoList[i].Ip ) == 0 )
+            coordList << m_InfoList[i].Coord;
 }

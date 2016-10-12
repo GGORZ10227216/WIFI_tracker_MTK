@@ -13,11 +13,11 @@ DeviceMap::~DeviceMap()
 }
 
 
-void DeviceMap::updateData( DeviceData dData )
+bool DeviceMap::updateData( DeviceData dData )
 {
-    while ( !this->m_Ready.load() )
-        std::this_thread::yield(); // 讓出cpu讓其他人先跑
-    //static int up = 0;
+    //while ( !this->m_Ready.load() )
+    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //static int up = 0;/
     //qDebug() << up++ << "-----------update view--------------";
     this->m_Ready = false; // 開始執行
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
@@ -36,14 +36,31 @@ void DeviceMap::updateData( DeviceData dData )
         else // if data is exsit
         {
             QMap<QString, DeviceData>::iterator it = m_Map.find(dData.getMac()); // find position by key
-            it.value().m_Db = dData.m_Db;
-            it.value().m_Frame = dData.m_Frame;
-            it.value().m_NeedUpdate = true; // need to update       
+            if ( it.value().m_nodeIP.compare( dData.m_nodeIP ) != 0 ) // 不同節點選擇db接近0的
+            {
+                if ( it.value().m_Db < dData.m_Db )
+                {
+                    it.value().m_nodeIP = dData.m_nodeIP;
+                    it.value().m_Db = dData.m_Db;
+                    it.value().m_Frame = dData.m_Frame;
+                    it.value().m_NeedUpdate = true; // need to update
+                } // if
+                else return false;
+            } // if
+            else // 同節點直接更新
+            {
+                 it.value().m_Db = dData.m_Db;
+                 it.value().m_Frame = dData.m_Frame;
+                 it.value().m_NeedUpdate = true; // need to update
+            } // else
+
+
             //qDebug() << "update " << it.value().m_Mac << " db to " << it.value().m_Db << endl;
         } // elseA
     } // else
 
     this->m_Ready = true; // 執行結束
+    return true;
 }
 
 bool DeviceMap::DeleteData( QString strKey )

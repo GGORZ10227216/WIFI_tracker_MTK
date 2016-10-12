@@ -20,11 +20,56 @@ using namespace std ;
 GlobalV Global;
 void MainWindow::refreshDeviceList()
 {
+    QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+    if ( list.size() > 0 )
+    {
+        //qDebug() << list[0].data().toString();
+        deSelectAllMap();
+        QString strIP = Global.deviceMap.getNodeIpByMac(list[0].data().toString());
+        QList<Coordinate> coordList;
+        Global.areaData.getNodeCoord(strIP, coordList);
+        for( int i = 0; i < coordList.size(); i++ )
+        {
+            QModelIndex indexW = ui->tableWidget->model()->index(coordList[i].y, coordList[i].x);
+            ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
+        } // for
+    } // if
+    /*QDirModel* model = (QDirModel*)ui->treeView->model();
+    int row = -1;
+    foreach (QModelIndex index, list)
+    {
+        if (index.row()!=row && index.column()==0)
+        {
+            QFileInfo fileInfo = model->fileInfo(index);
+            qDebug() << fileInfo.fileName() << '\n';
+            row = index.row();
+        } // if
+    } // foreach*/
+
     if ( Global.deviceMap.size() == 0 ) return;
         //static qint64 numOfData = 0;
         //qDebug() << gDeviceMap.getLast().toString() << endl;
         //dList->addData(gDeviceMap.getLast().toString());
+
     sView->update();
+}
+
+void MainWindow::refreshSelectedMap()
+{
+
+    QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+    if ( list.size() > 0 )
+    {
+        qDebug() << list[0].data().toString();
+        deSelectAllMap();
+        QList<Coordinate> coordList;
+        Global.areaData.getNodeCoord(list[0].data().toString(), coordList);
+        for( int i = 0; i < coordList.size(); i++ )
+        {
+            QModelIndex indexW = ui->tableWidget->model()->index(coordList[i].y, coordList[i].x);
+            ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
+        } // for
+    } // if
 
 }
 
@@ -141,6 +186,16 @@ void MainWindow::selectMap(const QModelIndex index)
 
 }
 
+ void MainWindow::deSelectAllMap()
+ {
+     for ( int i = 0; i < ui->tableWidget->rowCount(); i++ ) // deselect all
+         for ( int j = 0; j < ui->tableWidget->columnCount(); j++ )
+         {
+             QModelIndex indexW = ui->tableWidget->model()->index(i, j);
+             ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Deselect);
+         } // for
+ }
+
 void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
 {
     //qDebug() << index.model()->index(index.row(),index.column() + 2, index).data(); // child data
@@ -149,13 +204,8 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
     //if ( !index.child(0,0).isValid() )
     //    qDebug() << "no child";
     //ui->tableWidget->setSelectionMode( QAbstractItemView::SingleSelection );
-    for ( int i = 0; i < ui->tableWidget->rowCount(); i++ ) // deselect all
-        for ( int j = 0; j < ui->tableWidget->columnCount(); j++ )
-        {
-            QModelIndex indexW = ui->tableWidget->model()->index(i, j);
-            ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Deselect);
-        } // for
 
+    deSelectAllMap();
     Global.selectedNodeState = Global.selectedNodeState > 99999 ? 0 : Global.selectedNodeState + 1; // 設定displaystate為多少時才顯示
     //qDebug() << "Global = " << Global.selectedNodeState;
     QVariant vCoord = index.model()->index( index.row(),  2, index.parent()).data() ;
@@ -181,3 +231,35 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
         selectMap(child);
 }
 
+
+void MainWindow::on_treeView_clicked(const QModelIndex &index)
+{
+    deSelectAllMap();
+    static QModelIndex befIndex = index.model()->index(-1,-1);
+    //qDebug() << index.row() << index.column();
+    //qDebug() << befIndex.row() << befIndex.column();
+    if (  befIndex.row() == index.row() )
+    {
+
+        /*ui->treeView->selectionModel()->select(index, QItemSelectionModel::Deselect);
+        ui->treeView->selectionModel()->select(index.model()->index(index.row(), 1), QItemSelectionModel::Deselect);
+        ui->treeView->selectionModel()->select(index.model()->index(index.row(), 2), QItemSelectionModel::Deselect);*/
+        ui->treeView->setCurrentIndex(index.model()->index(-1,-1));
+        befIndex = index.model()->index(-1,-1);
+        //ui->treeView->clearFocus();
+        return;
+    } // if
+
+    QString strIP = Global.deviceMap.getNodeIpByMac(index.model()->index(index.row(),0).data().toString());
+    //qDebug() << "123" << strIP;
+    befIndex = index;
+    QList<Coordinate> coordList;
+    Global.areaData.getNodeCoord(strIP, coordList);
+    for( int i = 0; i < coordList.size(); i++ )
+    {
+        QModelIndex indexW = ui->tableWidget->model()->index(coordList[i].y, coordList[i].x);
+        ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
+    } // for
+        //qDebug() << coordList[i].x << coordList[i].y;
+
+}

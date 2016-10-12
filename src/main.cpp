@@ -1,17 +1,19 @@
 #include "header/mainwindow.h"
 #include <header/nodemanagement.h>
+#include "header/globalvariable.h"
 #include <QApplication>
 #include <QDebug>
 #include <QTcpSocket>
-
+#include <QtPlugin>
+extern GlobalV Global;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
-    NodeManger * n_mana = new NodeManger() ;
-    n_mana->connectSever("192.168.1.2", 48763, "F0:79:59:D1:71:D4", 6 );
+
+
     //n_mana->connectSever("192.168.1.3", 48763, "F0:79:59:D1:71:D4", 6 );
     //n_mana->sendMessage( "192.168.1.2", "456");
     //n_mana->start_listen( 25300 ) ;

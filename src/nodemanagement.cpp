@@ -49,10 +49,11 @@ void NodeManger::incomingConnection(qintptr descriptor) {
 void NodeManger::connectSever(QString strIP, int port, QString strMac, int intChannel)
 {
     NodeThread* nt = new NodeThread(strIP, strMac, intChannel, this );
-    connect(nt, SIGNAL(finished()), nt, SLOT(deleteLater()));
+    //connect(nt, SIGNAL(finished()), nt, SLOT(deleteLater()));
     nt->start();
 
     m_Map[strIP] = nt;
+
     //client_socket.abort();
     //client_socket.connectToHost(strIP, port);
     //connect( client_socket, SIGNAL(readyRead()), this, SLOT(readMessage()), Qt::DirectConnection);

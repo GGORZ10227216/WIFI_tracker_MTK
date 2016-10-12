@@ -211,8 +211,8 @@ bool SortTreeView::checkDataIsExist( QString target ) {
 
 void SortTreeView::update() {
 
-    while ( !Global.deviceMap.m_Ready.load() )
-        std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //while ( !Global.deviceMap.m_Ready.load() )
+    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
 
     Global.deviceMap.m_Ready = false; // 佔住deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
@@ -223,7 +223,7 @@ void SortTreeView::update() {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
             if ( !checkDataIsExist(Global.deviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
                 insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
-            else if( -50 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
+            else if( -100 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
             {
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Frame );

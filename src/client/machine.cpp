@@ -51,3 +51,9 @@ QString Machine::toString(){
 
     return ' ' + m_Info.Ip + "," + m_Location + ',' + '\n' + strRet;
 }
+
+void Machine::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
+{
+    for ( int i = 0; i < m_NodeList.size(); i++  )
+       m_NodeList[i].getNodeCoord(strIP, coordList);
+}

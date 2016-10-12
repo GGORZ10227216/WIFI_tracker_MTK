@@ -102,3 +102,9 @@ void AreaData::getAllNodes()
     for ( int i = 0; i < m_MachineList.size(); i++  )
         m_NodeList << m_MachineList[i].getNodeList();
 }
+
+void AreaData::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
+{
+    for ( int i = 0; i < m_MachineList.size(); i++  )
+        m_MachineList[i].getNodeCoord(strIP, coordList);
+}

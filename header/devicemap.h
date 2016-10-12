@@ -9,12 +9,17 @@ public:
     std::atomic<bool> m_Ready;
     DeviceMap();
     ~DeviceMap();
-    void updateData( DeviceData dData );
+    bool updateData( DeviceData dData );
     DeviceData* At( qint64 index );
     DeviceData *getLast();
     bool DeleteData(QString strKey );
     qint64 size(); 
     bool setDisplayState(QString strKey, int b);
+    QString getNodeIpByMac( QString mac )
+    {
+        return m_Map.find(mac).value().m_nodeIP;
+    }
+
 private:
     QMap<QString, DeviceData> m_Map;
     bool isChanged;

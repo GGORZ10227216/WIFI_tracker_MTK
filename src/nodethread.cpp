@@ -20,7 +20,6 @@ NodeThread::NodeThread(QString in_StrIP, QString in_StrMac, int in_IntChannel, Q
     m_intChannel = in_IntChannel;
     socket = new QTcpSocket();
     socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
-
     socket->connectToHost(m_StrIP, 13768);
 
 }
@@ -55,6 +54,11 @@ void NodeThread::run()
         //socket_Send.waitForConnected();
         QByteArray barr = (this->m_StrMac + "," + QString::number(this->m_intChannel)).toUtf8();
         socket_Send.write(barr);
+        /*if ( socket_Send.state() == QTcpSocket::ConnectedState  )
+        {
+
+        } // if*/
+
     } // else
 
 
@@ -131,12 +135,12 @@ void NodeThread::readyRead()
     for ( int i = 0; i < strList.size(); i++ )
     {
         if ( strList[i].size() <= 0 ) continue;
-        qDebug() << strList[i];
+        //qDebug() << strList[i];
         QString str = strList[i].replace("\n", "");
         if ( str.split(",").size() != DeviceData::getColumnCount() )
             continue;
-        DeviceData dData( str  );
-        dData.m_nodeIP = m_StrIP;
+        DeviceData dData( m_StrIP, str  );
+        //dData.m_nodeIP = m_StrIP;
         Global.deviceMap.updateData(dData);// or [dData.getMac()] = dData;
     } // for
     //

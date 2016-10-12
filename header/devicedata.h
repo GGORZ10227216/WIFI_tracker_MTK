@@ -17,7 +17,7 @@ public:
     int m_DisplayState;
     QString getMac();
     DeviceData();
-    DeviceData(QString input);
+    DeviceData(QString in_Ip, QString input);
     // DeviceData(QVariant mac);
     ~DeviceData();
     QString toString();

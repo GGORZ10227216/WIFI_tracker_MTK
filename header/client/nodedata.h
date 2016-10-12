@@ -30,6 +30,7 @@ public:
     //QList<NodeData> getNodeList(){ return m_InfoList; }
     QString toString();
     QList<NodeInfo> getInfoList(){ return m_InfoList; }
+    void getNodeCoord( QString strIP, QList<Coordinate>& coordList );
 private:
     QString m_Location;
     QList<NodeInfo> m_InfoList;
