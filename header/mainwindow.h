@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <ui/camview.h>
 #include <header/tree/sorttreemodel.h>
 
 namespace Ui {
@@ -33,6 +34,8 @@ private slots :
     void on_treeView_2_clicked(const QModelIndex &index);
 
     void on_treeView_clicked(const QModelIndex &index);
+
+    void on_actionNew_window_triggered();
 
 private:
     Ui::MainWindow *ui;

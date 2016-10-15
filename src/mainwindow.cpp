@@ -263,3 +263,9 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         //qDebug() << coordList[i].x << coordList[i].y;
 
 }
+
+void MainWindow::on_actionNew_window_triggered()
+{
+    camView * ww = new camView( "http://192.168.1.4:8080", NULL ) ;
+    ww->show();
+}

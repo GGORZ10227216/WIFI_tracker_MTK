@@ -6,13 +6,14 @@
 
 QT       += core gui
 QT       += network
-CONFIG += static
+QT       += webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = WIFI_tracker_MTK
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -25,7 +26,9 @@ SOURCES += src/main.cpp \
     src/devicedata.cpp \
     src/client/nodedata.cpp \
     src/client/machine.cpp \
-    src/client/areadata.cpp
+    src/client/areadata.cpp \
+    ui/camview.cpp \
+    ui/cammanager.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -38,9 +41,12 @@ HEADERS  += header/mainwindow.h \
     header/globalvariable.h \
     header/client/nodedata.h \
     header/client/machine.h \
-    header/client/areadata.h
+    header/client/areadata.h \
+    ui/camview.h \
+    ui/cammanager.h
 
-FORMS    += ui/mainwindow.ui
+FORMS    += ui/mainwindow.ui \
+    ui/camview.ui
 
 DISTFILES += \
     metaData/testData.txt \

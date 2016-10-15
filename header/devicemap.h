@@ -3,10 +3,12 @@
 #include "header/devicedata.h"
 #include <QDebug>
 #include <QString>
+#include <atomic>
+
 class DeviceMap
 {
 public:
-    std::atomic<bool> m_Ready;
+    std::atomic_bool m_Ready;
     DeviceMap();
     ~DeviceMap();
     bool updateData( DeviceData dData );

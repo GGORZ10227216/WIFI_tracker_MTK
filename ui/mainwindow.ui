@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>830</width>
-    <height>604</height>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -248,7 +248,7 @@
      <x>0</x>
      <y>0</y>
      <width>830</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu4444">
@@ -264,6 +264,7 @@
      <addaction name="debug_add"/>
     </widget>
     <addaction name="menu"/>
+    <addaction name="actionNew_window"/>
    </widget>
    <addaction name="menu4444"/>
   </widget>
@@ -289,6 +290,11 @@
   <action name="debug_add">
    <property name="text">
     <string>新增</string>
+   </property>
+  </action>
+  <action name="actionNew_window">
+   <property name="text">
+    <string>new window</string>
    </property>
   </action>
  </widget>
