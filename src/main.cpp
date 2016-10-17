@@ -1,10 +1,12 @@
-#include "header/mainwindow.h"
+﻿#include "header/mainwindow.h"
 #include <header/nodemanagement.h>
 #include "header/globalvariable.h"
 #include <QApplication>
 #include <QDebug>
 #include <QTcpSocket>
 #include <QtPlugin>
+#include <opencv2/opencv.hpp>
+
 extern GlobalV Global;
 int main(int argc, char *argv[])
 {
@@ -12,7 +14,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-
+    qDebug() << cv::getBuildInformation().c_str() ;
 
     //n_mana->connectSever("192.168.1.3", 48763, "F0:79:59:D1:71:D4", 6 );
     //n_mana->sendMessage( "192.168.1.2", "456");

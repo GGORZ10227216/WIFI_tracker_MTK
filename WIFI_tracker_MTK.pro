@@ -6,14 +6,11 @@
 
 QT       += core gui
 QT       += network
-QT       += webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = WIFI_tracker_MTK
 TEMPLATE = app
-
-QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -28,7 +25,8 @@ SOURCES += src/main.cpp \
     src/client/machine.cpp \
     src/client/areadata.cpp \
     ui/camview.cpp \
-    ui/cammanager.cpp
+    ui/cammanager.cpp \
+    gldrawer.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -43,7 +41,8 @@ HEADERS  += header/mainwindow.h \
     header/client/machine.h \
     header/client/areadata.h \
     ui/camview.h \
-    ui/cammanager.h
+    ui/cammanager.h \
+    gldrawer.h
 
 FORMS    += ui/mainwindow.ui \
     ui/camview.ui
@@ -52,5 +51,17 @@ DISTFILES += \
     metaData/testData.txt \
     metaData/AreaData_B207.JSON \
     metaData/01.png \
-    metaData/¦Ê³f½d¨Ò.JSON
 DESTDIR = $$PWD
+
+LIBS += opengl32.lib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../openCV/opencv/build/x64/vc14/lib/ -lopencv_world310
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../openCV/opencv/build/x64/vc14/lib/ -lopencv_world310d
+
+INCLUDEPATH += $$PWD/../../../../openCV/opencv/build/include
+DEPENDPATH += $$PWD/../../../../openCV/opencv/build/include
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/libopencv_world310.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/libopencv_world310d.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/opencv_world310.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/opencv_world310d.lib

@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QWebEngineView" name="cam" native="true"/>
+       <widget class="GLDrawer" name="openGLWidget"/>
       </item>
      </layout>
     </item>
@@ -38,10 +38,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QWidget</extends>
-   <header>qwebengineview.h</header>
-   <container>1</container>
+   <class>GLDrawer</class>
+   <extends>QOpenGLWidget</extends>
+   <header>gldrawer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

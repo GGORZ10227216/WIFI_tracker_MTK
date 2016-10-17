@@ -1,4 +1,4 @@
-#include <header/nodemanagement.h>
+﻿#include <header/nodemanagement.h>
 
 NodeManger::NodeManger(QObject *parent) : QTcpServer(parent) {
     /*

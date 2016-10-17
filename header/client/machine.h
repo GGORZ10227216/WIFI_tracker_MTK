@@ -1,4 +1,4 @@
-#ifndef MACHINE_H
+﻿#ifndef MACHINE_H
 #define MACHINE_H
 #include "header/client/nodedata.h"
 

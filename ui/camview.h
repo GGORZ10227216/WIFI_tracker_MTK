@@ -1,9 +1,10 @@
 #ifndef CAMVIEW_H
 #define CAMVIEW_H
 
-#include <QWebEngineView>
 #include <QMainWindow>
 #include <QDebug>
+#include <gldrawer.h>
+#include <QTimer>
 
 namespace Ui {
 class camView;

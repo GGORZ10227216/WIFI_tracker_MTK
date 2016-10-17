@@ -1,4 +1,4 @@
-#ifndef DEVICEMAP_H
+﻿#ifndef DEVICEMAP_H
 #define DEVICEMAP_H
 #include "header/devicedata.h"
 #include <QDebug>

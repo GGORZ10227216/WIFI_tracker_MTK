@@ -1,4 +1,4 @@
-#include <header/tree/sorttreemodel.h>
+﻿#include <header/tree/sorttreemodel.h>
 #include <header/devicemap.h>
 #include <header/globalvariable.h>
 extern GlobalV Global;
@@ -212,12 +212,12 @@ bool SortTreeView::checkDataIsExist( QString target ) {
 void SortTreeView::update() {
 
     //while ( !Global.deviceMap.m_Ready.load() )
-    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //    std::this_thread::yield(); // 霈cpu霈隞犖??
 
-    Global.deviceMap.m_Ready = false; // 佔住deviceMap
+    Global.deviceMap.m_Ready = false; // 雿?deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
-        if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // 當資料的displaystate與global相同時(選擇的)才顯示
+        if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
              Global.deviceMap.At(i)->m_NeedUpdate )
         {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
@@ -241,7 +241,7 @@ void SortTreeView::update() {
         } // else
     } // for
 
-    Global.deviceMap.m_Ready = true; // 放開deviceMap
+    Global.deviceMap.m_Ready = true; // ?暸?deviceMap
 
 }
 

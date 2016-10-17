@@ -1,4 +1,4 @@
-#include "header/client/areadata.h"
+﻿#include "header/client/areadata.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

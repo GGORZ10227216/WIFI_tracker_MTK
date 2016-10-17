@@ -1,4 +1,4 @@
-#include "header/client/nodedata.h"
+﻿#include "header/client/nodedata.h"
 #include "header/globalvariable.h"
 #include <QJsonObject>
 #include <QJsonArray>

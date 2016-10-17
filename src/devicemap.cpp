@@ -1,4 +1,4 @@
-#include "header/devicemap.h"
+﻿#include "header/devicemap.h"
 #include <thread>
 DeviceMap::DeviceMap()
 {
@@ -16,10 +16,10 @@ DeviceMap::~DeviceMap()
 bool DeviceMap::updateData( DeviceData dData )
 {
     //while ( !this->m_Ready.load() )
-    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
+    //    std::this_thread::yield(); // 霈cpu霈隞犖??
     //static int up = 0;/
     //qDebug() << up++ << "-----------update view--------------";
-    this->m_Ready = false; // 開始執行
+    this->m_Ready = false; // ???瑁?
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
     {
         m_Map.insert(dData.getMac(), dData);
@@ -36,7 +36,7 @@ bool DeviceMap::updateData( DeviceData dData )
         else // if data is exsit
         {
             QMap<QString, DeviceData>::iterator it = m_Map.find(dData.getMac()); // find position by key
-            if ( it.value().m_nodeIP.compare( dData.m_nodeIP ) != 0 ) // 不同節點選擇db接近0的
+            if ( it.value().m_nodeIP.compare( dData.m_nodeIP ) != 0 ) // 銝?蝭暺?b?亥?0??
             {
                 if ( it.value().m_Db < dData.m_Db )
                 {
@@ -47,7 +47,7 @@ bool DeviceMap::updateData( DeviceData dData )
                 } // if
                 else return false;
             } // if
-            else // 同節點直接更新
+            else // ??暺?交??
             {
                  it.value().m_Db = dData.m_Db;
                  it.value().m_Frame = dData.m_Frame;
@@ -59,7 +59,7 @@ bool DeviceMap::updateData( DeviceData dData )
         } // elseA
     } // else
 
-    this->m_Ready = true; // 執行結束
+    this->m_Ready = true; // ?瑁?蝯?
     return true;
 }
 
@@ -89,8 +89,8 @@ qint64 DeviceMap::size()
 bool DeviceMap::setDisplayState( QString strKey, int b)
 {
     //while ( !this->m_Ready.load() )
-    //    std::this_thread::yield(); // 讓出cpu讓其他人先跑
-    //this->m_Ready = false; // 開始執行
+    //    std::this_thread::yield(); // 霈cpu霈隞犖??
+    //this->m_Ready = false; // ???瑁?
     for ( QMap<QString, DeviceData>::iterator it = m_Map.begin(); it != m_Map.end(); it++ )
     {
         if ( it.value().m_nodeIP.compare(strKey) == 0 )
@@ -98,11 +98,11 @@ bool DeviceMap::setDisplayState( QString strKey, int b)
             // qDebug() << strKey << ", " << it.value().m_DisplayState;
             it.value().m_DisplayState = b;
             it.value().m_NeedUpdate = true;
-            //this->m_Ready = true; // 執行結束
+            //this->m_Ready = true; // ?瑁?蝯?
             //return true;
         } // if
     } // for
 
-    //this->m_Ready = true; // 執行結束
+    //this->m_Ready = true; // ?瑁?蝯?
     return true;
 }

@@ -1,4 +1,4 @@
-#ifndef GLOBALVARIABLE_H
+﻿#ifndef GLOBALVARIABLE_H
 #define GLOBALVARIABLE_H
 #include "header/devicemap.h"
 #include "header/client/areadata.h"

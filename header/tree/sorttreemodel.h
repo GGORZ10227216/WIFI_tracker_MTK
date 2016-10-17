@@ -1,4 +1,4 @@
-#ifndef SORTTREEMODEL_H
+﻿#ifndef SORTTREEMODEL_H
 #define SORTTREEMODEL_H
 
 #include <header/tree/treemodel.h>

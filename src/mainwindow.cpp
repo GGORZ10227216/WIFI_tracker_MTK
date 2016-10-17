@@ -1,4 +1,4 @@
-#include <header/mainwindow.h>
+﻿#include <header/mainwindow.h>
 #include <header/tree/sorttreemodel.h>
 #include <header/devicemap.h>
 #include <header/globalvariable.h>
@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-    Global.selectedNodeState = 0; // 設定display值
+    Global.selectedNodeState = 0; // 閮剖?display??
     ui->setupUi(this);
     ShowCurrentTime();
 
@@ -114,10 +114,10 @@ MainWindow::MainWindow(QWidget *parent) :
     nodeView->view->header()->resizeSection( 0, 200); // root column, size
     nodeView->view->header()->resizeSection( 1, 150); // root column, size
 
-    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}"); // 設定選擇時的顏色
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}"); // 閮剖??豢???憿
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(60);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
-    Global.areaData.getAllNodes(); // 取得此區域所有節點資訊
+    Global.areaData.getAllNodes(); //許蓋功
     Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
     cout << "hello YA!" << endl ;
 }
@@ -206,7 +206,7 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
     //ui->tableWidget->setSelectionMode( QAbstractItemView::SingleSelection );
 
     deSelectAllMap();
-    Global.selectedNodeState = Global.selectedNodeState > 99999 ? 0 : Global.selectedNodeState + 1; // 設定displaystate為多少時才顯示
+    Global.selectedNodeState = Global.selectedNodeState > 99999 ? 0 : Global.selectedNodeState + 1; // 閮剖?displaystate?箏?撠??＊蝷?
     //qDebug() << "Global = " << Global.selectedNodeState;
     QVariant vCoord = index.model()->index( index.row(),  2, index.parent()).data() ;
 

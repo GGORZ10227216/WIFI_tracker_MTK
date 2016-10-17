@@ -1,4 +1,4 @@
-#ifndef NODEMANAGEMENT_H
+﻿#ifndef NODEMANAGEMENT_H
 #define NODEMANAGEMENT_H
 
 #include <QtNetwork>

@@ -1,4 +1,4 @@
-#ifndef NODETHREAD_H
+﻿#ifndef NODETHREAD_H
 #define NODETHREAD_H
 
 #include <QThread>
@@ -31,9 +31,9 @@ private:
     QTcpSocket *socket;
     QTcpSocket socket_Send;
     qintptr socketDescriptor;
-    QString m_StrIP; // 節點IP
-    QString m_StrMac; // 基地台MAC
-    int m_intChannel; // 基地台channel
+    QString m_StrIP; // 蝭暺P
+    QString m_StrMac; // ?箏?衽AC
+    int m_intChannel; // ?箏?軏hannel
     int m_Port;
 };
 

@@ -1,4 +1,4 @@
-#ifndef AREADATA_H
+﻿#ifndef AREADATA_H
 #define AREADATA_H
 #include "header/mainwindow.h"
 #include "header/client/machine.h"

@@ -1,4 +1,4 @@
-#include "header/client/machine.h"
+﻿#include "header/client/machine.h"
 #include "header/client/nodedata.h"
 #include <QJsonObject>
 #include <QDebug>

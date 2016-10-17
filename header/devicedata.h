@@ -1,4 +1,4 @@
-#ifndef DEVICEDATA_H
+﻿#ifndef DEVICEDATA_H
 #define DEVICEDATA_H
 #include <QVariant>
 #include <QString>
@@ -10,7 +10,7 @@ class DeviceData
 {
 public:
     bool m_NeedUpdate;
-    QString m_nodeIP; // 節點IP
+    QString m_nodeIP; // 蝭暺P
     QString m_Mac;
     qint64 m_Db;
     qint64 m_Frame;
@@ -22,7 +22,7 @@ public:
     ~DeviceData();
     QString toString();
     QStringList toStringList();
-    static int getColumnCount(){return 3;} // 3個column
+    static int getColumnCount(){return 3;} // 3?olumn
 private:
 };
 
