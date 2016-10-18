@@ -26,7 +26,8 @@ SOURCES += src/main.cpp \
     src/client/areadata.cpp \
     ui/camview.cpp \
     ui/cammanager.cpp \
-    gldrawer.cpp
+    gldrawer.cpp \
+    datatransfer.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -42,7 +43,8 @@ HEADERS  += header/mainwindow.h \
     header/client/areadata.h \
     ui/camview.h \
     ui/cammanager.h \
-    gldrawer.h
+    gldrawer.h \
+    datatransfer.h
 
 FORMS    += ui/mainwindow.ui \
     ui/camview.ui

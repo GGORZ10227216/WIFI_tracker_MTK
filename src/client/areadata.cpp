@@ -15,7 +15,7 @@ AreaData::~AreaData()
 
 bool AreaData::read(const QString fileName)
 {
-    //qDebug() << "AreaData read";
+    qDebug() << fileName;
     QFile loadFile(fileName);
     if (!loadFile.open(QIODevice::ReadOnly))
     {

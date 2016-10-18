@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <gldrawer.h>
-#include <QTimer>
+#include <opencv2/opencv.hpp>
+#include <datatransfer.h>
+#include <QCloseEvent>
 
 namespace Ui {
 class camView;
@@ -16,10 +18,15 @@ class camView : public QMainWindow
 
 public:
     explicit camView(QString url , QWidget *parent = 0);
-    ~camView();
+
+protected:
+    cv::VideoCapture cap ;
 
 private:
     Ui::camView *ui;
+    dataTransfer * dt = NULL ;
+    void StartCapture() ;
+    void closeEvent(QCloseEvent *bar) ;
 };
 
 #endif // CAMVIEW_H

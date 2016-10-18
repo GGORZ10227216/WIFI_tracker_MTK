@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sView->view->header()->resizeSection( 1, 40);
     //file.close();
 
-    Global.areaData.read("./metaData/AreaData_B207.JSON");
+    Global.areaData.read("C:/Users/ORZGG/Documents/WIFI_tracker_MTK-master/metaData/AreaData_B207.JSON");
     QStringList headers_Node;
     headers_Node << "Ip" << "Location" << "Coordnate" ;
     nodeView = new SortTreeView( ui->treeView_2, Global.areaData.toString(), headers_Node ) ;

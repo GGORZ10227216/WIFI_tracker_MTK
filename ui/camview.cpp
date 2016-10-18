@@ -6,16 +6,32 @@ camView::camView(QString url, QWidget *parent) :
     ui(new Ui::camView)
 {
     ui->setupUi(this);
-    // ui->openGLWidget->paintGL();
     ui->openGLWidget->show() ;
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), ui->openGLWidget, SLOT(update()));
-    timer->start(42);
-
+    StartCapture();
 }
 
-camView::~camView()
-{
+void camView::StartCapture() {
+    cap.open( 0 ) ;
+
+    if ( cap.isOpened() ) {
+        dt = new dataTransfer( &cap, this->ui->openGLWidget ) ;
+        dt->start();
+    } // if
+    else {
+        qDebug() << "GG" ;
+    } // else
+}
+
+void camView::closeEvent( QCloseEvent *bar ) {
+
+    dt->stopped = true ;
+    while ( !dt->isFinished() ) ;
+
+    delete dt ;
     delete ui;
+    cap.release() ;
+
+    qDebug() << "GL window close." ;
+    bar->accept();
 }
