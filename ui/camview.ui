@@ -33,14 +33,38 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>選項</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>開始錄影</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>停止錄影</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>設定</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>GLDrawer</class>
    <extends>QOpenGLWidget</extends>
-   <header>gldrawer.h</header>
+   <header>header/gldrawer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -34,22 +34,9 @@ void MainWindow::refreshDeviceList()
             ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
         } // for
     } // if
-    /*QDirModel* model = (QDirModel*)ui->treeView->model();
-    int row = -1;
-    foreach (QModelIndex index, list)
-    {
-        if (index.row()!=row && index.column()==0)
-        {
-            QFileInfo fileInfo = model->fileInfo(index);
-            qDebug() << fileInfo.fileName() << '\n';
-            row = index.row();
-        } // if
-    } // foreach*/
 
-    if ( Global.deviceMap.size() == 0 ) return;
-        //static qint64 numOfData = 0;
-        //qDebug() << gDeviceMap.getLast().toString() << endl;
-        //dList->addData(gDeviceMap.getLast().toString());
+    if ( Global.deviceMap.size() == 0 )
+        return;
 
     sView->update();
 }
@@ -85,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-    Global.selectedNodeState = 0; // 閮剖?display??
+    Global.selectedNodeState = 0;
     ui->setupUi(this);
     ShowCurrentTime();
 
@@ -107,17 +94,17 @@ MainWindow::MainWindow(QWidget *parent) :
     sView->view->header()->resizeSection( 1, 40);
     //file.close();
 
-    Global.areaData.read("C:/Users/ORZGG/Documents/WIFI_tracker_MTK-master/metaData/AreaData_B207.JSON");
+    Global.areaData.read("./metaData/AreaData_B207.JSON");
     QStringList headers_Node;
     headers_Node << "Ip" << "Location" << "Coordnate" ;
     nodeView = new SortTreeView( ui->treeView_2, Global.areaData.toString(), headers_Node ) ;
     nodeView->view->header()->resizeSection( 0, 200); // root column, size
     nodeView->view->header()->resizeSection( 1, 150); // root column, size
 
-    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}"); // 閮剖??豢???憿
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}");
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(60);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
-    Global.areaData.getAllNodes(); //許蓋功
+    Global.areaData.getAllNodes();
     Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
     cout << "hello YA!" << endl ;
 }
@@ -210,8 +197,7 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
     //qDebug() << "Global = " << Global.selectedNodeState;
     QVariant vCoord = index.model()->index( index.row(),  2, index.parent()).data() ;
 
-    if  ( vCoord.isValid() )
-    {
+    if  ( vCoord.isValid() ) {
 
         QVariant vNodeIP = index.model()->index( index.row(),  0, index.parent()).data() ;
         Global.deviceMap.setDisplayState(vNodeIP.toString(), Global.selectedNodeState);
@@ -235,37 +221,35 @@ void MainWindow::on_treeView_2_clicked(const QModelIndex &index)
 void MainWindow::on_treeView_clicked(const QModelIndex &index)
 {
     deSelectAllMap();
-    static QModelIndex befIndex = index.model()->index(-1,-1);
-    //qDebug() << index.row() << index.column();
-    //qDebug() << befIndex.row() << befIndex.column();
-    if (  befIndex.row() == index.row() )
-    {
-
-        /*ui->treeView->selectionModel()->select(index, QItemSelectionModel::Deselect);
-        ui->treeView->selectionModel()->select(index.model()->index(index.row(), 1), QItemSelectionModel::Deselect);
-        ui->treeView->selectionModel()->select(index.model()->index(index.row(), 2), QItemSelectionModel::Deselect);*/
+    static QModelIndex befIndex = index.model()->index(-1,-1) ;
+    if ( befIndex.row() == index.row() ) {
         ui->treeView->setCurrentIndex(index.model()->index(-1,-1));
         befIndex = index.model()->index(-1,-1);
-        //ui->treeView->clearFocus();
         return;
     } // if
 
     QString strIP = Global.deviceMap.getNodeIpByMac(index.model()->index(index.row(),0).data().toString());
-    //qDebug() << "123" << strIP;
     befIndex = index;
     QList<Coordinate> coordList;
     Global.areaData.getNodeCoord(strIP, coordList);
-    for( int i = 0; i < coordList.size(); i++ )
-    {
+    for( int i = 0; i < coordList.size(); i++ ) {
         QModelIndex indexW = ui->tableWidget->model()->index(coordList[i].y, coordList[i].x);
         ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
     } // for
-        //qDebug() << coordList[i].x << coordList[i].y;
-
 }
 
-void MainWindow::on_actionNew_window_triggered()
-{
-    camView * ww = new camView( "http://192.168.1.4:8080", NULL ) ;
+void MainWindow::on_actionNew_window_triggered() {
+    camView * ww = new camView( "http://192.168.1.2", "8080", NULL ) ;
     ww->show();
+}
+
+void MainWindow::on_actionWebView_triggered()
+{
+    webV * test = new webV( QUrl( "http://192.168.1.4:8080/?action=stream" ) ) ;
+    test->show();
+}
+
+void MainWindow::on_action_RecOption_triggered()
+{
+
 }

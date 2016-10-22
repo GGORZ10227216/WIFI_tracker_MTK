@@ -6,7 +6,7 @@
 
 QT       += core gui
 QT       += network
-
+QT       += webenginewidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = WIFI_tracker_MTK
@@ -24,10 +24,11 @@ SOURCES += src/main.cpp \
     src/client/nodedata.cpp \
     src/client/machine.cpp \
     src/client/areadata.cpp \
-    ui/camview.cpp \
-    ui/cammanager.cpp \
-    gldrawer.cpp \
-    datatransfer.cpp
+    src/cammanager.cpp \
+    src/camview.cpp \
+    src/gldrawer.cpp \
+    src/videoproccsor.cpp \
+    webv.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -41,13 +42,15 @@ HEADERS  += header/mainwindow.h \
     header/client/nodedata.h \
     header/client/machine.h \
     header/client/areadata.h \
-    ui/camview.h \
-    ui/cammanager.h \
-    gldrawer.h \
-    datatransfer.h
+    header/cammanager.h \
+    header/camview.h \
+    header/gldrawer.h \
+    header/videoprocessor.h \
+    webv.h
 
 FORMS    += ui/mainwindow.ui \
-    ui/camview.ui
+    ui/camview.ui \
+    webv.ui
 
 DISTFILES += \
     metaData/testData.txt \
@@ -57,13 +60,20 @@ DESTDIR = $$PWD
 
 LIBS += opengl32.lib
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../openCV/opencv/build/x64/vc14/lib/ -lopencv_world310
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../openCV/opencv/build/x64/vc14/lib/ -lopencv_world310d
+LIBS       += -lVLCQtCore -lVLCQtWidgets
 
-INCLUDEPATH += $$PWD/../../../../openCV/opencv/build/include
-DEPENDPATH += $$PWD/../../../../openCV/opencv/build/include
+win32: LIBS += -L$$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/ -lopencv_core2413
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/libopencv_world310.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/libopencv_world310d.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/opencv_world310.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../../openCV/opencv/build/x64/vc14/lib/opencv_world310d.lib
+INCLUDEPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
+DEPENDPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/opencv_core2413.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/libopencv_core2413.a
+
+win32: LIBS += -L$$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/ -lopencv_highgui2413
+
+INCLUDEPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
+DEPENDPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/opencv_highgui2413.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/libopencv_highgui2413.a

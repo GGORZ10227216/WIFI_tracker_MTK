@@ -265,8 +265,16 @@
     </widget>
     <addaction name="menu"/>
     <addaction name="actionNew_window"/>
+    <addaction name="actionWebView"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>設定</string>
+    </property>
+    <addaction name="action_RecOption"/>
    </widget>
    <addaction name="menu4444"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -295,6 +303,16 @@
   <action name="actionNew_window">
    <property name="text">
     <string>new window</string>
+   </property>
+  </action>
+  <action name="actionWebView">
+   <property name="text">
+    <string>webView</string>
+   </property>
+  </action>
+  <action name="action_RecOption">
+   <property name="text">
+    <string>錄影選項</string>
    </property>
   </action>
  </widget>

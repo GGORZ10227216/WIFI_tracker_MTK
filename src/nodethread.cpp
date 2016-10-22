@@ -123,8 +123,7 @@ bool setReceiveDataFormat(QString& input)
     return true;
 }
 
-void NodeThread::readyRead()
-{
+void NodeThread::readyRead() {
     //qDebug() << " Data in: \n" << socket->readAll() << "\n-----------------------------------------------------------------";
     //return ;
     QString read_All = socket->readAll();
@@ -147,19 +146,17 @@ void NodeThread::readyRead()
 
 }
 
-void NodeThread::disconnected()
-{
+void NodeThread::disconnected() {
     qDebug() << socketDescriptor << " Disconnected";
 
     socket->deleteLater();
     exit(0);
 }
 
- bool NodeThread::sendMessage( QString strInstruction )
- {
-     if ( this->socket_Send.state() != QTcpSocket::ConnectedState )
+bool NodeThread::sendMessage( QString strInstruction ) {
+    if ( this->socket_Send.state() != QTcpSocket::ConnectedState )
          return false;
     QByteArray barr = strInstruction.toUtf8();
     this->socket_Send.write(barr);
     return true;
- }
+}

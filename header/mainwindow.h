@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <ui/camview.h>
+#include <header/camview.h>
+#include <webv.h>
 #include <header/tree/sorttreemodel.h>
 
 namespace Ui {
@@ -36,6 +37,10 @@ private slots :
     void on_treeView_clicked(const QModelIndex &index);
 
     void on_actionNew_window_triggered();
+
+    void on_actionWebView_triggered();
+
+    void on_action_RecOption_triggered();
 
 private:
     Ui::MainWindow *ui;
