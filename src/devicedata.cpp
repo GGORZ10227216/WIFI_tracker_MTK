@@ -14,7 +14,7 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_nodeIP = in_Ip;
     m_Mac = dataList[0];
     m_Db = dataList[1].toInt();
-    m_Frame = dataList[2].toInt();
+    m_Frame = 0;//dataList[2].toInt();
     m_NeedUpdate = true;
     m_DisplayState = Global.selectedNodeState;
     m_UpdateState = Global.updateNewestNumber;
@@ -71,7 +71,7 @@ void DeviceData::startWatchAndRecord()
     this->m_Camera->show();
 
     qDebug() << fileName.toLatin1().data();
-    QString fileNameFormat = fileName + ".mp4";
+    QString fileNameFormat = "./Record/Video/" + fileName + ".mp4";
     this->m_Camera->StartRecord(fileNameFormat.toLatin1().data());
 }
 

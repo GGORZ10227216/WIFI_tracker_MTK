@@ -33,11 +33,11 @@ void DeviceMap::initSaveParmeters( QString in_location )
     m_strLocation = in_location;
     QDateTime local(QDateTime::currentDateTime());
     // initial csv
-    fileCSV = new QFile(local.toString("yyyyMMdd") + "_"  + this->m_strLocation + ".csv");
+    fileCSV = new QFile( "./Record/Data/" + local.toString("yyyyMMdd") + "_"  + this->m_strLocation + ".csv");
     fileCSV->open( QIODevice::WriteOnly | QIODevice::Text);
     outCSV.setDevice(fileCSV);
     // initial json
-    fileJSON = new QFile(local.toString("yyyyMMdd") + "_"  + this->m_strLocation + ".json");
+    fileJSON = new QFile( "./Record/Data/" + local.toString("yyyyMMdd") + "_"  + this->m_strLocation + ".json");
     fileJSON->open(QIODevice::WriteOnly | QIODevice::Text);
     outJSON.setDevice(fileJSON);
 

@@ -27,7 +27,7 @@ public:
     ~DeviceData();
     QString toString();
     QStringList toStringList();
-    static int getColumnCount(){return 3;} // 3?olumn
+    static int getColumnCount(){return 2;} // 3?olumn
 private:
     webV * m_Camera;
 };

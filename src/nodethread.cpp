@@ -128,6 +128,8 @@ void NodeThread::readyRead()
     //qDebug() << " Data in: \n" << socket->readAll() << "\n-----------------------------------------------------------------";
     //return ;
     QString read_All = socket->readAll();
+    //qDebug() << " Data in: \n" << read_All << "\n-----------------------------------------------------------------";
+
     if ( read_All.size() <= 0 ) return;
     QStringList strList = read_All.split("\n");
     socket->write("success\r\n");

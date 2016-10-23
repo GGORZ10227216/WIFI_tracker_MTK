@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(ShowCurrentTime()));
-    timer->start(1000); //time specified in ms
+    timer->start(500); //time specified in ms
 
     QTimer *timer_DeviceRefresh = new QTimer(this);
     connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
@@ -307,6 +307,7 @@ void MainWindow::on_action_Detect_triggered()
 
         Global.areaData.getAllNodes(); //
         Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
+        ui->action_Detect->setEnabled(false);
 }
 
 void MainWindow::on_action_WatchAndRecord_triggered()
@@ -356,6 +357,6 @@ void MainWindow::on_action_NodeWatchAndRecord_triggered()
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss") + Global.selectedNodeIPToRecord;
     webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), fileName ) ;
     node->show();
-    QString fileNameFormat = fileName + ".mp4";
+    QString fileNameFormat = "./Record/Video/" + fileName + ".mp4";
     node->StartRecord(fileNameFormat.toLatin1().data());
 }
