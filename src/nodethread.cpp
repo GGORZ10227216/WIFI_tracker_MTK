@@ -141,6 +141,7 @@ void NodeThread::readyRead()
         if ( i == 0 && str.size() < 17 )
             continue;
         DeviceData dData( m_StrIP, str  );
+        //if ( dData.m_Db < -70 ) return;
         //dData.m_nodeIP = m_StrIP;
         Global.deviceMap.updateData(dData);// or [dData.getMac()] = dData;
     } // for

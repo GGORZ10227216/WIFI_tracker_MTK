@@ -27,6 +27,11 @@ public:
     void saveToCSV( DeviceData dData , bool isIn );
     void saveToJSON( DeviceData dData , bool isIn );
     void initSaveParmeters( QString in_location );
+    void clear()
+    {
+        m_Map.clear();
+    }
+
     QString getNodeIpByMac( QString mac )
     {
         return m_Map.find(mac).value().m_nodeIP;

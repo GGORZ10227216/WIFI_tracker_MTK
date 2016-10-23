@@ -218,7 +218,12 @@ void SortTreeView::update(QString keyword) {
     {
         if ( keyword.size() > 0 &&  Global.deviceMap.At(i)->m_Mac.indexOf(keyword) == -1 ) continue;
         //else if (keyword.size() > 0) qDebug() << Global.deviceMap.At(i)->m_Mac.indexOf(keyword);
-        if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
+        if (  Global.deviceMap.At(i)->m_UpdateState < Global.updateNewestNumber )
+        {
+            searchRemove(Global.deviceMap.At(i)->m_Mac);
+            Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
+        } // if
+        else if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
              Global.deviceMap.At(i)->m_NeedUpdate )
         {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update

@@ -17,6 +17,7 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_Frame = dataList[2].toInt();
     m_NeedUpdate = true;
     m_DisplayState = Global.selectedNodeState;
+    m_UpdateState = Global.updateNewestNumber;
     m_Camera = NULL;
 }
 /*

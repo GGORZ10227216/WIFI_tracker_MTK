@@ -15,6 +15,7 @@ public:
     qint64 m_Db;
     qint64 m_Frame;
     int m_DisplayState;
+    int m_UpdateState;
     void startWatch();
     void startWatchAndRecord();
     void changeCamera();

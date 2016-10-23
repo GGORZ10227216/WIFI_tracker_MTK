@@ -50,8 +50,10 @@ void MainWindow::refreshDeviceList()
         //static qint64 numOfData = 0;
         //qDebug() << gDeviceMap.getLast().toString() << endl;
         //dList->addData(gDeviceMap.getLast().toString());
-
+    //this->ui->treeView->model()->removeRows(0, this->ui->treeView->model()->rowCount());
     sView->update(Global.strKeyword);
+    Global.updateNewestNumber = ++Global.updateNewestNumber % 1000;
+    //Global.deviceMap.clear();
 }
 
 void MainWindow::refreshSelectedMap()
@@ -86,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     Global.selectedNodeState = 0; // 閮剖?display??
+    Global.updateNewestNumber = 0;
     ui->setupUi(this);
     ShowCurrentTime();
 
@@ -95,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QTimer *timer_DeviceRefresh = new QTimer(this);
     connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
-    timer_DeviceRefresh->start(500); //time specified in ms
+    timer_DeviceRefresh->start(1000); //time specified in ms
 
     //QFile file("./metaData/testData.txt");
     //file.open(QIODevice::ReadOnly);
@@ -240,6 +243,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         return;
     } // if
 
+     qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFUCK";
     QString strIP = Global.deviceMap.getNodeIpByMac(index.model()->index(index.row(),0).data().toString());
     befIndex = index;
     QList<Coordinate> coordList;

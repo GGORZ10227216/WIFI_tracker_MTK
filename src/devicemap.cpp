@@ -97,9 +97,11 @@ bool DeviceMap::updateData( DeviceData dData )
     this->m_Ready = false; // ???瑁?
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
     {
-        m_Map.insert(dData.getMac(), dData);
         if ( dData.m_Db >= -70 )
+        {
+            m_Map.insert(dData.getMac(), dData);
             saveToFile( dData, true );
+        } // if
         //qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
     } // if
     else // if m_Map is empty
@@ -107,9 +109,11 @@ bool DeviceMap::updateData( DeviceData dData )
         //qDebug() << "is not empty" << endl;
         if ( !m_Map.contains( dData.getMac()) ) // if it is a new data
         {
-            m_Map.insert(dData.getMac(), dData);
-            if ( dData.m_Db >= -70 )
+            //if ( dData.m_Db >= -70 )
+            //{
+                m_Map.insert(dData.getMac(), dData);
                 saveToFile( dData, true );
+            //} // if
             //qDebug() << "insert1 " << dData.m_Mac << " db " << dData.m_Db << endl;
         } // if
         else // if data is exsit
@@ -120,6 +124,7 @@ bool DeviceMap::updateData( DeviceData dData )
                 if ( it.value().m_Db < dData.m_Db )
                 {
                     saveToFile( it.value(), false ); // leave
+                    it.value().m_UpdateState = Global.updateNewestNumber;
                     it.value().m_nodeIP = dData.m_nodeIP;
                     it.value().m_Db = dData.m_Db;
                     it.value().m_Frame = dData.m_Frame;
@@ -131,11 +136,11 @@ bool DeviceMap::updateData( DeviceData dData )
             } // if
             else // ??暺?交??
             {
-
+                 it.value().m_UpdateState = Global.updateNewestNumber;
                  it.value().m_Db = dData.m_Db;
                  it.value().m_Frame = dData.m_Frame;
                  it.value().m_NeedUpdate = true; // need to update
-                 if ( dData.m_Db < -70 )
+                 //if ( dData.m_Db < -70 )
                      saveToFile( it.value(), false ); // leave
             } // else
 
@@ -150,6 +155,7 @@ bool DeviceMap::updateData( DeviceData dData )
 
 bool DeviceMap::DeleteData( QString strKey )
 {
+   m_Map.find(strKey).value().stopRecord();
    return m_Map.remove(strKey);
 }
 
