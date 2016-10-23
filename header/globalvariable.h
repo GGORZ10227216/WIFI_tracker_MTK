@@ -12,6 +12,8 @@ struct GlobalV
     NodeManger n_mana;
     int selectedNodeState;
     QString strKeyword;
+    DeviceData* selectedToRecord;
+    QString selectedNodeIPToRecord;
 };
 
 #endif // GLOBALVARIABLE_H

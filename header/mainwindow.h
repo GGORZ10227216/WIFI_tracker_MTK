@@ -42,7 +42,19 @@ private slots :
 
     void on_action_RecOption_triggered();
 
-    void on_action_triggered();
+    void on_treeView_customContextMenuRequested(const QPoint &pos);
+
+    void on_action_Detect_triggered();
+
+    void on_action_WatchAndRecord_triggered();
+
+    void on_action_Watch_triggered();
+
+    void on_treeView_2_customContextMenuRequested(const QPoint &pos);
+
+    void on_action_NodeWatch_triggered();
+
+    void on_action_NodeWatchAndRecord_triggered();
 
 private:
     Ui::MainWindow *ui;

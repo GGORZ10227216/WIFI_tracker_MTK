@@ -36,6 +36,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
          </widget>
         </item>
         <item>
@@ -234,6 +237,9 @@
             <height>300</height>
            </size>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
          </widget>
         </item>
        </layout>
@@ -266,7 +272,7 @@
     <addaction name="menu"/>
     <addaction name="actionNew_window"/>
     <addaction name="actionWebView"/>
-    <addaction name="action"/>
+    <addaction name="action_Detect"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -316,9 +322,29 @@
     <string>錄影選項</string>
    </property>
   </action>
-  <action name="action">
+  <action name="action_Detect">
    <property name="text">
     <string>開始偵測</string>
+   </property>
+  </action>
+  <action name="action_WatchAndRecord">
+   <property name="text">
+    <string>開啟監控並錄影</string>
+   </property>
+  </action>
+  <action name="action_Watch">
+   <property name="text">
+    <string>開始監控</string>
+   </property>
+  </action>
+  <action name="action_NodeWatch">
+   <property name="text">
+    <string>開始監控</string>
+   </property>
+  </action>
+  <action name="action_NodeWatchAndRecord">
+   <property name="text">
+    <string>開始監控並錄影</string>
    </property>
   </action>
  </widget>

@@ -17,6 +17,7 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_Frame = dataList[2].toInt();
     m_NeedUpdate = true;
     m_DisplayState = Global.selectedNodeState;
+    m_Camera = NULL;
 }
 /*
 DeviceData::DeviceData( QVariant in_mac/*, QVariant in_db)
@@ -51,3 +52,36 @@ QStringList DeviceData::toStringList()
     return listRet;
 }
 
+void DeviceData::startWatch()
+{
+    //if ( this->m_Camera->isRec ) return;
+    QDateTime local(QDateTime::currentDateTime());
+    QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
+    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
+    this->m_Camera->show();
+}
+
+void DeviceData::startWatchAndRecord()
+{
+    if ( this->m_Camera != NULL && this->m_Camera->isRecording() ) return;
+    QDateTime local(QDateTime::currentDateTime());
+    QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
+    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
+    this->m_Camera->show();
+
+    qDebug() << fileName.toLatin1().data();
+    QString fileNameFormat = fileName + ".mp4";
+    this->m_Camera->StartRecord(fileNameFormat.toLatin1().data());
+}
+
+void DeviceData::changeCamera()
+{
+    if ( this->m_Camera == NULL || !this->m_Camera->isRecording() ) return;
+    this->m_Camera->ChangeSrc(QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ));
+}
+
+void DeviceData::stopRecord()
+{
+    if ( this->m_Camera == NULL || !this->m_Camera->isRecording() ) return;
+    this->m_Camera->StopRecord();
+}

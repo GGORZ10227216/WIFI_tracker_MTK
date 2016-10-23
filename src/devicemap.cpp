@@ -43,7 +43,7 @@ void DeviceMap::initSaveParmeters( QString in_location )
 
 }
 
-void DeviceMap::saveToFile(DeviceData dData , bool isIn)
+void DeviceMap::saveToFile(DeviceData& dData , bool isIn)
 {
     saveToCSV(dData, isIn);
     saveToJSON( dData , isIn);
@@ -119,20 +119,24 @@ bool DeviceMap::updateData( DeviceData dData )
             {
                 if ( it.value().m_Db < dData.m_Db )
                 {
+                    saveToFile( it.value(), false ); // leave
                     it.value().m_nodeIP = dData.m_nodeIP;
                     it.value().m_Db = dData.m_Db;
                     it.value().m_Frame = dData.m_Frame;
                     it.value().m_NeedUpdate = true; // need to update
+                    saveToFile( it.value(), true ); // in
+                    it.value().changeCamera();
                 } // if
                 else return false;
             } // if
             else // ??暺?交??
             {
+
                  it.value().m_Db = dData.m_Db;
                  it.value().m_Frame = dData.m_Frame;
                  it.value().m_NeedUpdate = true; // need to update
                  if ( dData.m_Db < -70 )
-                     saveToFile( dData, false ); // leave
+                     saveToFile( it.value(), false ); // leave
             } // else
 
 

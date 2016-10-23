@@ -23,15 +23,20 @@ class webV : public QWidget
     Q_OBJECT
 
 public:
-    explicit webV( QUrl src,QWidget *parent = 0);
+    explicit webV(QUrl src, QString fileName, QWidget *parent = 0);
     void ChangeSrc( QUrl src ) ;
     void StartRecord( const char *fileName ) ;
     void StopRecord() ;
+    bool isRecording(){ return isRec; }
     ~webV();
     std::string fps = "24", bitrate = "300000" ;
     std::string codec = "libx264" ;
 
+private slots:
+
 private:
+    QString m_strTitle;
+    QString m_strfileName;
     Ui::webV *ui;
     VlcInstance * _instance ;
     VlcMediaPlayer * _player ;

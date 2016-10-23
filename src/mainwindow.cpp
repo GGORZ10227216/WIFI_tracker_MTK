@@ -257,7 +257,7 @@ void MainWindow::on_actionNew_window_triggered() {
 
 void MainWindow::on_actionWebView_triggered()
 {
-    webV * test = new webV( QUrl( "http://192.168.1.4:8080/?action=stream" ) ) ;
+    webV * test = new webV( QUrl( "http://192.168.1.4:8080/?action=stream" ), "test" ) ;
     test->show();
 }
 
@@ -266,7 +266,21 @@ void MainWindow::on_action_RecOption_triggered()
 
 }
 
-void MainWindow::on_action_triggered()
+void MainWindow::on_treeView_customContextMenuRequested(const QPoint &pos)
+{
+    QModelIndex it = ui->treeView->indexAt(pos);
+    if ( it.row() == -1 ) return;
+    QVariant strMac = it.model()->index( it.row(),  0).data();
+    //qDebug() << strMac.toString();
+    Global.selectedToRecord = Global.deviceMap.getByMac(strMac.toString());
+    QMenu *popMenu =new QMenu(this);
+    popMenu->addAction(ui->action_Watch);
+    popMenu->addAction(ui->action_WatchAndRecord);
+    popMenu->exec(QCursor::pos());
+
+}
+
+void MainWindow::on_action_Detect_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                            tr("Open location Info"), "",
@@ -289,4 +303,55 @@ void MainWindow::on_action_triggered()
 
         Global.areaData.getAllNodes(); //
         Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
+}
+
+void MainWindow::on_action_WatchAndRecord_triggered()
+{
+    Global.selectedToRecord->startWatchAndRecord();
+    //webV * test = new webV( QUrl( "http://192.168.1.4:8080/?action=stream" ) ) ;
+    //test->show();
+
+    //test->StartRecord("");
+}
+
+void MainWindow::on_action_Watch_triggered()
+{
+    Global.selectedToRecord->startWatch();
+}
+
+void MainWindow::on_treeView_2_customContextMenuRequested(const QPoint &pos)
+{
+    QModelIndex it = ui->treeView_2->indexAt(pos);
+    if ( it.row() == -1 ) return;
+    QVariant vCoord = it.model()->index( it.row(),  2, it.parent()).data() ;
+
+    if  ( vCoord.isValid() ) {
+
+        QVariant vNodeIP = it.model()->index( it.row(),  0, it.parent()).data() ;
+        Global.selectedNodeIPToRecord = vNodeIP.toString();
+        QMenu *popMenu =new QMenu(this);
+        popMenu->addAction(ui->action_NodeWatch);
+        popMenu->addAction(ui->action_NodeWatchAndRecord);
+        popMenu->exec(QCursor::pos());
+    } // if
+
+
+}
+
+void MainWindow::on_action_NodeWatch_triggered()
+{
+    QDateTime local(QDateTime::currentDateTime());
+    QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss") + "_" + Global.selectedNodeIPToRecord;
+    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), fileName ) ;
+    node->show();
+}
+
+void MainWindow::on_action_NodeWatchAndRecord_triggered()
+{
+    QDateTime local(QDateTime::currentDateTime());
+    QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss") + Global.selectedNodeIPToRecord;
+    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), fileName ) ;
+    node->show();
+    QString fileNameFormat = fileName + ".mp4";
+    node->StartRecord(fileNameFormat.toLatin1().data());
 }

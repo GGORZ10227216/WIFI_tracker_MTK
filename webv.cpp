@@ -4,7 +4,7 @@
 #include <QInputDialog>
 
 
-webV::webV(QUrl src, QWidget *parent) :
+webV::webV(QUrl src, QString fileName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::webV)
 {
@@ -22,10 +22,13 @@ webV::webV(QUrl src, QWidget *parent) :
     _media = new VlcMedia( src.url(), _instance);
 
     QString titleName = "View_" ;
-    titleName += src.url() ;
+    titleName += fileName ;
     this->setWindowTitle( titleName ) ;
+    m_strTitle = titleName;
+    m_strfileName = fileName + ".mp4";
     _player->open( _media );
     _player->play();
+    isRec = false;
 }
 
 void webV::ChangeSrc( QUrl src ) {
@@ -36,8 +39,9 @@ void webV::ChangeSrc( QUrl src ) {
 }
 
 void webV::StartRecord( const char* fileName ) {
+    isRec = true;
     std::stringstream titleCast ;
-    titleCast << "title=" << fileName ;
+    titleCast << "title=" << m_strTitle.toLatin1().data() ;
 
     QStringList args ;
     args << "-f" << "gdigrab" << "-framerate"
@@ -50,6 +54,7 @@ void webV::StartRecord( const char* fileName ) {
 }
 
 void webV::StopRecord() {
+    isRec = false;
     qDebug() << "Stop REC!!" ;
     ffmpeg.open() ;
     if ( ffmpeg.isWritable() ) {
@@ -61,16 +66,18 @@ void webV::StopRecord() {
 }
 
 void webV::closeEvent( QCloseEvent *bar ) {
+    qDebug() << "close````````````````";
+    if (isRec)
+        StopRecord();
+    else  qDebug() << "WTF no REC!!" ;
     delete this ;
 }
 
 void webV::mouseDoubleClickEvent(QMouseEvent * event) {
     if ( !isRec ) {
         StartRecord( "test.mp4" );
-        isRec = true ;
     } else {
         StopRecord() ;
-        isRec = false ;
     } // if-else
 }
 
@@ -80,15 +87,17 @@ void webV::mousePressEvent(QMouseEvent * event) {
         this->ChangeSrc( QUrl( "http://192.168.1.2:8080/?action=stream" ) );
     } // if
     else if ( event->button() == 1 ) {
-        this->ChangeSrc( QUrl( "http://192.168.1.4:8080/?action=stream" ) );
+        //this->ChangeSrc( QUrl( "http://192.168.1.4:8080/?action=stream" ) );
     } // else if
 }
 
 webV::~webV()
 {
+
     _player->stop() ;
     delete _player;
     delete _media;
     delete _instance;
     delete ui;
 }
+

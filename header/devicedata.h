@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QString>
 #include <QMap>
-
+#include <webv.h>
 class DeviceData
 {
 public:
@@ -15,6 +15,10 @@ public:
     qint64 m_Db;
     qint64 m_Frame;
     int m_DisplayState;
+    void startWatch();
+    void startWatchAndRecord();
+    void changeCamera();
+    void stopRecord();
     QString getMac();
     DeviceData();
     DeviceData(QString in_Ip, QString input);
@@ -24,6 +28,7 @@ public:
     QStringList toStringList();
     static int getColumnCount(){return 3;} // 3?olumn
 private:
+    webV * m_Camera;
 };
 
 #endif // DEVICEDATA_H

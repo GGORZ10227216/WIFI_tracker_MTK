@@ -15,10 +15,15 @@ public:
     bool updateData( DeviceData dData );
     DeviceData* At( qint64 index );
     DeviceData *getLast();
+    DeviceData* getByMac( QString in_mac)
+    {
+        return &*m_Map.find(in_mac);
+    }
+
     bool DeleteData(QString strKey );
     qint64 size(); 
     bool setDisplayState(QString strKey, int b);
-    void saveToFile(DeviceData dData , bool isIn);
+    void saveToFile(DeviceData& dData , bool isIn);
     void saveToCSV( DeviceData dData , bool isIn );
     void saveToJSON( DeviceData dData , bool isIn );
     void initSaveParmeters( QString in_location );
