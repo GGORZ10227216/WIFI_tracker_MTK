@@ -11,6 +11,7 @@ struct GlobalV
     AreaData areaData;
     NodeManger n_mana;
     int selectedNodeState;
+    QString strKeyword;
 };
 
 #endif // GLOBALVARIABLE_H

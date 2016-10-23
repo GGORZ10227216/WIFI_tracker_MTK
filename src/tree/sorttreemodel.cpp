@@ -209,21 +209,22 @@ bool SortTreeView::checkDataIsExist( QString target ) {
 }*/
 
 
-void SortTreeView::update() {
+void SortTreeView::update(QString keyword) {
 
     //while ( !Global.deviceMap.m_Ready.load() )
     //    std::this_thread::yield(); // 霈cpu霈隞犖??
-
     Global.deviceMap.m_Ready = false; // 雿?deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
+        if ( keyword.size() > 0 &&  Global.deviceMap.At(i)->m_Mac.indexOf(keyword) == -1 ) continue;
+        //else if (keyword.size() > 0) qDebug() << Global.deviceMap.At(i)->m_Mac.indexOf(keyword);
         if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
              Global.deviceMap.At(i)->m_NeedUpdate )
         {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
             if ( !checkDataIsExist(Global.deviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
                 insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
-            else if( -100 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
+            else if( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
             {
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Frame );

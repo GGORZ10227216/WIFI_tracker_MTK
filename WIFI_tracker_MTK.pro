@@ -62,18 +62,9 @@ LIBS += opengl32.lib
 
 LIBS       += -lVLCQtCore -lVLCQtWidgets
 
-win32: LIBS += -L$$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/ -lopencv_core2413
+win32:CONFIG(release, debug|release): LIBS += -LC:/openCV/opencv/build/x64/vc14/lib/ -lopencv_world310
+else:win32:CONFIG(debug, debug|release): LIBS += -LC:/openCV/opencv/build/x64/vc14/lib/ -lopencv_world310d
+else:unix:!macx: LIBS += -LC:/openCV/opencv/build/x64/vc14/lib/ -lopencv_world310
 
-INCLUDEPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
-DEPENDPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
-
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/opencv_core2413.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/libopencv_core2413.a
-
-win32: LIBS += -L$$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/ -lopencv_highgui2413
-
-INCLUDEPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
-DEPENDPATH += $$PWD/../../../../OpenCV_2_4_9/build/install/include
-
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/opencv_highgui2413.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/../../../../OpenCV_2_4_9/build/install/x64/vc14/lib/libopencv_highgui2413.a
+INCLUDEPATH += C:/openCV/opencv/build/include
+DEPENDPATH += C:/openCV/opencv/build/include

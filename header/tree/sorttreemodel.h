@@ -27,7 +27,7 @@ public:
     bool searchEdit(QString target , int col = 1, QVariant newValue = "no init" ) ;
     bool checkDataIsExist( QString target );
     void updateActions() ; // Useless for now......
-    void update(); // update view per second
+    void update(QString keyword); // update view per second
     void updateClient();
 };
 

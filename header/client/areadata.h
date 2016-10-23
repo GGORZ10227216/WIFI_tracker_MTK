@@ -14,7 +14,7 @@ class AreaData
 public:
     AreaData();
     ~AreaData();
-    bool read(const QString fileName);
+    bool read(QFile *loadFile);
     QString toString();
     void update2View( QTableWidget* tView );
     void getAllNodes();

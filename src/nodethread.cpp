@@ -123,20 +123,22 @@ bool setReceiveDataFormat(QString& input)
     return true;
 }
 
-void NodeThread::readyRead() {
+void NodeThread::readyRead()
+{
     //qDebug() << " Data in: \n" << socket->readAll() << "\n-----------------------------------------------------------------";
     //return ;
     QString read_All = socket->readAll();
     if ( read_All.size() <= 0 ) return;
     QStringList strList = read_All.split("\n");
     socket->write("success\r\n");
-    if ( strList.size() <= 0 ) return;
     for ( int i = 0; i < strList.size(); i++ )
     {
         if ( strList[i].size() <= 0 ) continue;
         //qDebug() << strList[i];
         QString str = strList[i].replace("\n", "");
         if ( str.split(",").size() != DeviceData::getColumnCount() )
+            continue;
+        if ( i == 0 && str.size() < 17 )
             continue;
         DeviceData dData( m_StrIP, str  );
         //dData.m_nodeIP = m_StrIP;
@@ -146,17 +148,19 @@ void NodeThread::readyRead() {
 
 }
 
-void NodeThread::disconnected() {
+void NodeThread::disconnected()
+{
     qDebug() << socketDescriptor << " Disconnected";
 
     socket->deleteLater();
     exit(0);
 }
 
-bool NodeThread::sendMessage( QString strInstruction ) {
-    if ( this->socket_Send.state() != QTcpSocket::ConnectedState )
+ bool NodeThread::sendMessage( QString strInstruction )
+ {
+     if ( this->socket_Send.state() != QTcpSocket::ConnectedState )
          return false;
     QByteArray barr = strInstruction.toUtf8();
     this->socket_Send.write(barr);
     return true;
-}
+ }

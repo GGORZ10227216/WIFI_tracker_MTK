@@ -14,7 +14,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
-
+#include <QFileDialog>
 using namespace std ;
 
 GlobalV Global;
@@ -34,11 +34,24 @@ void MainWindow::refreshDeviceList()
             ui->tableWidget->selectionModel()->select(indexW, QItemSelectionModel::Select);
         } // for
     } // if
+    /*QDirModel* model = (QDirModel*)ui->treeView->model();
+    int row = -1;
+    foreach (QModelIndex index, list)
+    {
+        if (index.row()!=row && index.column()==0)
+        {
+            QFileInfo fileInfo = model->fileInfo(index);
+            qDebug() << fileInfo.fileName() << '\n';
+            row = index.row();
+        } // if
+    } // foreach*/
 
-    if ( Global.deviceMap.size() == 0 )
-        return;
+    if ( Global.deviceMap.size() == 0 ) return;
+        //static qint64 numOfData = 0;
+        //qDebug() << gDeviceMap.getLast().toString() << endl;
+        //dList->addData(gDeviceMap.getLast().toString());
 
-    sView->update();
+    sView->update(Global.strKeyword);
 }
 
 void MainWindow::refreshSelectedMap()
@@ -72,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-    Global.selectedNodeState = 0;
+    Global.selectedNodeState = 0; // 閮剖?display??
     ui->setupUi(this);
     ShowCurrentTime();
 
@@ -94,18 +107,17 @@ MainWindow::MainWindow(QWidget *parent) :
     sView->view->header()->resizeSection( 1, 40);
     //file.close();
 
-    Global.areaData.read("./metaData/AreaData_B207.JSON");
+
     QStringList headers_Node;
     headers_Node << "Ip" << "Location" << "Coordnate" ;
-    nodeView = new SortTreeView( ui->treeView_2, Global.areaData.toString(), headers_Node ) ;
+    nodeView = new SortTreeView( ui->treeView_2, NULL, headers_Node ) ;
     nodeView->view->header()->resizeSection( 0, 200); // root column, size
     nodeView->view->header()->resizeSection( 1, 150); // root column, size
 
-    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}");
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: gray;}"); // 閮剖??豢???憿
     ui->tableWidget->horizontalHeader()->setDefaultSectionSize(60);
     ui->tableWidget->verticalHeader()->setDefaultSectionSize(38);
-    Global.areaData.getAllNodes();
-    Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
+
     cout << "hello YA!" << endl ;
 }
 
@@ -252,4 +264,29 @@ void MainWindow::on_actionWebView_triggered()
 void MainWindow::on_action_RecOption_triggered()
 {
 
+}
+
+void MainWindow::on_action_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                           tr("Open location Info"), "",
+                           tr("location Info (*.json);"));
+        if (fileName.isEmpty()) return;
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+                    QMessageBox::information(this, tr("無法開啟檔案"),
+                        file.errorString());
+                    return ;
+        } // if
+
+        Global.deviceMap.initSaveParmeters( fileName.mid(fileName.lastIndexOf("/")+1));
+        Global.areaData.read(&file);
+        QStringList headers_Node;
+        headers_Node << "Ip" << "Location" << "Coordnate" ;
+        nodeView = new SortTreeView( ui->treeView_2, Global.areaData.toString(), headers_Node ) ;
+
+        Global.areaData.getAllNodes(); //
+        Global.areaData.update2View(ui->tableWidget); // update node info to tablewidget
 }

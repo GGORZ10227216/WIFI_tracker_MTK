@@ -248,7 +248,7 @@
      <x>0</x>
      <y>0</y>
      <width>830</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu4444">
@@ -266,6 +266,7 @@
     <addaction name="menu"/>
     <addaction name="actionNew_window"/>
     <addaction name="actionWebView"/>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -313,6 +314,11 @@
   <action name="action_RecOption">
    <property name="text">
     <string>錄影選項</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>開始偵測</string>
    </property>
   </action>
  </widget>

@@ -13,17 +13,17 @@ AreaData::~AreaData()
 
 }
 
-bool AreaData::read(const QString fileName)
+bool AreaData::read(QFile* loadFile)
 {
-    qDebug() << fileName;
+    /*qDebug() << fileName;
     QFile loadFile(fileName);
     if (!loadFile.open(QIODevice::ReadOnly))
     {
         qWarning("Couldn't open save file.");
         return false;
-    } // if
+    } // if*/
 
-    QByteArray saveData = loadFile.readAll();
+    QByteArray saveData = loadFile->readAll();
     QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
     QJsonObject json = loadDoc.object();
     this->m_Location = json["AreaName"].toString();
@@ -48,7 +48,7 @@ bool AreaData::read(const QString fileName)
 
 
 
-    loadFile.close();
+    loadFile->close();
     return true;
 }
 

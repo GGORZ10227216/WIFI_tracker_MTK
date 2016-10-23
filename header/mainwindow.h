@@ -42,6 +42,8 @@ private slots :
 
     void on_action_RecOption_triggered();
 
+    void on_action_triggered();
+
 private:
     Ui::MainWindow *ui;
     SortTreeView * sView = NULL ;
