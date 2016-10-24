@@ -41,7 +41,8 @@ bool NodeData::read(const QJsonObject &json)
         if ( i % 2 == 0 )
         {
             qDebug() << str << "----------------";
-            Global.n_mana.connectSever(str, 48763, "F0:79:59:D1:71:D4", 6 );
+            //if ( str.compare("192.168.1.4") != 0 )
+                Global.n_mana.connectSever(str, 48763, "F0:79:59:D1:71:D4", 6 );
         } // if
 
         infoList.push_back(str);

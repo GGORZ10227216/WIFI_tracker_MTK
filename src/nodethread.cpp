@@ -20,7 +20,7 @@ NodeThread::NodeThread(QString in_StrIP, QString in_StrMac, int in_IntChannel, Q
     m_intChannel = in_IntChannel;
     socket = new QTcpSocket();
     socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
-    socket->connectToHost(m_StrIP, 13768);
+
     //connect(this, SIGNAL(finished()), this, SLOT(endThread()));
 }
 
@@ -62,8 +62,7 @@ void NodeThread::run()
     // connect socket and signal
     // note - Qt::DirectConnection is used because it's multithreaded
     //        This makes the slot to be invoked immediately, when the signal is emitted.
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+
     // make this thread a loop,
     // thread will stay alive so that signal/slot to function properly
     // not dropped out in the middle when thread dies
@@ -84,12 +83,13 @@ void NodeThread::endThread()
     qDebug() << "thread end";\
     this->quit();
     this->deleteLater();
+
     //exit(0);
 }
 
 void NodeThread::getErrorCode(QAbstractSocket::SocketError errorCode)
 {
-    qDebug() << "not connect" << errorCode;
+    qDebug() << m_StrIP <<  "not connect" << errorCode;
     this->endThread();
 
     //socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
@@ -111,6 +111,10 @@ void NodeThread::startTransfer()
     qDebug() << "connected..................";
     QByteArray barr = (this->m_StrMac + "," + QString::number(this->m_intChannel)).toUtf8();
     socket_Send.write(barr);
+
+    socket->connectToHost(m_StrIP, 13768);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
+    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     //qDebug() << "state = " << socket_Send.isOpen() << socket->isOpen();
 }
 

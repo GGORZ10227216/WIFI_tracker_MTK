@@ -216,6 +216,7 @@ void SortTreeView::update(QString keyword) {
     Global.deviceMap.m_Ready = false; // 雿?deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
+        qDebug() << "-------------------------" << keyword;
         if ( keyword.size() > 0 &&  Global.deviceMap.At(i)->m_Mac.indexOf(keyword) == -1 ) continue;
         //else if (keyword.size() > 0) qDebug() << Global.deviceMap.At(i)->m_Mac.indexOf(keyword);
         if (  Global.deviceMap.At(i)->m_UpdateState < Global.updateNewestNumber )

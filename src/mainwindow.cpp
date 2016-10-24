@@ -46,6 +46,7 @@ void MainWindow::refreshDeviceList()
         } // if
     } // foreach*/
 
+    //qDebug() << "--------------------------" << Global.deviceMap.size();
     if ( Global.deviceMap.size() == 0 ) return;
         //static qint64 numOfData = 0;
         //qDebug() << gDeviceMap.getLast().toString() << endl;
@@ -148,7 +149,7 @@ void MainWindow::on_pushButton_clicked()
 
     regExp << ".*" << sTarget << ".*" ;
     qDebug() << regExp.join( "" ) ;
-
+    Global.strKeyword = sTarget;
     sView->model->setFilterRegExp(QRegExp( regExp.join( "" ) ));
     sView->model->setFilterKeyColumn( ui->comboBox->currentIndex() );
 }
