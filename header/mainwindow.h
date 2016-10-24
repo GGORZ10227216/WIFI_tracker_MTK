@@ -19,6 +19,7 @@ public:
     ~MainWindow();
 
 private slots :
+    void reConnectServer();
     void refreshSelectedMap();
     void deSelectAllMap();
     void selectMap(const QModelIndex index);

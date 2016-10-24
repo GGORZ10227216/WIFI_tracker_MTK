@@ -5,6 +5,12 @@
 #include <QTcpSocket>
 #include <QDebug>
 
+struct Server
+{
+    QString strIp;
+    QString strMac;
+    int intChannel;
+};
 
 class NodeThread : public QThread
 {
@@ -24,9 +30,10 @@ public slots:
     void disconnected();
 
     void readyReceive();
-
+    void startTransfer();
+    void getErrorCode(QAbstractSocket::SocketError errorCode);
     void connectToServer();
-
+    void endThread();
 private:
     QTcpSocket *socket;
     QTcpSocket socket_Send;

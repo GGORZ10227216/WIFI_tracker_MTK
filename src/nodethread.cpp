@@ -21,13 +21,13 @@ NodeThread::NodeThread(QString in_StrIP, QString in_StrMac, int in_IntChannel, Q
     socket = new QTcpSocket();
     socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
     socket->connectToHost(m_StrIP, 13768);
-
+    connect(this, SIGNAL(finished()), this, SLOT(endThread()));
 }
 
 void NodeThread::run()
 {
     // thread starts here
-    qDebug() << " Thread started";
+    qDebug() << " Thread started" << m_StrIP;
 
     if ( socket == NULL ) // be a server
     {
@@ -52,17 +52,13 @@ void NodeThread::run()
         }*/
 
         //socket_Send.waitForConnected();
-        QByteArray barr = (this->m_StrMac + "," + QString::number(this->m_intChannel)).toUtf8();
-        socket_Send.write(barr);
-        /*if ( socket_Send.state() == QTcpSocket::ConnectedState  )
-        {
 
-        } // if*/
+
 
     } // else
 
-
-
+    connect(&socket_Send, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(getErrorCode(QAbstractSocket::SocketError)));
+    connect(&socket_Send, SIGNAL(connected()), this, SLOT(startTransfer()));
     // connect socket and signal
     // note - Qt::DirectConnection is used because it's multithreaded
     //        This makes the slot to be invoked immediately, when the signal is emitted.
@@ -74,6 +70,25 @@ void NodeThread::run()
     this->exec();
 }
 
+void NodeThread::endThread()
+{
+    qDebug() << "thread end";
+}
+
+void NodeThread::getErrorCode(QAbstractSocket::SocketError errorCode)
+{
+    qDebug() << "not connect" << errorCode;
+    Server s;
+    s.intChannel = this->m_intChannel;
+    s.strMac = this->m_StrMac;
+    s.strIp = this->m_StrIP;
+    Global.needReConnect.push_back(s);
+    this->endThread();
+
+    //socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
+    //socket->connectToHost(m_StrIP, 13768);
+}
+
 void NodeThread::readyReceive()
 {
     qDebug() << "readyReceive";
@@ -82,6 +97,14 @@ void NodeThread::readyReceive()
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
 
+}
+
+void NodeThread::startTransfer()
+{
+    qDebug() << "connected..................";
+    QByteArray barr = (this->m_StrMac + "," + QString::number(this->m_intChannel)).toUtf8();
+    socket_Send.write(barr);
+    //qDebug() << "state = " << socket_Send.isOpen() << socket->isOpen();
 }
 
 void NodeThread::connectToServer()

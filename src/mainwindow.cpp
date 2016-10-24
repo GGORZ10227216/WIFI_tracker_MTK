@@ -82,6 +82,15 @@ void MainWindow::ShowCurrentTime() {
     this->setWindowTitle( winTitle );
 } // ShowCurrentTime()
 
+void MainWindow::reConnectServer()
+{
+    if ( Global.needReConnect.size() <= 0 ) return;
+
+    foreach ( Server s, Global.needReConnect )
+        Global.n_mana.connectSever(s.strIp, 48763, s.strMac, s.intChannel );
+    Global.needReConnect.clear();
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -100,6 +109,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer_DeviceRefresh, SIGNAL(timeout()), this, SLOT(refreshDeviceList()));
     timer_DeviceRefresh->start(1000); //time specified in ms
 
+    QTimer *timer_Reconnect = new QTimer(this);
+    connect(timer_Reconnect, SIGNAL(timeout()), this, SLOT(reConnectServer()));
+    timer_Reconnect->start(10000); //time specified in ms
     //QFile file("./metaData/testData.txt");
     //file.open(QIODevice::ReadOnly);
 

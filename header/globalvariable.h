@@ -15,6 +15,7 @@ struct GlobalV
     QString strKeyword;
     DeviceData* selectedToRecord;
     QString selectedNodeIPToRecord;
+    QList<Server> needReConnect;
 };
 
 #endif // GLOBALVARIABLE_H
