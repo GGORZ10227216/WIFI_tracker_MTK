@@ -21,7 +21,7 @@ NodeThread::NodeThread(QString in_StrIP, QString in_StrMac, int in_IntChannel, Q
     socket = new QTcpSocket();
     socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
     socket->connectToHost(m_StrIP, 13768);
-    connect(this, SIGNAL(finished()), this, SLOT(endThread()));
+    //connect(this, SIGNAL(finished()), this, SLOT(endThread()));
 }
 
 void NodeThread::run()
@@ -68,21 +68,28 @@ void NodeThread::run()
     // thread will stay alive so that signal/slot to function properly
     // not dropped out in the middle when thread dies
     this->exec();
+
 }
 
 void NodeThread::endThread()
 {
-    qDebug() << "thread end";
-}
 
-void NodeThread::getErrorCode(QAbstractSocket::SocketError errorCode)
-{
-    qDebug() << "not connect" << errorCode;
+    //socket->deleteLater();
+    //socket_Send.deleteLater();
     Server s;
     s.intChannel = this->m_intChannel;
     s.strMac = this->m_StrMac;
     s.strIp = this->m_StrIP;
     Global.needReConnect.push_back(s);
+    qDebug() << "thread end";\
+    this->quit();
+    this->deleteLater();
+    //exit(0);
+}
+
+void NodeThread::getErrorCode(QAbstractSocket::SocketError errorCode)
+{
+    qDebug() << "not connect" << errorCode;
     this->endThread();
 
     //socket_Send.connectToHost(m_StrIP, 48763); // send msg to server
@@ -177,9 +184,8 @@ void NodeThread::readyRead()
 void NodeThread::disconnected()
 {
     qDebug() << socketDescriptor << " Disconnected";
-
-    socket->deleteLater();
-    exit(0);
+    this->endThread();
+    //exit(0);
 }
 
  bool NodeThread::sendMessage( QString strInstruction )
