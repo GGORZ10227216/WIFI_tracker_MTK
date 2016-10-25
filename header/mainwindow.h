@@ -57,6 +57,8 @@ private slots :
 
     void on_action_NodeWatchAndRecord_triggered();
 
+    void on_actionTestt_triggered();
+
 private:
     Ui::MainWindow *ui;
     SortTreeView * sView = NULL ;

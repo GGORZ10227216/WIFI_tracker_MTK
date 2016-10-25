@@ -213,23 +213,29 @@ void SortTreeView::update(QString keyword) {
 
     //while ( !Global.deviceMap.m_Ready.load() )
     //    std::this_thread::yield(); // 霈cpu霈隞犖??
+
     Global.deviceMap.m_Ready = false; // 雿?deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
-        qDebug() << "-------------------------" << keyword;
+        //qDebug() << "-------------------------" << keyword;
         if ( keyword.size() > 0 &&  Global.deviceMap.At(i)->m_Mac.indexOf(keyword) == -1 ) continue;
         //else if (keyword.size() > 0) qDebug() << Global.deviceMap.At(i)->m_Mac.indexOf(keyword);
-        if (  Global.deviceMap.At(i)->m_UpdateState < Global.updateNewestNumber )
+        /*if (  Global.deviceMap.At(i)->m_UpdateState < Global.updateNewestNumber )
         {
             searchRemove(Global.deviceMap.At(i)->m_Mac);
             Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
         } // if
-        else if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
+        else*/ if ( Global.deviceMap.At(i)->m_DisplayState == Global.selectedNodeState &&  // ?嗉???displaystate?lobal?詨????豢????＊蝷?
              Global.deviceMap.At(i)->m_NeedUpdate )
         {
             Global.deviceMap.At(i)->m_NeedUpdate = false; // been update
             if ( !checkDataIsExist(Global.deviceMap.At(i)->m_Mac) ) // data isn't exist then insert the data
-                insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
+            {
+                if ( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
+                    insertRow( Global.deviceMap.At(i)->toStringList() );//gDeviceMap.At(i)->toStringList()
+                else
+                    Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
+            } // if
             else if( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
             {
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );

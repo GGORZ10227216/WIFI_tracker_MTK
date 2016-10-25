@@ -97,11 +97,11 @@ bool DeviceMap::updateData( DeviceData dData )
     this->m_Ready = false; // ???瑁?
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
     {
-        if ( dData.m_Db >= -70 )
-        {
+        //if ( dData.m_Db >= -70 )
+        //{
             m_Map.insert(dData.getMac(), dData);
             saveToFile( dData, true );
-        } // if
+       // } // if
         //qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
     } // if
     else // if m_Map is empty

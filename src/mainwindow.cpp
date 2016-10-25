@@ -53,7 +53,7 @@ void MainWindow::refreshDeviceList()
         //dList->addData(gDeviceMap.getLast().toString());
     //this->ui->treeView->model()->removeRows(0, this->ui->treeView->model()->rowCount());
     sView->update(Global.strKeyword);
-    Global.updateNewestNumber = ++Global.updateNewestNumber % 1000;
+    //Global.updateNewestNumber = ++Global.updateNewestNumber % 1000;
     //Global.deviceMap.clear();
 }
 
@@ -256,7 +256,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
         return;
     } // if
 
-     qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFUCK";
+     //qDebug() << "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFUCK";
     QString strIP = Global.deviceMap.getNodeIpByMac(index.model()->index(index.row(),0).data().toString());
     befIndex = index;
     QList<Coordinate> coordList;
@@ -372,4 +372,14 @@ void MainWindow::on_action_NodeWatchAndRecord_triggered()
     node->show();
     QString fileNameFormat = "./Record/Video/" + fileName + ".mp4";
     node->StartRecord(fileNameFormat.toLatin1().data());
+}
+
+void MainWindow::on_actionTestt_triggered()
+{
+    QProcess* dd = new QProcess();
+    QStringList args ;
+    args << "root" << "192.168.1.2" << "000000";
+    qDebug() << args ;
+
+    dd->start( "RemoteGuardian", args );
 }

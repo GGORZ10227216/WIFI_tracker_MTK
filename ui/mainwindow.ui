@@ -273,6 +273,7 @@
     <addaction name="actionNew_window"/>
     <addaction name="actionWebView"/>
     <addaction name="action_Detect"/>
+    <addaction name="actionTestt"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -345,6 +346,11 @@
   <action name="action_NodeWatchAndRecord">
    <property name="text">
     <string>開始監控並錄影</string>
+   </property>
+  </action>
+  <action name="actionTestt">
+   <property name="text">
+    <string>testt</string>
    </property>
   </action>
  </widget>
