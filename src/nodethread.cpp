@@ -73,6 +73,11 @@ void NodeThread::run()
 void NodeThread::endThread()
 {
 
+    QProcess* dd = new QProcess();
+    QStringList args ;
+    args << "root" << this->m_StrIP << "000000";
+    qDebug() << args ;
+    dd->start( "RemoteGuardian", args );
     //socket->deleteLater();
     //socket_Send.deleteLater();
     Server s;
@@ -188,11 +193,7 @@ void NodeThread::readyRead()
 void NodeThread::disconnected()
 {
     qDebug() << socketDescriptor << " Disconnected";
-    QProcess* dd = new QProcess();
-    QStringList args ;
-    args << "root" << this->m_StrIP << "000000";
-    qDebug() << args ;
-    dd->start( "RemoteGuardian", args );
+
 
     this->endThread();
     //exit(0);

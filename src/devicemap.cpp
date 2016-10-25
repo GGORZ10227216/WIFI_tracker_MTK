@@ -87,6 +87,40 @@ void DeviceMap::saveToJSON( DeviceData dData, bool isIn )
     dataListForJson << vMap;
 }
 
+bool DeviceMap::CheckChange( DeviceData & oldOne, DeviceData & newOne ) {
+    if ( oldOne.m_Db < newOne.m_Db && newOne.m_Db != -100 ) {
+
+        if ( newOne.m_Mac == "18:CF:5E:75:18:62" ) {
+            qDebug() << "-------------------------------" ;
+            qDebug() << "From: " << oldOne.m_nodeIP
+                     << "(" << oldOne.m_Db << ")" ;
+            qDebug() << "To: " << newOne.m_nodeIP
+                     << "(" << newOne.m_Db << ")" ;
+            qDebug() << "Last request: " << oldOne.tmpDevice.cTemp
+                     << "(" << oldOne.tmpDevice.db << ")" ;
+            qDebug() << "OLD_CODA: " << oldOne.tmpDevice.coda ;
+        } // if
+
+        if ( oldOne.tmpDevice.cTemp.compare( newOne.m_nodeIP ) != 0 && oldOne.tmpDevice.db < newOne.m_Db ) {
+            oldOne.tmpDevice.coda = 0;
+            oldOne.tmpDevice.cTemp = newOne.m_nodeIP;
+            oldOne.tmpDevice.db = newOne.m_Db;
+        } // if
+        else if ( oldOne.tmpDevice.cTemp.compare( newOne.m_nodeIP ) == 0 ) {
+            ++ oldOne.tmpDevice.coda ;
+            if ( oldOne.tmpDevice.coda > 5 ) {
+               oldOne.tmpDevice.coda = 0 ;
+               return true ;
+            } // if
+            else
+                return false ;
+        } // else
+    } // if
+    else
+        return false ;
+    return false ;
+} //CheckChange
+
 bool DeviceMap::updateData( DeviceData dData )
 {
     //while ( !this->m_Ready.load() )
@@ -123,8 +157,9 @@ bool DeviceMap::updateData( DeviceData dData )
             QMap<QString, DeviceData>::iterator it = m_Map.find(dData.getMac()); // find position by key
             if ( it.value().m_nodeIP.compare( dData.m_nodeIP ) != 0 ) // 銝?蝭暺?b?亥?0??
             {
-                if ( it.value().m_Db < dData.m_Db )
+                if ( CheckChange( it.value(), dData ) )
                 {
+
                     saveToFile( it.value(), false ); // leave
                     it.value().m_UpdateState = Global.updateNewestNumber;
                     it.value().m_nodeIP = dData.m_nodeIP;

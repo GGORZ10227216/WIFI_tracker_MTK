@@ -27,6 +27,8 @@ public:
     void saveToCSV( DeviceData dData , bool isIn );
     void saveToJSON( DeviceData dData , bool isIn );
     void initSaveParmeters( QString in_location );
+    bool CheckChange( DeviceData & oldOne, DeviceData & newOne ) ;
+
     void clear()
     {
         m_Map.clear();

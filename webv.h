@@ -31,7 +31,7 @@ public:
     ~webV();
     std::string fps = "24", bitrate = "300000" ;
     std::string codec = "libx264" ;
-
+    bool isWatching = false;
 private slots:
 
 private:
@@ -43,6 +43,7 @@ private:
     VlcMedia * _media ;
     std::string windowID = "Form" ;
     bool isRec = false ;
+
     void closeEvent(QCloseEvent *bar) ;
     void mouseDoubleClickEvent(QMouseEvent * event) ;
     void mousePressEvent(QMouseEvent * event) ;

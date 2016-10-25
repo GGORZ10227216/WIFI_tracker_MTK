@@ -1,5 +1,6 @@
 ﻿#include "header/devicedata.h"
 #include "header/globalvariable.h"
+#include <QMessageBox>
 extern GlobalV Global;
 DeviceData::DeviceData()
 {
@@ -20,7 +21,7 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_UpdateState = Global.updateNewestNumber;
     m_Camera = NULL;
     m_Location = Global.areaData.getNodeLocation(m_nodeIP);
-    qDebug() << "----------------------------" << m_Location;
+    //qDebug() << "----------------------------" << m_Location;
 }
 /*
 DeviceData::DeviceData( QVariant in_mac/*, QVariant in_db)
@@ -57,7 +58,12 @@ QStringList DeviceData::toStringList()
 
 void DeviceData::startWatch()
 {
-    //if ( this->m_Camera->isRec ) return;
+    if ( this->m_Camera != NULL && this->m_Camera->isWatching ) {
+        QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置監控以開啟"));
+        return;
+    } // if
+
+    this->m_Camera->isWatching = true;
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
     this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
@@ -66,7 +72,11 @@ void DeviceData::startWatch()
 
 void DeviceData::startWatchAndRecord()
 {
-    if ( this->m_Camera != NULL && this->m_Camera->isRecording() ) return;
+    if ( this->m_Camera != NULL && this->m_Camera->isRecording() ) {
+        QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置監控以開啟"));
+        return;
+    } // if
+
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
     this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;

@@ -2,8 +2,8 @@
 #include "ui_webv.h"
 
 #include <QInputDialog>
-
-
+#include <QMessageBox>
+#include <QString>
 webV::webV(QUrl src, QString fileName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::webV)
@@ -55,6 +55,7 @@ void webV::StartRecord( const char* fileName ) {
 
 void webV::StopRecord() {
     isRec = false;
+    QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置已結束錄像"));
     qDebug() << "Stop REC!!" ;
     ffmpeg.open() ;
     if ( ffmpeg.isWritable() ) {
@@ -69,7 +70,9 @@ void webV::closeEvent( QCloseEvent *bar ) {
     qDebug() << "close````````````````";
     if (isRec)
         StopRecord();
+
     else  qDebug() << "WTF no REC!!" ;
+    this->isWatching = false;
     delete this ;
 }
 

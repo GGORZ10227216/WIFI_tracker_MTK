@@ -6,6 +6,15 @@
 #include <QString>
 #include <QMap>
 #include <webv.h>
+
+class TmpDevice
+{
+public:
+    QString cTemp = "";
+    int coda = 0;
+    int db = -101;
+};
+
 class DeviceData
 {
 public:
@@ -15,8 +24,10 @@ public:
     qint64 m_Db;
     qint64 m_Frame;
     QString m_Location;
+    TmpDevice tmpDevice;
     int m_DisplayState;
     int m_UpdateState;
+
     void startWatch();
     void startWatchAndRecord();
     void changeCamera();
@@ -31,6 +42,7 @@ public:
     static int getColumnCount(){return 2;} // 3?olumn
 private:
     webV * m_Camera;
+
 };
 
 #endif // DEVICEDATA_H

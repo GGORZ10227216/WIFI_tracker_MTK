@@ -15,6 +15,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QFileDialog>
+
 using namespace std ;
 
 GlobalV Global;
@@ -376,10 +377,13 @@ void MainWindow::on_action_NodeWatchAndRecord_triggered()
 
 void MainWindow::on_actionTestt_triggered()
 {
-    QProcess* dd = new QProcess();
+\
+
+    //MessageBoxA(NULL, "已開啟監控", "!!!!!", MB_OK);
+    /*QProcess* dd = new QProcess();
     QStringList args ;
     args << "root" << "192.168.1.2" << "000000";
     qDebug() << args ;
 
-    dd->start( "RemoteGuardian", args );
+    dd->start( "RemoteGuardian", args );*/
 }
