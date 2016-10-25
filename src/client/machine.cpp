@@ -28,7 +28,7 @@ bool Machine::read(const QJsonObject &json)
     for ( int i = 0; i < jsonM.size(); i++ )
     {
         NodeData nD((jsonM.begin()+i).key());
-        nD.read(jsonM[(jsonM.begin()+i).key()].toObject());
+        nD.read( jsonM[(jsonM.begin()+i).key()].toObject());
         this->m_NodeList.push_back(nD);
     } // for
 
@@ -56,4 +56,13 @@ void Machine::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
 {
     for ( int i = 0; i < m_NodeList.size(); i++  )
        m_NodeList[i].getNodeCoord(strIP, coordList);
+}
+
+QString Machine::getNodeLocation( QString strIP )
+{
+    QString ss;
+    for ( int i = 0; i < m_NodeList.size(); i++  )
+       if ( (ss = m_NodeList[i].getNodeLocation(strIP)).size() > 0 )
+            return ss;
+    return "";
 }

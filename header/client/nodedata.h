@@ -31,6 +31,7 @@ public:
     QString toString();
     QList<NodeInfo> getInfoList(){ return m_InfoList; }
     void getNodeCoord( QString strIP, QList<Coordinate>& coordList );
+    QString getNodeLocation( QString strIP );
 private:
     QString m_Location;
     QList<NodeInfo> m_InfoList;

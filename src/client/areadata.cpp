@@ -108,3 +108,12 @@ void AreaData::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
     for ( int i = 0; i < m_MachineList.size(); i++  )
         m_MachineList[i].getNodeCoord(strIP, coordList);
 }
+
+QString AreaData::getNodeLocation( QString strIP )
+{
+    QString ss;
+    for ( int i = 0; i < m_MachineList.size(); i++  )
+        if ( (ss = m_MachineList[i].getNodeLocation(strIP)).size() > 0 )
+            return ss;
+    return "";
+}

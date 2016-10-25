@@ -19,6 +19,8 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_DisplayState = Global.selectedNodeState;
     m_UpdateState = Global.updateNewestNumber;
     m_Camera = NULL;
+    m_Location = Global.areaData.getNodeLocation(m_nodeIP);
+    qDebug() << "----------------------------" << m_Location;
 }
 /*
 DeviceData::DeviceData( QVariant in_mac/*, QVariant in_db)
@@ -77,7 +79,9 @@ void DeviceData::startWatchAndRecord()
 
 void DeviceData::changeCamera()
 {
-    if ( this->m_Camera == NULL || !this->m_Camera->isRecording() ) return;
+    //qDebug() << "CHECK------------------------------------------------------------" << m_nodeIP;
+    if ( this->m_Camera == NULL ) return;
+    //qDebug() << "IN------------------------------------------------------------" << m_nodeIP;
     this->m_Camera->ChangeSrc(QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ));
 }
 

@@ -40,6 +40,7 @@ private:
     qintptr socketDescriptor;
     QString m_StrIP; // 蝭暺P
     QString m_StrMac; // ?箏?衽AC
+    QString m_StrLocation;
     int m_intChannel; // ?箏?軏hannel
     int m_Port;
 };

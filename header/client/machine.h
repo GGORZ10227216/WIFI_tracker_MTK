@@ -18,7 +18,7 @@ public:
     QList<NodeData> getNodeList(){ return m_NodeList; }
     QString toString();
     void getNodeCoord( QString strIP, QList<Coordinate>& coordList );
-
+    QString getNodeLocation( QString strIP );
 private:
     QString m_Location;
     int m_Channel;

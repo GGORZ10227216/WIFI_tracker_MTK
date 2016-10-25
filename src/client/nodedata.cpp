@@ -20,7 +20,7 @@ NodeData::~NodeData()
 
 }
 
-bool NodeData::read(const QJsonObject &json)
+bool NodeData::read(  const QJsonObject &json)
 {
     //qDebug() << "NodeData read";
     QJsonArray arr = json["Cord"].toArray();
@@ -83,4 +83,12 @@ void NodeData::getNodeCoord( QString strIP, QList<Coordinate>& coordList )
     for ( int i = 0; i < m_InfoList.size(); i++  )
         if ( strIP.compare( m_InfoList[i].Ip ) == 0 )
             coordList << m_InfoList[i].Coord;
+}
+
+QString NodeData::getNodeLocation( QString strIP )
+{
+    for ( int i = 0; i < m_InfoList.size(); i++  )
+        if ( strIP.compare( m_InfoList[i].Ip ) == 0 )
+            return this->m_Location;
+    return "";
 }

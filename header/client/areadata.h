@@ -19,7 +19,7 @@ public:
     void update2View( QTableWidget* tView );
     void getAllNodes();
     void getNodeCoord( QString strIP, QList<Coordinate>& coordList );
-
+    QString getNodeLocation( QString strIP );
     /*void getCoordnateByLocation( QString strLocation )
     {
         getAllNodes();

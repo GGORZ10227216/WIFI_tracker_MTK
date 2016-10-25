@@ -101,6 +101,7 @@ bool DeviceMap::updateData( DeviceData dData )
         //{
             m_Map.insert(dData.getMac(), dData);
             saveToFile( dData, true );
+
        // } // if
         //qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
     } // if
@@ -113,6 +114,7 @@ bool DeviceMap::updateData( DeviceData dData )
             //{
                 m_Map.insert(dData.getMac(), dData);
                 saveToFile( dData, true );
+
             //} // if
             //qDebug() << "insert1 " << dData.m_Mac << " db " << dData.m_Db << endl;
         } // if
@@ -129,6 +131,7 @@ bool DeviceMap::updateData( DeviceData dData )
                     it.value().m_Db = dData.m_Db;
                     it.value().m_Frame = dData.m_Frame;
                     it.value().m_NeedUpdate = true; // need to update
+                    it.value().m_Location = dData.m_Location;
                     saveToFile( it.value(), true ); // in
                     it.value().changeCamera();
                 } // if
@@ -142,6 +145,7 @@ bool DeviceMap::updateData( DeviceData dData )
                  it.value().m_NeedUpdate = true; // need to update
                  //if ( dData.m_Db < -70 )
                      saveToFile( it.value(), false ); // leave
+
             } // else
 
 
