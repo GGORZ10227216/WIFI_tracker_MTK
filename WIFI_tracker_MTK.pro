@@ -27,9 +27,7 @@ SOURCES += src/main.cpp \
     src/cammanager.cpp \
     src/gldrawer.cpp \
     src/videoproccsor.cpp \
-    webv.cpp \
-    test.cpp \
-    jklj.cpp
+    webv.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -46,9 +44,7 @@ HEADERS  += header/mainwindow.h \
     header/cammanager.h \
     header/gldrawer.h \
     header/videoprocessor.h \
-    webv.h \
-    test.h \
-    jklj.h
+    webv.h
 
 FORMS    += ui/mainwindow.ui \
     webv.ui

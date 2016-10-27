@@ -43,6 +43,12 @@ DeviceData::~DeviceData()
 
 }
 
+bool DeviceData::isCameraOpen()
+{
+    if ( m_Camera == NULL ) return false;
+    return m_Camera->isWatching ? true : false;
+}
+
 QString DeviceData::getMac()
 {
     return m_Mac;
@@ -60,7 +66,7 @@ QString DeviceData::toString() // format aa,bb,cc,dd...
 QStringList DeviceData::toStringList()
 {
     QStringList listRet;
-    listRet << m_Mac << QString::number(m_Db) << QString::number(m_Frame);
+    listRet << m_Mac << this->m_Location << QString::number(m_Db);
     return listRet;
 }
 
@@ -76,7 +82,7 @@ void DeviceData::startWatch()
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
 
-    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
+    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), this, fileName.toLatin1().data() ) ;
     this->m_Camera->show();
     this->m_Camera->isWatching = true;
 }
@@ -90,7 +96,7 @@ void DeviceData::startWatchAndRecord()
 
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
-    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
+    this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), this, fileName.toLatin1().data() ) ;
     this->m_Camera->show();
     this->m_Camera->isWatching = true;
     qDebug() << fileName.toLatin1().data();

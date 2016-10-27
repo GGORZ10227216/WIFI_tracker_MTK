@@ -32,11 +32,11 @@ public:
     QList<NodeInfo> getInfoList(){ return m_InfoList; }
     void getNodeCoord( QString strIP, QList<Coordinate>& coordList );
     QString getNodeLocation( QString strIP );
+
 private:
     QString m_Location;
     int m_Channel; // 基地台
     QString m_Mac; // 基地台
     QList<NodeInfo> m_InfoList;
-
 };
 #endif // NODEDATA_H

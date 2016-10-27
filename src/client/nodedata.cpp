@@ -46,6 +46,9 @@ bool NodeData::read(  const QJsonObject &json)
             //if ( str.compare("192.168.1.4") != 0 )// "10:C3:7B:41:10:58", 11
                 Global.n_mana.connectSever(str, 48763, this->m_Mac, this->m_Channel  );//"F0:79:59:D1:71:D4", 6
                 //qDebug() << str << this->m_Mac << this->m_Channel;
+                Global.nodeMacMap[this->m_Mac] = this->m_Location;
+                Global.nodeIp2AreaMap[str] = this->m_Location;
+
         } // if
 
         infoList.push_back(str);

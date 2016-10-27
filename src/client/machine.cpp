@@ -2,7 +2,8 @@
 #include "header/client/nodedata.h"
 #include <QJsonObject>
 #include <QDebug>
-
+#include "header/globalvariable.h"
+extern GlobalV Global;
 Machine::Machine()
 {
 
@@ -29,7 +30,7 @@ bool Machine::read(const QJsonObject &json)
     {
         NodeData nD((jsonM.begin()+i).key(), m_Info.Mac, m_Channel);
         nD.read( jsonM[(jsonM.begin()+i).key()].toObject());
-        this->m_NodeList.push_back(nD);
+        this->m_NodeList.push_back(nD);    
     } // for
 
 

@@ -89,7 +89,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;關鍵字(*為萬用字元)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;關鍵字&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
           <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -204,7 +204,7 @@
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
-            <string>Tab 1</string>
+            <string notr="true">區塊地圖</string>
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
@@ -215,11 +215,6 @@
              </widget>
             </item>
            </layout>
-          </widget>
-          <widget class="QWidget" name="tab_4">
-           <attribute name="title">
-            <string>Tab 2</string>
-           </attribute>
           </widget>
          </widget>
         </item>
@@ -259,21 +254,9 @@
    </property>
    <widget class="QMenu" name="menu4444">
     <property name="title">
-     <string>Debug</string>
+     <string>開啟...</string>
     </property>
-    <widget class="QMenu" name="menu">
-     <property name="title">
-      <string>以關鍵字</string>
-     </property>
-     <addaction name="debug_remove"/>
-     <addaction name="debug_edit"/>
-     <addaction name="debug_add"/>
-    </widget>
-    <addaction name="menu"/>
-    <addaction name="actionNew_window"/>
-    <addaction name="actionWebView"/>
     <addaction name="action_Detect"/>
-    <addaction name="actionTestt"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -325,7 +308,7 @@
   </action>
   <action name="action_Detect">
    <property name="text">
-    <string>開始偵測</string>
+    <string>地圖檔</string>
    </property>
   </action>
   <action name="action_WatchAndRecord">

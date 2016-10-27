@@ -8,6 +8,7 @@
 #include <webv.h>
 #include <QTimer>
 
+class webV;
 class TmpDevice
 {
 public:
@@ -22,7 +23,7 @@ class DeviceData
 public:
     int m_TimesLeave;
     bool m_NeedUpdate;
-    QString m_nodeIP; // 蝭暺P
+    QString m_nodeIP;
     QString m_Mac;
     qint64 m_Db;
     qint64 m_Frame;
@@ -42,18 +43,13 @@ public:
     ~DeviceData();
     QString toString();
     QStringList toStringList();
-    static int getColumnCount(){return 2;} // 3?olumn
-    bool isCameraOpen()
-    {
-        if ( m_Camera == NULL ) return false;
-        return m_Camera->isWatching ? true : false;
-    }
+    static int getColumnCount(){return 2;}
+    bool isCameraOpen();
 
     void checkDeviceExsit();
 
 private:
     webV * m_Camera = NULL;
-    QTimer *timer = NULL;
 
 };
 

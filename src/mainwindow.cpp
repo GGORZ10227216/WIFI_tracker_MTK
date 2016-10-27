@@ -118,10 +118,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //file.open(QIODevice::ReadOnly);
 
     QStringList headers ;
-    headers << "Device\'s MAC" << "Db" << "Frame" ;
+    headers << "Device\'s MAC" << "Location" << "Db" ;
     sView = new SortTreeView( ui->treeView, NULL, headers ) ; // file.readAll()
     sView->view->header()->resizeSection( 0, 130); // root column, size
-    sView->view->header()->resizeSection( 1, 40);
+    sView->view->header()->resizeSection( 1, 90);
     //file.close();
 
 
@@ -274,8 +274,6 @@ void MainWindow::on_actionNew_window_triggered() {
 
 void MainWindow::on_actionWebView_triggered()
 {
-    webV * test = new webV( QUrl( "http://192.168.1.4:8080/?action=stream" ), "test" ) ;
-    test->show();
 }
 
 void MainWindow::on_action_RecOption_triggered()
@@ -360,7 +358,9 @@ void MainWindow::on_action_NodeWatch_triggered()
 {
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss") + "_" + Global.selectedNodeIPToRecord;
-    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), fileName ) ;
+    DeviceData d;
+    d.m_Location = Global.nodeIp2AreaMap[Global.selectedNodeIPToRecord];
+    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), &d, fileName ) ;
     node->show();
 }
 
@@ -368,7 +368,9 @@ void MainWindow::on_action_NodeWatchAndRecord_triggered()
 {
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss") + Global.selectedNodeIPToRecord;
-    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), fileName ) ;
+    DeviceData d;
+    d.m_Location = Global.nodeIp2AreaMap[Global.selectedNodeIPToRecord];
+    webV * node = new webV( QUrl( "http://" + Global.selectedNodeIPToRecord + ":8080/?action=stream" ), &d, fileName ) ;
     node->show();
     QString fileNameFormat = "./Record/Video/" + fileName + ".mp4";
     node->StartRecord(fileNameFormat.toLatin1().data());
@@ -385,4 +387,9 @@ void MainWindow::on_actionTestt_triggered()
     qDebug() << args ;
 
     dd->start( "RemoteGuardian", args );*/
+}
+
+void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
+{
+
 }

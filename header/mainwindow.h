@@ -58,6 +58,8 @@ private slots :
 
     void on_actionTestt_triggered();
 
+    void on_tableWidget_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     SortTreeView * sView = NULL ;

@@ -11,8 +11,8 @@ SortTreeView::SortTreeView( QTreeView * tarView, QString data, QStringList heade
 
     view = tarView ;
     view->setModel( model );
-    view->setSortingEnabled( true ) ;
-    model->sort( 0,Qt::SortOrder::AscendingOrder );
+    view->setSortingEnabled( false ) ;
+    // model->sort( 0,Qt::SortOrder::AscendingOrder );
 }
 
 void SortTreeView::updateActions()
@@ -240,8 +240,8 @@ void SortTreeView::update(QString keyword) {
             } // if
             else if( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 /*&& Global.deviceMap.At(i)->m_TimesLeave <= 3*/ )
             {
-                searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
-                searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Frame );
+                searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Location );
+                searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Db );
             } // else if
             else // Db is zero then delete data
             {

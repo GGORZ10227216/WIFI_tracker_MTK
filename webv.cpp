@@ -4,7 +4,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QString>
-webV::webV(QUrl src, QString fileName, QWidget *parent) :
+webV::webV(QUrl src, DeviceData *dData, QString fileName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::webV)
 {
@@ -44,10 +44,13 @@ void webV::StartRecord( const char* fileName ) {
     titleCast << "title=" << m_strTitle.toLatin1().data() ;
 
     QStringList args ;
+
     args << "-f" << "gdigrab" << "-framerate"
          << fps.c_str() << "-i" << titleCast.str().c_str()
          << "-vcodec" << codec.c_str()
-         << "-b" << bitrate.c_str() << fileName  ;
+         << "-b" << bitrate.c_str() << "-draw_mouse"
+         << "0" << fileName  ;
+
     qDebug() << args ;
 
     ffmpeg.start( "ffmpeg", args );

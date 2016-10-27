@@ -184,12 +184,14 @@ void NodeThread::readyRead()
 
 
         DeviceData dData( m_StrIP, str  );
+
         //if ( dData.m_Db < -70 ) return;
         //dData.m_nodeIP = m_StrIP;
-        // qDebug() << "Mac -------------->" << dData.m_Mac;
+        //qDebug() << "Mac -------------->" << dData.m_Mac;
         if ( i == 0 && dData.m_Mac.size() < 17 )
             continue;
         if ( Global.nodeMacMap.contains(dData.m_Mac) ) continue;
+        dData.m_Location = Global.nodeIp2AreaMap[m_StrIP];
         Global.deviceMap.updateData(dData);// or [dData.getMac()] = dData;
     } // for
     //

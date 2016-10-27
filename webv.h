@@ -9,21 +9,24 @@
 #include <VLCQtCore/Media.h>
 #include <VLCQtCore/MediaPlayer.h>
 #include <VLCQtCore/Enums.h>
+#include <header/devicedata.h>
 #include <string>
 #include <sstream>
 #include <iostream>
 #include <QMouseEvent>
 
+class DeviceData;
 namespace Ui {
 class webV;
 }
+
 
 class webV : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit webV(QUrl src, QString fileName, QWidget *parent = 0);
+    explicit webV(QUrl src, DeviceData *dData, QString fileName, QWidget *parent = 0);
     void ChangeSrc( QUrl src ) ;
     void StartRecord( const char *fileName ) ;
     void StopRecord() ;
@@ -32,7 +35,6 @@ public:
     std::string fps = "24", bitrate = "300000" ;
     std::string codec = "libx264" ;
     bool isWatching = false;
-private slots:
 
 private:
     QString m_strTitle;
