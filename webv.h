@@ -45,11 +45,12 @@ private:
     VlcMedia * _media ;
     std::string windowID = "Form" ;
     bool isRec = false ;
-
+    DeviceData * _d = NULL ;
     void closeEvent(QCloseEvent *bar) ;
     void mouseDoubleClickEvent(QMouseEvent * event) ;
     void mousePressEvent(QMouseEvent * event) ;
     QProcess ffmpeg ;
+
 };
 
 #endif // WEBV_H

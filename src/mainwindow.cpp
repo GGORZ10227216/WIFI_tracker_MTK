@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-    Global.selectedNodeState = 0; // 閮剖?display??
+    Global.selectedNodeState = 0;
     Global.updateNewestNumber = 0;
     ui->setupUi(this);
     ShowCurrentTime();
@@ -167,7 +167,6 @@ void MainWindow::on_debug_edit_triggered()
 
 void MainWindow::selectMap(const QModelIndex index)
 {
-
     int rows = index.model()->rowCount(index.parent()); // how many rows in this level
     //qDebug() << "rows is " << index.model()->index( 0,  0, index).data().toString();
 
@@ -385,7 +384,6 @@ void MainWindow::on_actionTestt_triggered()
     QStringList args ;
     args << "root" << "192.168.1.2" << "000000";
     qDebug() << args ;
-
     dd->start( "RemoteGuardian", args );*/
 }
 

@@ -9,9 +9,15 @@ webV::webV(QUrl src, DeviceData *dData, QString fileName, QWidget *parent) :
     ui(new Ui::webV)
 {
     ui->setupUi(this);
+    std::stringstream ss ;
+    ss << dData->m_nodeIP.toStdString()
+       << " (" << dData->m_Location.toStdString() << ")" ;
 
+    _d = dData ;
+    ui->Info->setText( QString( ss.str().c_str() ) );
+    ui->Info->setTextFormat( Qt::AutoText ) ;
     //this->setSizeGripEnabled(false);
-     qDebug() << "------------";
+    qDebug() << "------------";
     if ( src.isEmpty())
         return;
 
@@ -36,6 +42,13 @@ void webV::ChangeSrc( QUrl src ) {
     _media = new VlcMedia( src.url(), _instance ) ;
     _player->open( _media );
     delete tempM ;
+
+    std::stringstream ss ;
+    ss << _d->m_nodeIP.toStdString()
+       << " (" << _d->m_Location.toStdString() << ")" ;
+
+    ui->Info->setText( QString( ss.str().c_str() ) );
+    ui->Info->setTextFormat( Qt::AutoText ) ;
 }
 
 void webV::StartRecord( const char* fileName ) {
@@ -103,7 +116,6 @@ void webV::mousePressEvent(QMouseEvent * event) {
 
 webV::~webV()
 {
-
     _player->stop() ;
     delete _player;
     delete _media;

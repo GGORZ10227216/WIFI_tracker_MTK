@@ -49,6 +49,7 @@ private:
     QTextStream outCSV;
     QTextStream outJSON;
     QVariantList dataListForJson;
+
 };
 
 #endif // DEVICEMAP_H

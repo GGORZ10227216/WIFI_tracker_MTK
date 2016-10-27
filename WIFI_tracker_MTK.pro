@@ -27,7 +27,8 @@ SOURCES += src/main.cpp \
     src/cammanager.cpp \
     src/gldrawer.cpp \
     src/videoproccsor.cpp \
-    webv.cpp
+    webv.cpp \
+    recordsetting.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -44,10 +45,12 @@ HEADERS  += header/mainwindow.h \
     header/cammanager.h \
     header/gldrawer.h \
     header/videoprocessor.h \
-    webv.h
+    webv.h \
+    recordsetting.h
 
 FORMS    += ui/mainwindow.ui \
-    webv.ui
+    webv.ui \
+    recordsetting.ui
 
 DISTFILES += \
     metaData/testData.txt \

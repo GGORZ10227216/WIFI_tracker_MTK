@@ -198,6 +198,7 @@ bool DeviceMap::updateData( DeviceData & dData )
                     it.value().m_Location = dData.m_Location;
                     saveToFile( it.value(), true ); // in
                     it.value().changeCamera();
+
                     //qDebug() << it.value().m_nodeIP << it.value().m_Mac;
                 } // if
                 else return false;

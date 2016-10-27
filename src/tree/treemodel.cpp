@@ -100,7 +100,7 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return 0;
 
-    return Qt::ItemIsEditable | QAbstractItemModel::flags(index);
+    return QAbstractItemModel::flags(index);
 }
 //! [3]
 
@@ -219,6 +219,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+
     if (role != Qt::EditRole)
         return false;
 
@@ -253,7 +254,7 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
     indentations << 0;
 
     int number = 0;
-
+    qDebug() << "YEEEEE" ;
     while (number < lines.count()) {
         int position = 0;
         while (position < lines[number].length()) {
