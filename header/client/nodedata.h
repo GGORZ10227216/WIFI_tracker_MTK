@@ -22,7 +22,7 @@ class NodeData
 {
 public:
     NodeData();
-    NodeData(QString in_Location );
+    NodeData(QString in_Location, QString in_Mac, int in_Channel );
     // DeviceData(QVariant mac);
     ~NodeData();
     bool read(const QJsonObject &json);
@@ -34,6 +34,9 @@ public:
     QString getNodeLocation( QString strIP );
 private:
     QString m_Location;
+    int m_Channel; // 基地台
+    QString m_Mac; // 基地台
     QList<NodeInfo> m_InfoList;
+
 };
 #endif // NODEDATA_H

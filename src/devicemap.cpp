@@ -43,7 +43,7 @@ void DeviceMap::initSaveParmeters( QString in_location )
 
 }
 
-void DeviceMap::saveToFile(DeviceData& dData , bool isIn)
+void DeviceMap::saveToFile(DeviceData dData , bool isIn)
 {
     saveToCSV(dData, isIn);
     saveToJSON( dData , isIn);
@@ -88,7 +88,8 @@ void DeviceMap::saveToJSON( DeviceData dData, bool isIn )
 }
 
 bool DeviceMap::CheckChange( DeviceData & oldOne, DeviceData & newOne ) {
-    if ( oldOne.m_Db < newOne.m_Db && newOne.m_Db != -100 ) {
+    if ( oldOne.m_Db < newOne.m_Db &&
+         ( newOne.m_Db != -100 || ( ( -5 < newOne.m_Db && newOne.m_Db <= 0) )) ) {
 
         if ( newOne.m_Mac == "18:CF:5E:75:18:62" ) {
             qDebug() << "-------------------------------" ;
@@ -96,57 +97,85 @@ bool DeviceMap::CheckChange( DeviceData & oldOne, DeviceData & newOne ) {
                      << "(" << oldOne.m_Db << ")" ;
             qDebug() << "To: " << newOne.m_nodeIP
                      << "(" << newOne.m_Db << ")" ;
-            qDebug() << "Last request: " << oldOne.tmpDevice.cTemp
-                     << "(" << oldOne.tmpDevice.db << ")" ;
-            qDebug() << "OLD_CODA: " << oldOne.tmpDevice.coda ;
+            //qDebug() << "Last request: " << oldOne.tmpDevice.ip
+            //         << "(" << oldOne.tmpDevice.db << ")" ;
+            //qDebug() << "OLD_CODA: " << oldOne.tmpDevice.coda ;
         } // if
 
-        if ( oldOne.tmpDevice.cTemp.compare( newOne.m_nodeIP ) != 0 && oldOne.tmpDevice.db < newOne.m_Db ) {
-            oldOne.tmpDevice.coda = 0;
-            oldOne.tmpDevice.cTemp = newOne.m_nodeIP;
-            oldOne.tmpDevice.db = newOne.m_Db;
+        // it oldOne tmp
+
+        if ( !oldOne.tmpMap.contains(newOne.m_nodeIP) )// if request node not in tmp map than insert the node info
+        {
+            TmpDevice tmp; // coda = 0
+            oldOne.tmpMap[newOne.m_nodeIP] = tmp;
         } // if
-        else if ( oldOne.tmpDevice.cTemp.compare( newOne.m_nodeIP ) == 0 ) {
-            ++ oldOne.tmpDevice.coda ;
-            if ( oldOne.tmpDevice.coda > 5 ) {
-               oldOne.tmpDevice.coda = 0 ;
-               return true ;
+        else // already in tmp map
+        {
+            //QMap<QString, TmpDevice>::iterator it = oldOne.tmpMap.find(newOne.m_nodeIP);
+            if ( oldOne.m_Db < newOne.m_Db ) { // if node ip in tmpmap and request db > oldone db
+                oldOne.tmpMap[newOne.m_nodeIP].coda++;
+                if ( oldOne.tmpMap[newOne.m_nodeIP].coda > 1 )
+                {
+                    //for ( QMap<QString, TmpDevice>::iterator ii = oldOne.tmpMap.begin(); ii < oldOne.tmpMap.end(); ii++ )
+                    //    ii->coda = 0;
+                    oldOne.tmpMap.clear(); // clear map
+                    return true;
+                }
             } // if
             else
-                return false ;
+                oldOne.tmpMap[newOne.m_nodeIP].coda = 0;
         } // else
+        /*QMap<QString, TmpDevice>::iterator it = oldOne.tmpMap.find(newOne.m_nodeIP);
+        if ( it != oldOne.tmpMap.end() && oldOne.m_Db < newOne.m_Db ) { // if node ip in tmpmap and request db > oldone db
+            oldOne.tmpMap[newOne.m_nodeIP].coda++;
+            if ( oldOne.tmpMap[newOne.m_nodeIP].coda >= 5 )
+            {
+                //for ( QMap<QString, TmpDevice>::iterator ii = oldOne.tmpMap.begin(); ii < oldOne.tmpMap.end(); ii++ )
+                //    ii->coda = 0;
+                QMap<QString, TmpDevice>().swap(oldOne.tmpMap.swap); // clear map
+                return true;
+            }
+        } // if
+        else if ( it == oldOne.tmpMap.end() )// if request node not in tmp map than insert the node info
+        {
+            TmpDevice tmp; // coda = 0
+            oldOne.tmpMap[newOne.m_nodeIP] = tmp;
+        } // else if*/
     } // if
     else
         return false ;
     return false ;
 } //CheckChange
 
-bool DeviceMap::updateData( DeviceData dData )
+bool DeviceMap::updateData( DeviceData & dData )
 {
     //while ( !this->m_Ready.load() )
     //    std::this_thread::yield(); // 霈cpu霈隞犖??
     //static int up = 0;/
-    //qDebug() << up++ << "-----------update view--------------";
+
 
     this->m_Ready = false; // ???瑁?
+
     if ( m_Map.isEmpty() ) // if m_Map isn't empty
     {
         //if ( dData.m_Db >= -70 )
         //{
             m_Map.insert(dData.getMac(), dData);
             saveToFile( dData, true );
-
+            //qDebug() << (m_Map.begin())->m_nodeIP << (m_Map.begin())->m_Mac;
        // } // if
         //qDebug() << "insert2 " << dData.m_Mac << " db " << dData.m_Db << endl;
     } // if
     else // if m_Map is empty
     {
-        //qDebug() << "is not empty" << endl;
+        //qDebug() << "is not empty" << endl; qDebug() << dData.m_nodeIP << dData.m_Mac;
         if ( !m_Map.contains( dData.getMac()) ) // if it is a new data
         {
+
             //if ( dData.m_Db >= -70 )
             //{
                 m_Map.insert(dData.getMac(), dData);
+                //qDebug() << (m_Map.end()-1)->m_nodeIP << (m_Map.end()-1)->m_Mac;
                 saveToFile( dData, true );
 
             //} // if
@@ -169,6 +198,7 @@ bool DeviceMap::updateData( DeviceData dData )
                     it.value().m_Location = dData.m_Location;
                     saveToFile( it.value(), true ); // in
                     it.value().changeCamera();
+                    //qDebug() << it.value().m_nodeIP << it.value().m_Mac;
                 } // if
                 else return false;
             } // if
@@ -180,6 +210,7 @@ bool DeviceMap::updateData( DeviceData dData )
                  it.value().m_NeedUpdate = true; // need to update
                  //if ( dData.m_Db < -70 )
                      saveToFile( it.value(), false ); // leave
+                     //qDebug() << it.value().m_nodeIP << it.value().m_Mac;
 
             } // else
 

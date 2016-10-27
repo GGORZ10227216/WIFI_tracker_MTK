@@ -16,7 +16,7 @@ struct GlobalV
     DeviceData* selectedToRecord;
     QString selectedNodeIPToRecord;
     QList<Server> needReConnect;
-
+    QMap<QString, QString> nodeMacMap;
 };
 
 #endif // GLOBALVARIABLE_H

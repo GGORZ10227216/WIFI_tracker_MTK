@@ -11,8 +11,9 @@ public:
     std::atomic_bool m_Ready;
 
     DeviceMap();
+    DeviceMap(const DeviceMap & origin);
     ~DeviceMap();
-    bool updateData( DeviceData dData );
+    bool updateData(DeviceData & dData );
     DeviceData* At( qint64 index );
     DeviceData *getLast();
     DeviceData* getByMac( QString in_mac)
@@ -23,7 +24,7 @@ public:
     bool DeleteData(QString strKey );
     qint64 size(); 
     bool setDisplayState(QString strKey, int b);
-    void saveToFile(DeviceData& dData , bool isIn);
+    void saveToFile(DeviceData dData , bool isIn);
     void saveToCSV( DeviceData dData , bool isIn );
     void saveToJSON( DeviceData dData , bool isIn );
     void initSaveParmeters( QString in_location );

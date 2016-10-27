@@ -9,9 +9,11 @@ NodeData::NodeData()
 
 }
 
-NodeData::NodeData(QString in_Location )
+NodeData::NodeData(QString in_Location , QString in_Mac, int in_Channel)
 {
     this->m_Location = in_Location;
+    this->m_Mac = in_Mac;
+    this->m_Channel = in_Channel;
 }
 
 
@@ -41,8 +43,9 @@ bool NodeData::read(  const QJsonObject &json)
         if ( i % 2 == 0 )
         {
             qDebug() << str << "----------------";
-            //if ( str.compare("192.168.1.4") != 0 )
-                Global.n_mana.connectSever(str, 48763, "F0:79:59:D1:71:D4", 6 );
+            //if ( str.compare("192.168.1.4") != 0 )// "10:C3:7B:41:10:58", 11
+                Global.n_mana.connectSever(str, 48763, this->m_Mac, this->m_Channel  );//"F0:79:59:D1:71:D4", 6
+                //qDebug() << str << this->m_Mac << this->m_Channel;
         } // if
 
         infoList.push_back(str);
@@ -62,6 +65,7 @@ bool NodeData::read(  const QJsonObject &json)
         if ( nOfCoord == nOfInfo )
             lI += 2;
         this->m_InfoList.push_back(nI);
+        Global.nodeMacMap[nI.Mac] = nI.Ip;
     } // for
 
     return true;

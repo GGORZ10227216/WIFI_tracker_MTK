@@ -25,10 +25,11 @@ SOURCES += src/main.cpp \
     src/client/machine.cpp \
     src/client/areadata.cpp \
     src/cammanager.cpp \
-    src/camview.cpp \
     src/gldrawer.cpp \
     src/videoproccsor.cpp \
-    webv.cpp
+    webv.cpp \
+    test.cpp \
+    jklj.cpp
 
 HEADERS  += header/mainwindow.h \
     header/nodemanagement.h \
@@ -43,13 +44,13 @@ HEADERS  += header/mainwindow.h \
     header/client/machine.h \
     header/client/areadata.h \
     header/cammanager.h \
-    header/camview.h \
     header/gldrawer.h \
     header/videoprocessor.h \
-    webv.h
+    webv.h \
+    test.h \
+    jklj.h
 
 FORMS    += ui/mainwindow.ui \
-    ui/camview.ui \
     webv.ui
 
 DISTFILES += \

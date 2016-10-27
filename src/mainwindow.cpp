@@ -269,8 +269,7 @@ void MainWindow::on_treeView_clicked(const QModelIndex &index)
 }
 
 void MainWindow::on_actionNew_window_triggered() {
-    camView * ww = new camView( "http://192.168.1.2", "8080", NULL ) ;
-    ww->show();
+
 }
 
 void MainWindow::on_actionWebView_triggered()

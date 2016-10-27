@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <header/camview.h>
 #include <webv.h>
 #include <header/tree/sorttreemodel.h>
 

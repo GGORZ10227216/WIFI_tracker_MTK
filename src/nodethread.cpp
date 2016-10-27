@@ -73,11 +73,12 @@ void NodeThread::run()
 void NodeThread::endThread()
 {
 
-    QProcess* dd = new QProcess();
+    /*QProcess* dd = new QProcess();
     QStringList args ;
     args << "root" << this->m_StrIP << "000000";
-    qDebug() << args ;
-    dd->start( "RemoteGuardian", args );
+    qDebug() << arg*s ;
+    dd->start( "RemoteGuardian", args );*/
+    //dd->kill();
     //socket->deleteLater();
     //socket_Send.deleteLater();
     Server s;
@@ -179,11 +180,16 @@ void NodeThread::readyRead()
         QString str = strList[i].replace("\n", "");
         if ( str.split(",").size() != DeviceData::getColumnCount() )
             continue;
-        if ( i == 0 && str.size() < 17 )
-            continue;
+
+
+
         DeviceData dData( m_StrIP, str  );
         //if ( dData.m_Db < -70 ) return;
         //dData.m_nodeIP = m_StrIP;
+        // qDebug() << "Mac -------------->" << dData.m_Mac;
+        if ( i == 0 && dData.m_Mac.size() < 17 )
+            continue;
+        if ( Global.nodeMacMap.contains(dData.m_Mac) ) continue;
         Global.deviceMap.updateData(dData);// or [dData.getMac()] = dData;
     } // for
     //

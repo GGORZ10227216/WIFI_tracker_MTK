@@ -1,6 +1,7 @@
 ﻿#include <header/tree/sorttreemodel.h>
 #include <header/devicemap.h>
 #include <header/globalvariable.h>
+#include <QMessageBox>
 extern GlobalV Global;
 
 SortTreeView::SortTreeView( QTreeView * tarView, QString data, QStringList headers ) {
@@ -217,8 +218,9 @@ void SortTreeView::update(QString keyword) {
     Global.deviceMap.m_Ready = false; // 雿?deviceMap
     for ( qint64 i = 0; i < Global.deviceMap.size(); i++ )
     {
-        //qDebug() << "-------------------------" << keyword;
+        //qDebug() << "-------------------------" <<Global.deviceMap.At(i)->m_nodeIP <<  Global.deviceMap.At(i)->m_Mac;
         if ( keyword.size() > 0 &&  Global.deviceMap.At(i)->m_Mac.indexOf(keyword) == -1 ) continue;
+
         //else if (keyword.size() > 0) qDebug() << Global.deviceMap.At(i)->m_Mac.indexOf(keyword);
         /*if (  Global.deviceMap.At(i)->m_UpdateState < Global.updateNewestNumber )
         {
@@ -236,7 +238,7 @@ void SortTreeView::update(QString keyword) {
                 else
                     Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
             } // if
-            else if( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 )
+            else if( -70 <= Global.deviceMap.At(i)->m_Db && Global.deviceMap.At(i)->m_Db <= 0 /*&& Global.deviceMap.At(i)->m_TimesLeave <= 3*/ )
             {
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 1, Global.deviceMap.At(i)->m_Db );
                 searchEdit( Global.deviceMap.At(i)->m_Mac, 2, Global.deviceMap.At(i)->m_Frame );
@@ -244,7 +246,14 @@ void SortTreeView::update(QString keyword) {
             else // Db is zero then delete data
             {
                 searchRemove(Global.deviceMap.At(i)->m_Mac);
-                Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
+                if ( Global.deviceMap.At(i)->isCameraOpen() )
+                {
+                    QString s = Global.deviceMap.At(i)->m_Mac + " Stop Watching";
+                    QMessageBox::information(0, QString::fromLocal8Bit("警告"), s);
+                } // if
+
+               Global.deviceMap.DeleteData(Global.deviceMap.At(i)->m_Mac);
+
             } // else
         } // if
         else if ( Global.deviceMap.At(i)->m_DisplayState != Global.selectedNodeState )

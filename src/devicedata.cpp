@@ -2,11 +2,18 @@
 #include "header/globalvariable.h"
 #include <QMessageBox>
 extern GlobalV Global;
+
 DeviceData::DeviceData()
 {
     m_NeedUpdate = true;
     qDebug() << "test" ;
     //gDeviceMap = *new QMap<QString, DeviceData>() ;
+}
+
+void DeviceData::checkDeviceExsit()
+{
+    if ( this->m_Db == -100 )
+        m_TimesLeave++;
 }
 
 DeviceData::DeviceData(QString in_Ip, QString input )
@@ -21,6 +28,7 @@ DeviceData::DeviceData(QString in_Ip, QString input )
     m_UpdateState = Global.updateNewestNumber;
     m_Camera = NULL;
     m_Location = Global.areaData.getNodeLocation(m_nodeIP);
+    m_TimesLeave = 0;
     //qDebug() << "----------------------------" << m_Location;
 }
 /*
@@ -58,21 +66,24 @@ QStringList DeviceData::toStringList()
 
 void DeviceData::startWatch()
 {
-    if ( this->m_Camera != NULL && this->m_Camera->isWatching ) {
+    if ( this->m_Camera != NULL && (this->m_Camera->isWatching || this->m_Camera->isRecording()) ) {
         QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置監控以開啟"));
         return;
     } // if
 
-    this->m_Camera->isWatching = true;
+    qDebug() << "fffffffffffffffffffffffffffff" << m_nodeIP;
+    //
     QDateTime local(QDateTime::currentDateTime());
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
+
     this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
     this->m_Camera->show();
+    this->m_Camera->isWatching = true;
 }
 
 void DeviceData::startWatchAndRecord()
 {
-    if ( this->m_Camera != NULL && this->m_Camera->isRecording() ) {
+    if ( this->m_Camera != NULL && (this->m_Camera->isRecording() || this->m_Camera->isWatching) ) {
         QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置監控以開啟"));
         return;
     } // if
@@ -81,7 +92,7 @@ void DeviceData::startWatchAndRecord()
     QString fileName = local.toString("yyyyMMdd") + "_" + local.toString("hhmmss");
     this->m_Camera = new webV( QUrl( "http://" + m_nodeIP + ":8080/?action=stream" ), fileName.toLatin1().data() ) ;
     this->m_Camera->show();
-
+    this->m_Camera->isWatching = true;
     qDebug() << fileName.toLatin1().data();
     QString fileNameFormat = "./Record/Video/" + fileName + ".mp4";
     this->m_Camera->StartRecord(fileNameFormat.toLatin1().data());

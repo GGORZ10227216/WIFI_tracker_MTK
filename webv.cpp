@@ -11,7 +11,7 @@ webV::webV(QUrl src, QString fileName, QWidget *parent) :
     ui->setupUi(this);
 
     //this->setSizeGripEnabled(false);
-
+     qDebug() << "------------";
     if ( src.isEmpty())
         return;
 
@@ -55,7 +55,9 @@ void webV::StartRecord( const char* fileName ) {
 
 void webV::StopRecord() {
     isRec = false;
-    QMessageBox::information(0, QString::fromLocal8Bit("警告"), QString::fromLocal8Bit("此裝置已結束錄像"));
+    QString ss = m_strTitle + "Stop REC!!";
+    QMessageBox::information(0, QString::fromLocal8Bit("Warning"), ss);
+    //QMessageBox::information(0, "警告", "此裝置已結束錄像");
     qDebug() << "Stop REC!!" ;
     ffmpeg.open() ;
     if ( ffmpeg.isWritable() ) {
@@ -73,7 +75,9 @@ void webV::closeEvent( QCloseEvent *bar ) {
 
     else  qDebug() << "WTF no REC!!" ;
     this->isWatching = false;
-    delete this ;
+
+
+    // delete this ;
 }
 
 void webV::mouseDoubleClickEvent(QMouseEvent * event) {

@@ -27,7 +27,7 @@ bool Machine::read(const QJsonObject &json)
     QJsonObject jsonM = json["NodeList"].toObject();
     for ( int i = 0; i < jsonM.size(); i++ )
     {
-        NodeData nD((jsonM.begin()+i).key());
+        NodeData nD((jsonM.begin()+i).key(), m_Info.Mac, m_Channel);
         nD.read( jsonM[(jsonM.begin()+i).key()].toObject());
         this->m_NodeList.push_back(nD);
     } // for
