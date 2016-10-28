@@ -211,7 +211,7 @@ bool DeviceMap::updateData( DeviceData & dData )
                  it.value().m_Db = dData.m_Db;
                  it.value().m_Frame = dData.m_Frame;
                  it.value().m_NeedUpdate = true; // need to update
-                 //if ( dData.m_Db < -70 )
+                 if ( dData.m_Db < -100 )
                      saveToFile( it.value(), false ); // leave
                      //qDebug() << it.value().m_nodeIP << it.value().m_Mac;
 
