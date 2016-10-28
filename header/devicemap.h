@@ -44,8 +44,8 @@ private:
     QMap<QString, DeviceData> m_Map;
     bool isChanged;
     QString m_strLocation;
-    QFile* fileCSV;
-    QFile* fileJSON;
+    QFile* fileCSV = NULL;
+    QFile* fileJSON = NULL;
     QTextStream outCSV;
     QTextStream outJSON;
     QVariantList dataListForJson;

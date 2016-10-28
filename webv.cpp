@@ -58,11 +58,11 @@ void webV::StartRecord( const char* fileName ) {
 
     QStringList args ;
 
-    args << "-f" << "gdigrab" << "-framerate"
+    args << "-f" << "gdigrab" << "-draw_mouse"
+         << "0" << "-framerate"
          << fps.c_str() << "-i" << titleCast.str().c_str()
          << "-vcodec" << codec.c_str()
-         << "-b" << bitrate.c_str() << "-draw_mouse"
-         << "0" << fileName  ;
+         << "-b" << bitrate.c_str() << fileName  ;
 
     qDebug() << args ;
 
@@ -92,7 +92,7 @@ void webV::closeEvent( QCloseEvent *bar ) {
     else  qDebug() << "WTF no REC!!" ;
     this->isWatching = false;
 
-
+    _player->stop() ;
     // delete this ;
 }
 
@@ -116,7 +116,6 @@ void webV::mousePressEvent(QMouseEvent * event) {
 
 webV::~webV()
 {
-    _player->stop() ;
     delete _player;
     delete _media;
     delete _instance;

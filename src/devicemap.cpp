@@ -15,17 +15,19 @@ DeviceMap::~DeviceMap()
 {
     //qDeleteAll( m_Map.begin(), m_Map.end() );  //  deletes all the values stored in "map"
     m_Map.clear();        //  removes all items from the map
-
-    QJsonDocument jsonDocument = QJsonDocument::fromVariant(dataListForJson);
-    if (!jsonDocument.isNull())
+    if ( fileCSV != NULL && fileJSON != NULL )
     {
-        outJSON << jsonDocument.toJson();
-        //qDebug() << jsonDocument.toJson();
-    }
-    else qDebug() << "save json error!!";
+        QJsonDocument jsonDocument = QJsonDocument::fromVariant(dataListForJson);
+        if (!jsonDocument.isNull())
+        {
+            outJSON << jsonDocument.toJson();
+            //qDebug() << jsonDocument.toJson();
+        }
+        else qDebug() << "save json error!!";
 
-    fileCSV->close();
-    fileJSON->close();
+        fileCSV->close();
+        fileJSON->close();
+    } // if
 }
 
 void DeviceMap::initSaveParmeters( QString in_location )
